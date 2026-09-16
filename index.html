@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>פסטל · קטלוג כלי אמייל</title>
+<meta name="description" content="פסטל — כלי אמייל לעיצוב הבית והגינה. מושב כפר בן נון.">
+<meta property="og:title" content="פסטל · קטלוג כלי אמייל">
+<meta property="og:description" content="כלי אמייל לעיצוב הבית והגינה — קטלוג מלא עם מחירים.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pastel-enamelhouse.netlify.app/">
+<meta property="og:image" content="https://pastel-enamelhouse.netlify.app/cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Pastél">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/icon-192.png">
+<meta name="theme-color" content="#FBF2E7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pastél">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500&family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF2E7; --paper-2:#F5E9DA; --page:#FDF7EF;
+  --olive:#5C6B4C; --olive-deep:#3F4B33;
+  --clay:#DE8A6A; --enamel:#1F5FA0;
+  --rim:#2E3327; --ink:#37402F; --muted:#8A8878;
+  --serif:"Frank Ruhl Libre","Times New Roman",serif;
+  --sans:"Assistant","Segoe UI",Arial,sans-serif;
+  --bar:52px; --nav:52px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;overflow:hidden}
+body{background:#EDE2D2;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
+
+/* ---------- סרגל עליון ---------- */
+.bar{height:var(--bar);display:flex;align-items:center;gap:10px;padding:0 14px;
+  background:var(--paper);border-bottom:1px solid rgba(92,107,76,.25)}
+.bar .mark{width:32px;height:32px;border-radius:50%}
+.bar .name{font-family:var(--serif);font-size:18px;letter-spacing:.07em;color:var(--olive-deep)}
+@media(max-width:430px){ .bar{gap:6px;padding:0 10px} .bar .name{display:none} .iconbtn{width:32px;height:32px} }
+.bar .spacer{flex:1}
+.counter{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.iconbtn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--olive-deep)}
+.iconbtn:hover{background:rgba(92,107,76,.1)}
+.iconbtn:disabled{opacity:.25;cursor:default}
+.iconbtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- הספר ---------- */
+.stage{height:calc(100dvh - var(--bar) - var(--nav));overflow:hidden;position:relative;
+  touch-action:pan-y;perspective:1800px}
+.booknav{height:var(--nav);display:flex;align-items:center;justify-content:center;gap:18px;
+  background:var(--paper);border-top:1px solid rgba(92,107,76,.25)}
+.booknav .navbtn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--olive-deep)}
+.booknav .navbtn:hover{background:rgba(92,107,76,.1)}
+.booknav .navbtn:disabled{opacity:.25;cursor:default}
+.booknav .navbtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.booknav .pg{min-width:96px;text-align:center;font-size:14px;color:var(--muted);
+  font-variant-numeric:tabular-nums;cursor:pointer;border-radius:6px;padding:5px 8px}
+.booknav .pg:hover{background:rgba(92,107,76,.1)}
+
+/* ---------- אפקט דפדוף ---------- */
+.turner{position:absolute;inset:0;z-index:5;transform-origin:100% 50%;
+  backface-visibility:hidden;pointer-events:none;
+  box-shadow:-14px 0 26px rgba(46,51,39,.22)}
+.track{display:flex;height:100%;will-change:transform;
+  transition:transform .42s cubic-bezier(.25,.6,.3,1)}
+.slide{min-width:100%;height:100%;display:flex;gap:0;padding:12px;direction:rtl}
+.page{flex:1;min-width:0;background:var(--page);border:1px solid rgba(92,107,76,.3);
+  box-shadow:0 2px 14px rgba(46,51,39,.09);overflow-y:auto;overflow-x:hidden;
+  padding:22px 18px 26px;position:relative}
+.page::-webkit-scrollbar{width:6px}
+.page::-webkit-scrollbar-thumb{background:rgba(92,107,76,.3);border-radius:3px}
+.folio{display:none}
+@media print{ .folio{display:block;text-align:center;font-size:9pt;color:#888;margin-top:6mm} }
+
+/* ---------- שער ---------- */
+.cover{padding:0;display:flex;flex-direction:column}
+.cover .top{padding:26px 18px 18px;text-align:center;background:var(--paper-2)}
+.cover .logo{width:96px;margin:0 auto 12px;border-radius:50%}
+.cover h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,9vw,54px);
+  letter-spacing:.12em;margin:0;color:var(--olive-deep)}
+.cover .sub{font-size:14.5px;color:var(--clay);margin-top:6px}
+.page.hero{padding:0;background:#FCF7F3;display:grid;place-items:center;overflow:hidden}
+.page.hero img{width:100%;height:100%;object-fit:contain}
+.cover{padding:0;display:flex;flex-direction:column;background:#FCF7F3}
+.cover .top{padding:26px 20px 20px;text-align:center;background:#FCF7F3}
+.cover .jug{width:74px;margin:0 auto 10px}
+.cover h1{font-family:var(--serif);font-weight:400;font-size:clamp(38px,10vw,56px);
+  letter-spacing:.1em;margin:0;color:var(--olive-deep);line-height:1.05}
+.cover .orn{display:flex;align-items:center;justify-content:center;gap:9px;margin:10px auto 9px;max-width:210px}
+.cover .orn span{flex:1;height:1px;background:rgba(92,107,76,.45)}
+.cover .orn i{width:7px;height:7px;border-radius:50%;background:var(--clay);display:block}
+.cover .sub{font-size:14.5px;color:var(--olive)}
+.covertag{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--olive);
+  color:var(--paper);border-radius:999px;padding:9px 22px;font-family:var(--serif);
+  font-size:16px;letter-spacing:.11em}
+.covertag:hover{background:var(--olive-deep)}
+.cover{min-height:100%;height:auto}
+.cover .shot{flex:0 0 auto;aspect-ratio:3/4;max-height:58dvh;overflow:hidden;margin:0 20px;
+  background:#F7EFE6;border:1px solid rgba(92,107,76,.4);border-radius:3px}
+.cover .shot img{width:100%;height:100%;object-fit:cover}
+.cover .shot .note{font-size:12.5px;color:var(--muted);text-align:center;padding:26px 14px;line-height:1.7}
+.covercontact{flex:0 0 auto;position:relative;z-index:1;background:#FCF7F3;
+  padding:13px 14px 16px;text-align:center;font-size:13.5px;color:var(--muted);line-height:1.9}
+.covercontact a{color:var(--enamel);text-decoration:none;font-weight:600}
+.covercontact .dot{margin:0 7px;color:rgba(92,107,76,.5)}
+.figure{width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid rgba(46,51,39,.3);border-radius:5px}
+.figure.wide{grid-column:1/-1;aspect-ratio:16/9}
+
+/* ---------- אייקון וואטסאפ ---------- */
+.btn .wa-i{width:19px;height:19px;margin-inline-end:7px;fill:currentColor;flex:0 0 auto}
+.iglink{display:inline-flex;align-items:center}
+.iglink .wa-i{width:16px;height:16px;margin-inline-end:6px;fill:currentColor}
+
+/* ---------- הידעת ---------- */
+.facts{display:grid;gap:13px;margin-top:4px}
+.fact{display:flex;gap:11px;align-items:flex-start}
+.fact .num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--paper-2);
+  border:1px solid rgba(92,107,76,.4);display:grid;place-items:center;
+  font-size:12.5px;color:var(--olive-deep);margin-top:2px}
+.fact .tx{flex:1;font-size:14.5px;line-height:1.6}
+.fact .tx b{color:var(--olive-deep);font-weight:600}
+
+/* ---------- גלריה והגדלה ---------- */
+.gallery{display:flex;gap:7px;margin:-8px 0 16px;overflow-x:auto}
+.gallery img{width:60px;height:60px;object-fit:cover;border:1px solid rgba(46,51,39,.35);
+  border-radius:3px;cursor:pointer;flex:0 0 auto}
+.gallery img[aria-current="true"]{border-color:var(--enamel);border-width:2px}
+.sheet .frame.zoomable{cursor:zoom-in}
+#zoom{position:fixed;inset:0;z-index:80;background:rgba(46,51,39,.92);display:none;
+  align-items:center;justify-content:center;padding:16px}
+#zoom.open{display:flex}
+#zoom img{max-width:100%;max-height:100%;object-fit:contain}
+#zoom .x{position:absolute;top:14px;inset-inline-end:16px;color:#fff;font-size:30px;line-height:1}
+
+/* ---------- מועדפים ומוצרים דומים ---------- */
+.tabs{display:flex;gap:6px;margin-bottom:4px}
+.tab{border:1px solid rgba(92,107,76,.4);border-radius:999px;padding:5px 13px;font-size:13.5px;color:var(--olive-deep)}
+.tab[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--paper)}
+#favBtn[data-on="1"]{border-color:var(--clay);color:var(--clay)}
+.related{margin:22px 0 4px}
+.related h5{font-family:var(--serif);font-weight:400;font-size:15px;margin:0 0 9px;color:var(--muted)}
+.relrow{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px}
+.relitem .relp{display:block;font-size:12px;color:var(--rim);margin-top:2px}
+.relitem{flex:0 0 96px;text-align:center;font-size:11.5px;color:var(--olive-deep);line-height:1.3}
+.relitem .fr{background:var(--page);border:1px solid rgba(46,51,39,.4);border-radius:2px;
+  aspect-ratio:1/1;display:grid;place-items:center;margin-bottom:5px;overflow:hidden}
+.relitem .fr svg,.relitem .fr img{width:78%;height:78%;object-fit:contain}
+
+/* ---------- מחירון להדפסה ---------- */
+#pricelist{display:none}
+#pricelist h2{font-family:var(--serif);font-weight:400}
+#pricelist table{width:100%;border-collapse:collapse;font-size:10pt}
+#pricelist td{padding:4px 6px;border-bottom:1px solid #ddd}
+#pricelist td:last-child{text-align:end;white-space:nowrap}
+#pricelist tr.h td{font-weight:600;background:#f2ece2;border-bottom:1px solid #bbb}
+
+/* ---------- קולקציות ---------- */
+.colls{display:grid;gap:11px}
+.coll{display:block;text-align:start;width:100%;background:var(--paper);padding:13px 14px;
+  border:1px solid rgba(92,107,76,.32);border-radius:4px;transition:border-color .15s ease}
+.coll:hover{border-color:var(--olive)}
+.coll .ct{display:block;font-family:var(--serif);font-size:17px;color:var(--olive-deep)}
+.coll .cd{display:block;font-size:13.5px;color:var(--muted);margin:2px 0 6px}
+.coll .cn{display:inline-block;font-size:11.5px;color:var(--clay);
+  border:1px solid rgba(222,138,106,.5);border-radius:999px;padding:2px 9px}
+
+/* ---------- שדות טופס ---------- */
+.field{margin-bottom:13px}
+.field label{display:block;font-size:13.5px;color:var(--muted);margin-bottom:5px}
+.field input{width:100%;font:inherit;font-size:16px;padding:10px 12px;border-radius:8px;
+  border:1px solid rgba(92,107,76,.45);background:var(--page);color:var(--ink)}
+.field select{width:100%;font:inherit;font-size:16px;padding:10px 12px;border-radius:8px;
+  border:1px solid rgba(92,107,76,.45);background:var(--page);color:var(--ink)}
+.field input:focus,.field select:focus{outline:2px solid rgba(31,95,160,.45);outline-offset:1px}
+.field.err input{border-color:#B3372F}
+/* טופס הפרטים נפתח מעל העגלה ולא מאחוריה: שתי החלוניות חולקות את אותו
+   z-index, וללא ההגבהה הזו קובע סדר הופעתן ב-HTML והעגלה מכסה את הטופס.
+   העגלה נשארת פתוחה מתחת, כך שסגירת הטופס מחזירה אליה. */
+#checkoutOverlay{z-index:70;background:rgba(46,51,39,.62)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+textarea{width:100%;font:inherit;font-size:15px;line-height:1.6;padding:10px 12px;
+  border-radius:8px;border:1px solid rgba(92,107,76,.45);background:var(--page);
+  color:var(--ink);resize:vertical}
+.vrow{display:flex;justify-content:space-between;gap:10px;padding:7px 0;
+  border-bottom:1px solid rgba(92,107,76,.18);font-size:14.5px}
+.vsum{display:flex;justify-content:space-between;gap:10px;padding:9px 0;font-size:15.5px}
+.vok{color:var(--olive);font-weight:600}
+.vbad{color:#B3372F;font-weight:600}
+.vnote{font-size:13px;color:var(--muted);margin:8px 0 0}
+.choice{display:flex;gap:9px}
+.choice label{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px;border:1px solid rgba(92,107,76,.45);border-radius:8px;background:var(--page);
+  font-size:15px;cursor:pointer}
+.choice label:has(input:checked){border-color:var(--olive);background:var(--paper-2);color:var(--olive-deep)}
+.choice input{accent-color:var(--olive);width:16px;height:16px;margin:0}
+.field label.check{display:flex;align-items:flex-start;gap:9px;font-size:14.5px;
+  color:var(--ink);margin:0;cursor:pointer;line-height:1.5}
+.field label.check input{width:17px;height:17px;margin-top:2px;flex:0 0 auto;accent-color:var(--olive)}
+#waitMsg.ok{color:var(--olive)}
+#waitMsg.bad{color:#B3372F}
+
+/* ---------- קפיצה לעמוד ---------- */
+.counter{cursor:pointer;border-radius:6px;padding:2px 5px}
+.counter:hover{background:rgba(92,107,76,.1)}
+.jumpbox{display:flex;gap:9px;align-items:center;margin-bottom:6px}
+.jumpbox input{flex:1;font:inherit;font-size:17px;text-align:center;padding:10px;
+  border:1px solid rgba(92,107,76,.45);border-radius:8px;background:var(--page);color:var(--ink)}
+
+/* ---------- עמודי מידע ---------- */
+.info h4{font-family:var(--serif);font-weight:400;font-size:17px;margin:18px 0 5px;color:var(--olive-deep)}
+.info h4:first-of-type{margin-top:6px}
+.info p{margin:0 0 4px}
+.info .todo{background:rgba(222,138,106,.1);border:1px dashed var(--clay);border-radius:6px;
+  padding:11px 13px;margin:14px 0;font-size:13.5px;color:#8b4f33}
+
+/* ---------- עמודי טקסט ---------- */
+h2.pt{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 10px;color:var(--clay)}
+.pt + p{margin:0 0 18px;max-width:62ch}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shots img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:3px;
+  border:1px solid rgba(92,107,76,.28);cursor:zoom-in}
+.shots img.wide{grid-column:1 / -1;aspect-ratio:3/2}
+.imgrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 20px}
+.slot{border:1px dashed rgba(92,107,76,.55);border-radius:5px;background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:10px;color:var(--muted);font-size:12px;aspect-ratio:4/3}
+.slot.wide{grid-column:1/-1;aspect-ratio:16/9}
+.rule{height:1px;background:rgba(92,107,76,.28);margin:22px 0}
+
+/* ---------- תוכן עניינים ---------- */
+.toc{list-style:none;margin:0;padding:0}
+.toc li{display:flex;align-items:baseline;gap:8px;padding:9px 0;
+  border-bottom:1px solid rgba(92,107,76,.18);cursor:pointer}
+.toc li:hover .t{color:var(--enamel)}
+.toc .t{font-family:var(--serif);font-size:17px;color:var(--olive-deep)}
+.toc .dots{flex:1;border-bottom:1px dotted rgba(92,107,76,.45);transform:translateY(-4px)}
+.toc .n{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---------- גריד מוצרים ---------- */
+.pagehead{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.pagehead h2{font-family:var(--serif);font-weight:400;font-size:18px;margin:0;color:var(--olive-deep);white-space:nowrap}
+.pagehead .ln{flex:1;height:1px;background:rgba(92,107,76,.3)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{border:1px solid rgba(92,107,76,.3);border-radius:3px;background:var(--paper);
+  padding:8px 8px 11px;text-align:center;cursor:pointer;display:flex;flex-direction:column;
+  transition:border-color .15s ease}
+.card:hover,.card:focus-visible{border-color:var(--olive);outline:none}
+.card .frame{background:var(--page);border:1px solid rgba(46,51,39,.45);border-radius:2px;
+  aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;margin-bottom:8px}
+.card .frame img{width:100%;height:100%;object-fit:contain}
+.card .frame svg{width:62%;height:62%}
+.card h3{font-family:var(--serif);font-weight:400;font-size:14.5px;line-height:1.3;
+  margin:0 0 3px;color:var(--olive-deep)}
+.card .sub{font-size:11.5px;color:var(--muted);line-height:1.35}
+.card .sku{font-size:10.5px;color:rgba(138,136,120,.75);letter-spacing:.05em;margin-top:2px}
+.card .cdots{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.card .cdots i{width:11px;height:11px;border-radius:50%;border:1px solid rgba(46,51,39,.45);display:block}
+.card .cdots.withimg{flex-wrap:wrap}
+.card .cdots.withimg i{width:18px;height:18px}
+.card .cdots img{width:18px;height:18px;border-radius:50%;object-fit:cover;display:block;
+  border:1px solid rgba(46,51,39,.28);background:#fff}
+.card .cdots span{font-size:10px;color:var(--muted);line-height:11px}
+.card .price{margin-top:auto;padding-top:7px;font-size:15px;color:var(--rim)}
+
+/* ---------- חלון מוצר ---------- */
+.overlay{position:fixed;inset:0;z-index:60;background:rgba(46,51,39,.5);
+  display:none;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:620px;max-height:92dvh;overflow:auto;
+  border-radius:14px 14px 0 0;padding:18px 20px 30px;animation:rise .24s ease-out}
+@keyframes rise{from{transform:translateY(24px);opacity:.5}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}.track{transition:none}.turner{display:none}}
+.sheet .close{font-size:26px;line-height:1;color:var(--muted);float:inline-end;padding:0 4px}
+.sheet .frame{background:var(--paper-2);border:1px solid rgba(46,51,39,.45);border-radius:3px;
+  aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;margin:6px 0 16px}
+.sheet .frame img{width:100%;height:100%;object-fit:contain}
+.sheet .frame svg{width:48%;height:48%}
+.sheet h3{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 4px;color:var(--olive-deep)}
+.sheet .cat{font-size:13px;color:var(--muted);margin:0 0 14px}
+.sheet .desc{font-size:15px;margin:0 0 16px}
+.bigprice{font-size:21px;color:var(--rim);margin-bottom:18px}
+.specs{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px}
+.specs th,.specs td{text-align:start;padding:7px 0;border-bottom:1px solid rgba(92,107,76,.22)}
+.specs th{font-weight:600;color:var(--muted);width:42%}
+.label{font-size:13px;color:var(--muted);margin:0 0 8px}
+.swatches{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.sw{display:flex;flex-direction:column;align-items:center;gap:4px;width:62px;
+  font-size:11.5px;color:var(--muted);text-align:center;background:none;border:none;padding:2px}
+.sw i{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(46,51,39,.5);display:block}
+.sw[aria-current="true"]{color:var(--olive-deep)}
+.sw[aria-current="true"] i{border-color:var(--enamel);border-width:3px}
+.uses{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.use{display:flex;flex-direction:column;align-items:center;gap:5px;width:62px;
+  font-size:11.5px;color:var(--olive-deep);text-align:center}
+.use svg{width:26px;height:26px;stroke:var(--olive);fill:none;stroke-width:1.5}
+.use.off{opacity:.26}
+.wa{display:flex;align-items:center;justify-content:center;padding:13px;border-radius:6px;
+  background:var(--enamel);color:#fff;font-size:16px;text-decoration:none}
+
+/* ---------- עמוד קשר ---------- */
+.endcard{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;
+  text-align:center;padding:18px 20px 26px}
+.endcard p{margin:5px 0;color:var(--muted);font-size:15px}
+.endcard .ln1{font-family:var(--serif);font-size:17px;color:var(--olive-deep);margin-bottom:12px}
+.endcard a{color:var(--enamel);text-decoration:none;font-size:16px}
+
+/* ---------- תגיות מלאי ---------- */
+.card .frame{position:relative}
+.badges{position:absolute;top:6px;inset-inline-start:6px;display:flex;flex-direction:column;
+  align-items:flex-start;gap:4px}
+.badge{font-size:10.5px;padding:3px 7px;border-radius:999px}
+.badge.new{background:var(--enamel);color:#fff}
+.badge.sale{background:#B3372F;color:#fff}
+.badge.best{background:var(--olive);color:var(--paper)}
+.price s{color:var(--muted);font-size:12.5px;margin-inline-start:6px}
+.bigprice s{color:var(--muted);font-size:15px;margin-inline-start:8px}
+.badge.low{background:var(--clay);color:#fff}
+.badge.out{background:rgba(46,51,39,.82);color:#fff}
+.card.sold .frame img,.card.sold .frame svg{opacity:.45}
+.sheet .badges{position:static;flex-direction:row;margin-bottom:10px}
+
+/* ---------- לחצנים ---------- */
+.btnrow{display:flex;gap:9px}
+.btn{flex:1;padding:13px;border-radius:6px;font-size:15.5px;text-align:center;text-decoration:none;
+  display:flex;align-items:center;justify-content:center}
+.btn.primary{background:var(--olive);color:var(--paper)}
+.btn.ghost{background:transparent;border:1px solid var(--enamel);color:var(--enamel)}
+.btn[disabled]{opacity:.4;cursor:default}
+.linkbtn{display:block;width:100%;margin-top:12px;padding:6px;text-align:center;
+  font-size:13.5px;color:var(--enamel);text-decoration:underline}
+
+/* ---------- חיפוש ועגלה ---------- */
+.panel{background:var(--paper);width:100%;max-width:640px;max-height:92dvh;display:flex;
+  flex-direction:column;border-radius:14px 14px 0 0;animation:rise .24s ease-out}
+.panel .head{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;
+  border-bottom:1px solid rgba(92,107,76,.22)}
+.panel .head h4{font-family:var(--serif);font-weight:400;font-size:19px;margin:0;color:var(--olive-deep)}
+.panel .body{overflow:auto;padding:14px 16px 20px}
+.panel .foot{border-top:1px solid rgba(92,107,76,.25);padding:12px 16px 18px;background:var(--paper-2)}
+#q{flex:1;min-width:0;font:inherit;font-size:16px;padding:9px 12px;border-radius:8px;
+  border:1px solid rgba(92,107,76,.45);background:var(--page);color:var(--ink)}
+#q:focus{outline:2px solid rgba(31,95,160,.45);outline-offset:1px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.chip.cchip{display:inline-flex;align-items:center;gap:6px}
+.chip.cchip i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(46,51,39,.4);display:block}
+.chip{border:1px solid rgba(92,107,76,.45);border-radius:999px;padding:4px 11px;font-size:13px;color:var(--olive-deep)}
+.chip[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--paper)}
+.empty{text-align:center;color:var(--muted);padding:26px 10px;font-size:14.5px}
+.cartrow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(92,107,76,.2)}
+.cartrow .nm{flex:1;min-width:0;font-size:14.5px;line-height:1.35}
+.cartrow .nm small{display:block;color:var(--muted);font-size:12px}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:27px;height:27px;border:1px solid rgba(92,107,76,.45);border-radius:50%;
+  line-height:1;font-size:16px;color:var(--olive-deep)}
+.qty span{min-width:18px;text-align:center;font-variant-numeric:tabular-nums}
+.rm{color:var(--muted);font-size:19px;padding:0 2px}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px;font-size:17px}
+.shipnote{background:var(--paper);border:1px solid rgba(92,107,76,.35);border-radius:6px;
+  padding:9px 12px;margin-bottom:11px;font-size:13.5px;color:var(--olive-deep)}
+.shipnote b{font-weight:600;color:var(--clay)}
+.shipnote.free{border-color:var(--olive);color:var(--olive-deep)}
+.shipnote.free b{color:var(--olive)}
+.total b{font-weight:600}
+.cartbtn{position:relative}
+.cartbtn .n{position:absolute;top:-1px;inset-inline-end:-1px;background:var(--clay);color:#fff;
+  font-size:10.5px;min-width:17px;height:17px;border-radius:999px;display:grid;place-items:center;
+  padding:0 4px;font-variant-numeric:tabular-nums}
+
+@media(min-width:900px){
+  .panel{border-radius:12px;max-height:84dvh}
+  .slide{padding:18px;gap:14px}
+  .slide.single{justify-content:center}
+  .slide.single .page{max-width:min(560px,100%)}
+  .page{padding:30px 26px 32px}
+  .grid{grid-template-columns:repeat(3,1fr);gap:14px}
+  .card h3{font-size:15px}
+  .overlay{align-items:center}
+  .sheet{border-radius:12px}
+}
+
+@media print{
+  @page{size:A4;margin:10mm}
+  body.pricelist .stage{display:none!important}
+  body.pricelist #pricelist{display:block}
+  html,body{height:auto;overflow:visible;background:#fff}
+  .bar,.booknav{display:none}
+  .stage{height:auto;overflow:visible}
+  .track{display:block!important;transform:none!important;transition:none}
+  .slide{display:block;min-width:0;padding:0;break-after:page}
+  .page{height:auto;box-shadow:none;border:none;padding:0 0 10mm;break-inside:avoid}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .card{break-inside:avoid}
+  .overlay{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <img class="mark" src="data:image/jpeg;base64,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" alt="">
+  <span class="name">Pastél</span>
+  <span class="spacer"></span>
+  <button class="iconbtn" id="contactBtn" aria-label="פרטי קשר">
+    <svg viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6.5 3z"/></svg></button>
+  <button class="iconbtn" id="searchBtn" aria-label="חיפוש מוצר">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+  <button class="iconbtn cartbtn" id="favBar" aria-label="המועדפים שלי">
+    <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9a3.8 3.8 0 0 1 7-2 3.8 3.8 0 0 1 7 2c0 4.6-7 9-7 9z"/></svg>
+    <span class="n" id="favCount" hidden>0</span></button>
+  <button class="iconbtn cartbtn" id="cartBtn" aria-label="ההזמנה שלי">
+    <svg viewBox="0 0 24 24"><path d="M6 7h13l-1.5 9h-10z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.3"/><circle cx="16" cy="20" r="1.3"/></svg>
+    <span class="n" id="cartCount" hidden>0</span></button>
+  <button class="iconbtn" id="prev" aria-label="העמוד הקודם">
+    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+  <span class="counter" id="counter">1 / 1</span>
+  <button class="iconbtn" id="next" aria-label="העמוד הבא">
+    <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+</div>
+
+<div class="stage" id="stage"><div class="track" id="track"></div></div>
+
+<div class="booknav">
+  <button class="navbtn" id="prev2" aria-label="העמוד הקודם">
+    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+  <span class="pg" id="counter2">1 / 1</span>
+  <button class="navbtn" id="next2" aria-label="העמוד הבא">
+    <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+
+<div class="overlay" id="searchOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head">
+      <input id="q" type="search" placeholder="חיפוש מוצר…" autocomplete="off">
+      <span id="qtitle" style="font-family:var(--serif);color:var(--olive-deep);white-space:nowrap"></span>
+      <button class="iconbtn" id="searchClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body">
+      <div class="chips" id="qchips"></div>
+      <div class="grid" id="qresults"></div>
+      <div class="empty" id="qempty" hidden>לא נמצאו מוצרים מתאימים</div>
+    </div>
+  </div>
+</div>
+
+<div id="pricelist"></div>
+
+<div id="zoom" role="dialog" aria-modal="true"><button class="x" aria-label="סגירה">×</button><img alt=""></div>
+
+<div class="overlay" id="jumpOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head"><h4>מעבר לעמוד</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="jumpClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body">
+      <div class="jumpbox">
+        <input id="jumpInput" type="number" min="1" inputmode="numeric" placeholder="מספר עמוד">
+        <button class="btn primary" id="jumpGo" style="flex:0 0 96px">מעבר</button>
+      </div>
+      <p class="label" id="jumpHint"></p>
+      <ul class="toc" id="jumpToc"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="contactOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head"><h4>יצירת קשר</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="contactClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body" id="contactBody"></div>
+  </div>
+</div>
+
+<div class="overlay" id="waitOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head"><h4 id="waitTitle">עדכנו אותי כשחוזר</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="waitClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body">
+      <p class="label" id="waitProduct"></p>
+      <button class="linkbtn" id="waitDetails" style="margin:0 0 12px" hidden>לפרטי המוצר</button>
+      <div class="field"><label for="waitName">שם</label>
+        <input id="waitName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
+      <div class="field"><label for="waitPhone">טלפון</label>
+        <input id="waitPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05X-XXXXXXX"></div>
+      <div class="field" id="waitMailField" hidden><label for="waitMail">אימייל</label>
+        <input id="waitMail" type="email" inputmode="email" autocomplete="email"
+               placeholder="לא חובה, אבל שם נשלחים העדכונים המפורטים"></div>
+      <div class="field" id="waitColorField" hidden>
+        <label id="waitColorLabel" for="waitColor">איזה צבע מעניין אתכם?</label>
+        <select id="waitColor"></select>
+        <input id="waitColorText" type="text" placeholder="למשל: ירוק זית" hidden></div>
+      <div class="hp"><label>אתר אינטרנט<input id="waitWebsite" type="text" tabindex="-1" autocomplete="off"></label></div>
+      <p class="label" id="waitMsg"></p>
+    </div>
+    <div class="foot">
+      <button class="btn primary" id="waitSend">שמרו לי מקום</button>
+      <p class="label" style="margin:9px 0 0;text-align:center">נשתמש בפרטים רק כדי להודיע לכם על הפריט הזה.</p>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="favOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head"><h4>המועדפים שלי</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="favClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body" id="favBody"></div>
+    <div class="foot" id="favFoot"></div>
+  </div>
+</div>
+
+<div class="overlay" id="verifyOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head">
+      <h4>בדיקת הזמנה</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="verifyClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body">
+      <p class="label">הדביקו כאן את ההזמנה שהתקבלה בוואטסאפ. הבדיקה מחשבת מחדש
+        את הסכום לפי המחירים שבקטלוג ומשווה למה שכתוב בהודעה.</p>
+      <textarea id="verifyText" rows="8" placeholder="הדביקו את ההודעה…"></textarea>
+      <div class="btnrow" style="margin-top:10px">
+        <button class="btn primary" id="verifyGo">בדיקה</button>
+      </div>
+      <div id="verifyOut"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="checkoutOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head">
+      <h4>פרטים למשלוח</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="checkoutClose" aria-label="חזרה להזמנה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body">
+      <p class="label">הפרטים נכנסים להודעה בוואטסאפ, כדי שלא נצטרך לברר אותם בשיחה.</p>
+      <div class="field"><label for="coName">שם מלא</label>
+        <input id="coName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
+      <div class="field"><label for="coPhone">טלפון</label>
+        <input id="coPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05X-XXXXXXX"></div>
+
+      <div class="field"><label>איך לקבל את ההזמנה</label>
+        <div class="choice">
+          <label><input type="radio" name="coWay" value="delivery" checked><span>משלוח</span></label>
+          <label><input type="radio" name="coWay" value="pickup"><span>איסוף עצמי</span></label>
+        </div>
+        <p class="label" id="coWayNote" style="margin:7px 0 0"></p></div>
+
+      <div id="coShipFields">
+        <div class="field"><label for="coCity">עיר / יישוב</label>
+          <input id="coCity" type="text" autocomplete="address-level2" placeholder="למשל: מודיעין"></div>
+        <div class="field"><label for="coStreet">רחוב ומספר</label>
+          <input id="coStreet" type="text" autocomplete="street-address" placeholder="למשל: האלה 12"></div>
+        <div class="field"><label for="coApt">כניסה, קומה ודירה</label>
+          <input id="coApt" type="text" placeholder="לא חובה"></div>
+        <div class="field"><label class="check"><input id="coLeave" type="checkbox">
+          <span>אפשר להשאיר ליד הדלת אם אני לא בבית</span></label></div>
+      </div>
+
+      <div class="field"><label for="coWhen">מתי נוח לקבל</label>
+        <input id="coWhen" type="text" placeholder="למשל: אחרי 17:00 / בימי שישי בבוקר"></div>
+
+      <div class="field"><label>תשלום</label>
+        <div class="choice">
+          <label><input type="radio" name="coPay" value="ביט" checked><span>ביט</span></label>
+          <label><input type="radio" name="coPay" value="מזומן"><span>מזומן</span></label>
+        </div></div>
+
+      <div class="field"><label for="coNote">הערה להזמנה</label>
+        <input id="coNote" type="text" placeholder="מתנה, אריזה, בקשה מיוחדת — לא חובה"></div>
+
+      <div class="field"><label class="check"><input id="coNews" type="checkbox">
+        <span>אשמח לקבל עדכון על ימי מכירה ופריטים חדשים</span></label></div>
+      <div class="field" id="coMailField" hidden><label for="coMail">אימייל לעדכונים</label>
+        <input id="coMail" type="email" inputmode="email" autocomplete="email"
+               placeholder="לא חובה — בלעדיו נעדכן בוואטסאפ"></div>
+
+      <p class="label" id="coErr" style="color:#B3372F"></p>
+    </div>
+    <div class="foot">
+      <button class="btn primary" id="coSend"></button>
+      <p class="label" style="margin:9px 0 0;text-align:center">
+        ההודעה נפתחת בוואטסאפ שלכם — אפשר לעבור עליה לפני השליחה.</p>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="cartOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head">
+      <h4>ההזמנה שלי</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="cartClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body" id="cartBody"></div>
+    <div class="foot" id="cartFoot"></div>
+  </div>
+</div>
+
+<script>
+/* =========================== פרטי העסק =========================== */
+const SHOP = {
+  whatsapp:"972584009868", phone:"058-4009868", currency:"₪",
+  instagram:"https://www.instagram.com/pastel_enamelhouse",
+  place:"מושב כפר בן נון",
+  address:"הגפן 25, כפר בן נון",
+  maps:"https://waze.com/ul?q=" + encodeURIComponent("הגפן 25 כפר בן נון"),
+  group:"https://chat.whatsapp.com/EaFHnrsxf0pLfuvp78Bcaw",
+  shipCost:40,                   /* עלות משלוח מתחת לסכום למשלוח חינם */
+  /* כתובת ה-Web App של Google Apps Script לרשימת ההמתנה.
+     כל עוד היא ריקה, כפתור "עדכנו אותי" פותח וואטסאפ במקום טופס. */
+  waitlist:"https://script.google.com/macros/s/AKfycbzs6E2eecokE12XY8UThCgqk1Em1keP5dOQsNAQTKwNjUKHoulsKot_6W8zVNfRNVWuEA/exec",
+  freeShipping:400,              /* משלוח חינם מסכום זה ומעלה */
+  srcTag:true,                   /* תג מקור בסוף הודעת הוואטסאפ. false מבטל לגמרי */
+  /* פריט שיש לו צילום לכמה גוונים מוצג בגריד ככרטיס נפרד לכל גוון.
+     false מחזיר אותו לכרטיס אחד עם עיגולי צבע. */
+  splitColors:true,
+  /* מזהה Google Analytics 4. כל עוד ריק — שום קוד מדידה חיצוני לא נטען.
+     מדביקים כאן את המזהה בצורה "G-XXXXXXXXXX" והמדידה מתחילה. */
+  ga4:"G-YT6JKS1ES8",
+  /* אזור המשלוח כרשימת יישובים ולא כרדיוס בדקות: לקוח לא יודע כמה דקות הוא
+     מכפר בן נון ולא יבדוק, אבל את שם היישוב שלו הוא מזהה מיד.
+     הרשימה מופיעה גם בעמוד המידע וגם בטופס הפרטים, מאותו מקור. */
+  shipZone:["מודיעין ומכבים־רעות","שוהם","כפר בן נון והמושבים סביב","רמלה","לוד",
+            "בית שמש","צריפין","באר יעקב","ראשון לציון","נס ציונה","רחובות"]
+};
+
+/* =========================== המוצרים =========================== */
+const C = {
+  white:"#F4F1EA", cream:"#EFE3CE", red:"#B3372F", blue:"#26436E", lblue:"#8FC9DE",
+  green:"#3E7A4E", dgreen:"#2C5738", pist:"#BFCF9A", yellow:"#D8A13A", black:"#2E3327",
+  brown:"#7A5236", mint:"#A9C48A"
+};
+const cookware = {gas:true,induction:true,oven:true,dishwasher:true};
+const stovetop = {gas:true,induction:true,oven:true,dishwasher:true};
+const bakeware = {gas:false,induction:false,oven:true,dishwasher:true};
+
+const PRODUCTS = [
+/* --- סירים ומחבתות --- */
+{sku:"PS-01", name:"סיר גדול חום", cat:"סירים ומחבתות", price:300, vol:"16 ליטר",
+  colors:[["חום",C.brown]], img:"img/PS-01-brown.jpg", use:cookware,
+  desc:"שישה עשר ליטר: סיר החמין של שבת, המרק של כל המשפחה ובישולי החג. גם מי שלא מוציא אותו כל שבוע מגלה שאין לו תחליף ביום שצריך אותו."},
+{sku:"PS-02", name:"סירים", cat:"סירים ומחבתות", priceText:"50–100 ₪", note:"במגוון גדלים וצבעים", use:cookware, colors:[["מגוון",C.red]],
+  desc:"מגוון גדלים וגוונים שמתחלף לפי המלאי. כתבו לנו מה אתם מחפשים ונראה לכם מה יש עכשיו."},
+{sku:"PS-03", name:"סיר / קערה אישית", cat:"סירים ומחבתות", price:30,
+  colors:[["אדום",C.red],["אדום עם אוזניים",C.red],["ירוק",C.green]],
+  img:"img/PS-03-red.jpg",
+  colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles.jpg"},
+  desc:"הגודל של מנה אחת. עולה על הגז, יורד ממנו ישר לשולחן, ומשמש גם כקערת הגשה אישית.",
+  use:cookware},
+{sku:"PS-04", name:"מחבת שחורה קטנה", cat:"סירים ומחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
+  desc:"לביצה של הבוקר ולחימום מהיר. דווקא הגודל הקטן הופך אותה לזו שנשלפת הכי הרבה."},
+{sku:"PS-05", name:"מחבת", cat:"סירים ומחבתות", price:70, colors:[["אדום",C.red],["ירוק",C.green]], use:cookware,
+  desc:"מחבת יומיומית בגודל נוח לשניים. אמייל מוליך חום מהר, אז חום בינוני מספיק לה."},
+
+/* --- קומקומים ופינג'נים --- */
+{sku:"PS-06", name:"קומקום בסגנון הודי", cat:"קומקומים ופינג'נים", price:120, vol:"1.1 ליטר", use:stovetop,
+  colors:[["אדום",C.red],["צהוב",C.yellow]],
+  img:"img/PS-06-red.jpg",
+  colorImgs:{"אדום":"img/PS-06-red.jpg","צהוב":"img/PS-06-yellow.jpg"},
+  desc:"הצורה המעוגלת עם הפייה הגבוהה — קומקום שנראה טוב על הכיריים ועוד יותר טוב על השולחן."},
+{sku:"PS-07", name:"קומקום אדום מנוקד", cat:"קומקומים ופינג'נים", price:150, vol:"2.5 ליטר", colors:[["אדום מנוקד",C.red]], use:stovetop,
+  img:"img/PS-07-red-dots.jpg",
+  desc:"הדגם הגדול של הנקודות הלבנות, שניים וחצי ליטר. מספיק תה לכל היושבים סביב השולחן."},
+{sku:"PS-08", name:"קומקום תכלת", cat:"קומקומים ופינג'נים", price:90, isNew:true,
+  colors:[["תכלת",C.lblue]], use:stovetop,
+  desc:"דגם חדש אצלנו. תכלת בהיר שמאיר את הכיריים גם כשהוא סתם עומד שם."},
+{sku:"PS-09", name:"קומקום כחול עם נקודות לבנות", cat:"קומקומים ופינג'נים", price:90, vol:"1.5 ליטר", colors:[["כחול מנוקד",C.blue]], use:stovetop,
+  img:"img/PS-09-blue-dots.jpg",
+  desc:"הקלאסיקה הכחולה עם הנקודות, בגודל המשפחתי."},
+{sku:"PS-10", name:"קומקום כחול עם נקודות לבנות", cat:"קומקומים ופינג'נים", price:90, vol:"0.8 ליטר", colors:[["כחול מנוקד",C.blue]], use:stovetop,
+  desc:"אותו דגם מנוקד בגרסה הקטנה — לזוג, או למי שרוצה קומקום שלא תופס חצי כיריים."},
+{sku:"PS-11", name:"קומקום", cat:"קומקומים ופינג'נים", price:90, vol:"1.2 ליטר", colors:[["אדום",C.red],["תכלת",C.lblue],["ירוק כהה",C.dgreen],["לבן עם נקודות אדומות",C.white]], use:stovetop,
+  img:"img/PS-11-red.jpg", colorImgs:{"אדום":"img/PS-11-red.jpg","ירוק כהה":"img/PS-11-darkgreen.jpg"},
+  desc:"הגודל היומיומי, בארבעה גוונים שונים לגמרי. אחד לכיריים ואחד למדף, וזה כבר מרגיש מכוון."},
+{sku:"PS-12", name:"פינג'ן קטן", cat:"קומקומים ופינג'נים", price:85, use:stovetop, colors:[["מגוון",C.cream]],
+  desc:"לקפה טורקי אחד או שניים. הידית נשארת קרירה יחסית, והפייה הצרה מוזגת בלי לטפטף."},
+{sku:"PS-13", name:"פינג'ן גדול", cat:"קומקומים ופינג'נים", price:95, use:stovetop, colors:[["מגוון",C.cream]],
+  desc:"הגודל שמכינים בו לכולם בבת אחת, ולא שופכים כוס אחרי כוס."},
+{sku:"PS-14", name:"פינג'ן — סט 3 יחידות", cat:"קומקומים ופינג'נים", price:99, colors:[["אדום מנוקד",C.red],["לבן מנוקד",C.white]], use:stovetop,
+  desc:"שלושה פינג׳נים בגדלים עולים — קטן לאחד, בינוני לשניים, וגדול לאורחים. מתנה שנראית מלאה."},
+
+/* --- קנקנים וכדים --- */
+{sku:"PS-15", name:"קנקן עם מכסה", cat:"קנקנים וכדים", price:110, vol:"1 ליטר", colors:[["מגוון",C.cream]],
+  desc:"קנקן עם מכסה לליטר של מים קרים או חליטה. המכסה שומר על הטמפרטורה ועל מה שבחוץ בחוץ."},
+{sku:"PS-16", name:"קנקן תה", cat:"קנקנים וכדים", price:140, vol:"1.5 ליטר", colors:[["ירוק",C.dgreen],["תכלת",C.lblue],["שמנת",C.cream]],
+  img:"img/PS-16-green.jpg", colorImgs:{"ירוק":"img/PS-16-green.jpg","תכלת":"img/PS-16-lightblue.jpg","שמנת":"img/PS-16-cream.jpg"},
+  desc:"קנקן תה של ממש — ליטר וחצי, לשולחן שיושבים סביבו זמן. שלושה גוונים רכים לבחירה."},
+{sku:"PS-17", name:"קנקן שחור", cat:"קנקנים וכדים", price:160, vol:"2.5 ליטר", colors:[["שחור",C.black]],
+  desc:"שחור מט ושני וחצי ליטר. הכלי שנראה כמו רהיט קטן על השולחן."},
+{sku:"PS-18", name:"קנקן אלאדין אדום מנוקד עם מסננת", cat:"קנקנים וכדים", price:90, vol:"1 ליטר", colors:[["אדום מנוקד",C.red]],
+  img:"img/PS-18-red-dots.jpg",
+  desc:"עם המסננת בפנים — שמים עלים ישר בקנקן ומוזגים תה נקי בלי אביזרים נוספים."},
+{sku:"PS-19", name:"קנקן אדום מנוקד", cat:"קנקנים וכדים", price:90, vol:"1.2 ליטר", colors:[["אדום מנוקד",C.red]],
+  img:"img/PS-19-red-dots.jpg",
+  desc:"הדגם הקלאסי, ליטר ומאתיים. זה הקנקן שרוב האנשים מזהים מהבית של פעם."},
+{sku:"PS-20", name:"קנקן לבן משולב עץ", cat:"קנקנים וכדים", price:90, vol:"1.3 ליטר", colors:[["לבן",C.white]],
+  desc:"אמייל לבן עם ידית עץ. שילוב שעובד עם כל מטבח, גם המודרני. שימו לב שהוא לא נכנס לתנור."},
+{sku:"PS-21", name:"קנקני אלאדין — סט 3 יחידות", cat:"קנקנים וכדים", price:99, colors:[["מגוון",C.red]],
+  desc:"שלושה קנקני אלאדין בגדלים עולים. הצירוף הזה עובד מצוין כמתנה, וגם כפינה על המדף."},
+{sku:"PS-22", name:"קנקן כחול ג'מבו", cat:"קנקנים וכדים", price:120, colors:[["כחול",C.blue]],
+  desc:"הגדול שבקנקנים — כחול עמוק שנראה יפה גם ריק, וגם עם ענף אחד בפנים."},
+{sku:"PS-23", name:"כד חלב", cat:"קנקנים וכדים", price:150, colors:[["מגוון",C.cream]],
+  desc:"כד רחב לחלב, למיץ או לזר פרחים. אחד הפריטים שקונים בשביל השולחן ולא בשביל המטבח."},
+{sku:"PS-24", name:"כד פרחוני", cat:"קנקנים וכדים", price:90, colors:[["פיסטוק",C.pist],["כחול",C.blue]],
+  img:"img/PS-24-pistachio-floral.jpg",
+  colorImgs:{"פיסטוק":"img/PS-24-pistachio-floral.jpg","כחול":"img/PS-24-blue.jpg"},
+  desc:"הכד עם הציור הפרחוני, בשני גוונים. פריט סוג ב׳ במחיר מופחת — שלמות לא מושלמת, בדיוק כמו שאמייל אמור להיראות."},
+
+/* --- ספלים וכוסות --- */
+{sku:"PS-25", name:"ספל אמייל", cat:"ספלים וכוסות", price:30,
+  dia:"8.5 ס\"מ", h:"8 ס\"מ",
+  colors:[["לבן","#F2F2F0"],["שמנת","#EFE4C8"],["כחול","#2B4C8C"],["ירוק בהיר","#3BC7A0"],
+          ["ירוק מנוקד","#1F6B45"],["כתום","#E8620F"],["שחור","#242424"],["סגול","#C9A6DE"],["ורוד","#E9B6D2"],["תכלת","#4FB3E8"],["תכלת מנוקד","#2E7FA6"]],
+  img:"img/PS-25-white.jpg",
+  colorImgs:{"לבן":"img/PS-25-white.jpg","שמנת":"img/PS-25-cream.jpg","כחול":"img/PS-25-blue.jpg",
+    "ירוק בהיר":"img/PS-25-mint.jpg","ירוק מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange.jpg",
+    "שחור":"img/PS-25-black.jpg","סגול":"img/PS-25-purple.jpg","ורוד":"img/PS-25-pink.jpg",
+    "תכלת":"img/PS-25-lightblue.jpg","תכלת מנוקד":"img/PS-25-teal-speckled.jpg"},
+  desc:"הספל הבסיסי, ובו כל הקסם: אחד עשר גוונים. אפשר לקנות ספל לכל בן בית בצבע משלו.",
+  use:cookware},
+{sku:"PS-26", name:"כוסות אספרסו עבות", cat:"ספלים וכוסות", price:15, colors:[["לבן",C.white]], use:cookware,
+  desc:"הדופן העבה שומרת על הקפה חם יותר זמן. לבן נקי, בגודל אספרסו."},
+{sku:"PS-27", name:"כוסות אספרסו דקות", cat:"ספלים וכוסות", price:10,
+  colors:[["צהוב",C.yellow],["פיסטוק",C.pist]], img:"img/PS-27-yellow.jpg",
+  colorImgs:{"צהוב":"img/PS-27-yellow.jpg"},
+  desc:"הגרסה הדקה והקלילה, בצהוב ובפיסטוק. נעים ביד ומחיר שמאפשר לקחת כמה.",
+  use:cookware},
+{sku:"PS-28", name:"ספל כולל צלחת", cat:"ספלים וכוסות", price:25,
+  colors:[["לבן",C.white],["צהוב",C.yellow]], img:"img/PS-28-white.jpg",
+  colorImgs:{"לבן":"img/PS-28-white.jpg","צהוב":"img/PS-28-yellow.jpg"},
+  desc:"ספל וצלחת תואמת — הסט שהופך כוס קפה לישיבה. יפה גם כמנת קינוח קטנה.",
+  use:cookware},
+
+/* --- קערות --- */
+{sku:"PS-29", name:"קערה לבצק", cat:"קערות", price:150, dia:"40 ס\"מ", colors:[["מגוון",C.cream]],
+  desc:"ארבעים סנטימטר של קערה. ללישת בצק, לסלט למסיבה, ולערבוב שלא עף החוצה. הכובד שלה הוא היתרון."},
+{sku:"PS-30", name:"קערה ענקית שחורה", cat:"קערות", price:250, dia:"כ-50 ס\"מ", colors:[["שחור",C.black]],
+  desc:"חמישים סנטימטר בשחור. גדולה מדי למטבח ומושלמת לחצר — להשריית ירקות, לקרח עם בקבוקים, או כעציץ."},
+{sku:"PS-32", name:"קערה עבה", cat:"קערות", price:95, dia:"28 ס\"מ", note:"אחרונה במלאי", colors:[["כחול",C.blue]],
+  desc:"דופן עבה ועמידה במיוחד, בקוטר עשרים ושמונה. נשארה אחת בכחול."},
+{sku:"PS-33", name:"קערה עבה", cat:"קערות", price:110, dia:"32 ס\"מ", colors:[["מגוון",C.cream]],
+  desc:"הגודל הגדול של הדגם העבה. קערת הסלט המרכזית שמחזיקה שנים."},
+{sku:"PS-34", name:"קערה פשוטה", cat:"קערות", price:50, dia:"26 ס\"מ", colors:[["שמנת",C.cream],["פיסטוק",C.pist]],
+  desc:"קערה יומיומית בקו נקי, בקוטר עשרים ושש. הגודל שמשמש להכל."},
+{sku:"PS-35", name:"קערה פשוטה", cat:"קערות", price:65, dia:"30 ס\"מ", colors:[["שמנת",C.cream]],
+  desc:"אותה קערה בגרסה הגדולה יותר — לסלט של ארוחת ערב או לפירות על השיש."},
+{sku:"PS-36", name:"קערה מלבנית קטנה", cat:"קערות", price:45, colors:[["מגוון",C.cream]],
+  desc:"הצורה המלבנית נכנסת יפה למגש ולמקרר, וההגשה בה נראית מסודרת. הגודל הקטן למטבלים ולתוספות."},
+{sku:"PS-37", name:"קערה מלבנית גדולה", cat:"קערות", price:65, colors:[["מגוון",C.cream]],
+  desc:"מלבנית גדולה, לסלט אחד או למנה עיקרית. אפשר להגיש ישר ממנה."},
+{sku:"PS-38", name:"קערה עגולה חצי עמוקה קטנה", cat:"קערות", price:45, colors:[["פס כחול כהה",C.blue]],
+  desc:"עם פס כחול כהה על השפה. חצי עמוקה — בין צלחת לקערה, בדיוק לדייסה או למרק קטן."},
+{sku:"PS-39", name:"קערה עגולה חצי עמוקה גדולה", cat:"קערות", price:65, colors:[["פס כחול כהה",C.blue]],
+  desc:"אותו דגם בגודל שמספיק למרק מלא. הפס הכחול הוא סימן ההיכר של האמייל הישן."},
+{sku:"PS-40", name:"קערה קטנה", cat:"קערות", price:18, colors:[["לבן",C.white],["צהוב",C.yellow],["ירוק",C.green]],
+  desc:"קערית קטנה בשלושה גוונים. לחומוס, לזיתים, לאגוזים — ובמחיר שאפשר לקחת סט שלם."},
+{sku:"PS-41", name:"קערה אישית קטנה מאוד", cat:"קערות", price:10, colors:[["מגוון",C.cream]],
+  desc:"הקטנה ביותר, לתבלינים ולרטבים. גם השמושית ביותר במטבח בזמן בישול."},
+{sku:"PS-42", name:"קערה אישית קטנה מאוד, עבה", cat:"קערות", price:24, colors:[["לבן",C.white]],
+  desc:"אותו גודל בדופן עבה ובלבן נקי. מחזיקה חום ולא נוטה להתהפך."},
+
+/* --- צלחות --- */
+{sku:"PS-43", name:"צלחת הגשה", cat:"צלחות", price:140, colors:[["מגוון",C.cream]],
+  desc:"מגש הגשה רחב — לעוגה, למאפים או לפירות. זה הפריט שיוצא כשיש אורחים."},
+{sku:"PS-44", name:"צלחת חצי עמוקה", cat:"צלחות", price:15,
+  colors:[["צהוב עם פס ירוק כהה",C.yellow]],
+  desc:"צלחת דקה עם עומק קל, בצהוב עם פס ירוק כהה על השפה. הגודל של ארוחת צהריים אמיתית."},
+{sku:"PS-45", name:"צלחת שטוחה", cat:"צלחות", price:24, dia:"25 ס\"מ", colors:[["לבן",C.white]],
+  desc:"צלחת מנה עיקרית בקוטר עשרים וחמישה. נערמת נמוך ולא נשברת כשמערימים."},
+
+/* --- תבניות אפייה --- */
+{sku:"PS-46", name:"תבנית מלבנית", cat:"תבניות אפייה", price:110, use:bakeware, colors:[["מגוון",C.cream]],
+  desc:"מלבנית לאפייה ולתנור — קוגל, לזניה או ירקות בתנור. יוצאת מהתנור ישר לשולחן בלי להעביר כלים."},
+{sku:"PS-47", name:"תבנית עגולה", cat:"תבניות אפייה", price:90, dia:"22 ס\"מ", use:bakeware, colors:[["מגוון",C.cream]],
+  desc:"הקוטר הקטן, עשרים ושניים. לעוגה של יום חול ולכמות שנגמרת."},
+{sku:"PS-48", name:"תבנית עגולה", cat:"תבניות אפייה", price:110, dia:"26 ס\"מ", use:bakeware, colors:[["מגוון",C.cream]],
+  desc:"עשרים ושש — הגודל הסטנדרטי של רוב מתכוני העוגות."},
+{sku:"PS-49", name:"תבנית עגולה", cat:"תבניות אפייה", price:130, dia:"28 ס\"מ", use:bakeware, colors:[["מגוון",C.cream]],
+  desc:"הגדולה, עשרים ושמונה. לעוגות חג ולכל מה שצריך להספיק להרבה אנשים."},
+
+/* --- מסטינגים --- */
+{sku:"PS-50", name:"מסטינג 3 קומות, קטן", cat:"מסטינגים", price:120,
+  colors:[["צהוב",C.yellow]], img:"img/PS-50-yellow.jpg",
+  desc:"שלוש קומות שמתחברות לכלי אחד עם ידית. הגודל הקטן מתאים לארוחה אישית."},
+{sku:"PS-51", name:"מסטינג 3 קומות, גדול", cat:"מסטינגים", price:130, colors:[["מגוון",C.cream]],
+  desc:"אותו רעיון בגודל שמספיק לארוחה מלאה — מנה עיקרית, תוספת וסלט, כל אחד בקומה שלו."},
+{sku:"PS-52", name:"מסטינג 4 קומות", cat:"מסטינגים", price:160,
+  colors:[["צהוב",C.yellow]], img:"img/PS-52-yellow.jpg",
+  desc:"ארבע קומות. הדגם שמצליחים לארוז בו ארוחה שלמה ולקחת לעבודה או לטיול."},
+{sku:"PS-53", name:"מסטינג 2 קומות, צורה מיוחדת", cat:"מסטינגים", price:150, colors:[["מגוון",C.cream]],
+  desc:"הצורה המיוחדת, בשתי קומות. פחות פונקציונלי ויותר יפה — ויש מי שקונה אותו רק בשביל המדף."},
+{sku:"PS-54", name:"מסטינג 3 קומות, צורה מיוחדת", cat:"מסטינגים", price:180, colors:[["מגוון",C.cream]],
+  desc:"הדגם המרשים ביותר בקטגוריה: שלוש קומות בצורה המיוחדת. גם כלי וגם פריט תצוגה."},
+
+/* --- כלי מטבח והגשה --- */
+{sku:"PS-55", name:"מסננת עם רגליים", cat:"כלי מטבח והגשה", price:100, dia:"22 ס\"מ",
+  colors:[["לבן",C.white],["תכלת",C.lblue],["שמנת",C.cream]], img:"img/PS-55-white.jpg",
+  colorImgs:{"לבן":"img/PS-55-white.jpg"},
+  desc:"מסננת שעומדת בעצמה בכיור בלי להחזיק. עשרים ושניים סנטימטר, בשלושה גוונים."},
+{sku:"PS-56", name:"מסננת עם ידית", cat:"כלי מטבח והגשה", price:70, colors:[["מגוון",C.white]],
+  desc:"עם ידית להחזקה מעל הסיר. נוחה לסינון של כמויות קטנות ולשטיפת ירקות."},
+{sku:"PS-57", name:"סכומון", cat:"כלי מטבח והגשה", price:70, colors:[["מגוון",C.cream]],
+  desc:"מעמד לסכום על השולחן, או כלי אחסון לכל מה שמתגלגל בשיש."},
+{sku:"PS-58", name:"מצקת", cat:"כלי מטבח והגשה", price:30, colors:[["לבן",C.white]],
+  img:"img/PS-58-ladle.jpg",
+  desc:"מצקת אמייל קלאסית. הידית הארוכה לא מתחממת בקצה, ונוחה לסיר עמוק."},
+{sku:"PS-73", name:"כף רשת", cat:"כלי מטבח והגשה", price:30, colors:[["לבן",C.white]],
+  img:"img/PS-58-skimmer.jpg",
+  desc:"לסינון והוצאה מתוך נוזל — קניידלך, ביצים או ירקות מבושלים."},
+{sku:"PS-59", name:"כף עץ", cat:"כלי מטבח והגשה", price:15, note:"מחיר ליחידה", colors:[["עץ",C.brown]],
+  desc:"כפות עץ פשוטות שלא שורטות את הזיגוג. המחיר ליחידה, אז אפשר לקחת כמה."},
+{sku:"PS-60", name:"כף אמייל להגשה", cat:"כלי מטבח והגשה", price:20, note:"להגשה בלבד · 4 יחידות ב-60 ₪", colors:[["מגוון",C.cream]],
+  desc:"כפות אמייל להגשה בלבד, לא לאכילה. יפות במיוחד בתוך קערת סלט או צנצנת על השיש."},
+{sku:"PS-61", name:"מלחייה ופלפלייה", cat:"כלי מטבח והגשה", price:60, note:"מחיר ליחידה", colors:[["מגוון",C.cream]],
+  desc:"הצמד הקלאסי לשולחן, במחיר ליחידה. אפשר לקחת שתיים תואמות או שתיים בגוונים שונים."},
+{sku:"PS-62", name:"מתקן לשמן זית כולל מברשת", cat:"כלי מטבח והגשה", price:70, vol:"500 מ״ל",
+  stock:"out", colors:[["מגוון",C.cream]],
+  desc:"בקבוק שמן עם מברשת מובנית, למריחה על תבנית או על בצק. אזל כרגע — השאירו פרטים ונעדכן כשהוא חוזר."},
+{sku:"PS-63", name:"סט פיקניק", cat:"כלי מטבח והגשה", price:180, colors:[["מגוון",C.cream]],
+  desc:"סט מוכן ליציאה: הכלים שנוסעים לדשא, נופלים ולא נשברים. אחת הסיבות שאמייל שרד מאה שנה."},
+
+/* --- אחסון --- */
+{sku:"PS-64", name:"ארגז לחם וינטג'", cat:"אחסון", price:300, stock:"low", colors:[["מגוון",C.cream]],
+  desc:"ארגז לחם וינטג׳ אמיתי, לא שחזור. שומר על הלחם רך ונראה כמו חלק מהמטבח ולא כמו אביזר."},
+{sku:"PS-65", name:"סט קופסאות אחסון, 5 יחידות", cat:"אחסון", price:150, note:"כולל מכסה", colors:[["אדום מנוקד",C.red]],
+  desc:"חמש קופסאות בגדלים עולים, כולן עם מכסה. לאורז, לקטניות ולכל מה שהיה עד עכשיו בשקיות."},
+{sku:"PS-66", name:"קופסת אחסון עם מכסה", cat:"אחסון", price:85, vol:"1 ליטר", colors:[["מגוון",C.cream]],
+  desc:"קופסה בודדת לליטר, עם מכסה. אטומה מספיק לקפה, לסוכר או לעוגיות."},
+
+/* --- לבית ולחצר --- */
+{sku:"PS-67", name:"דלי לבן כולל מכסה", cat:"לבית ולחצר", price:250, colors:[["לבן",C.white]],
+  desc:"דלי אמייל לבן עם מכסה — לאחסון, לכביסה, או כעציץ גדול במרפסת."},
+{sku:"PS-68", name:"דלי שחור גדול עם תלייה", cat:"לבית ולחצר", price:90, colors:[["שחור",C.black]],
+  desc:"גדול ושחור, עם ידית לתלייה. עובד גם בבית וגם בחצר, וגם כאדנית שלא מחלידה בשמש."},
+{sku:"PS-69", name:"דלי אדום קטן עם תלייה", cat:"לבית ולחצר", price:30, colors:[["אדום",C.red]],
+  desc:"הקטן שבדליים, עם ידית לתלייה. הכי מבוקש כעציץ קטן וכמתנה קטנה."},
+{sku:"PS-70", name:"סבונייה", cat:"לבית ולחצר", price:60,
+  colors:[["לבן",C.white],["שמנת",C.cream]], img:"img/PS-70-white.jpg",
+  colorImgs:{"לבן":"img/PS-70-white.jpg"},
+  desc:"סבונייה לכיור או למקלחת, בלבן ובשמנת. פרט קטן שמשנה את המראה של חדר האמבטיה."},
+{sku:"PS-71", name:"סיר לילה", cat:"לבית ולחצר", price:85, colors:[["מגוון",C.white]],
+  desc:"הכלי שכולם מזהים מהבית של סבתא. היום הוא בעיקר עציץ, מתקן לצמחים או פריט נוסטלגיה על המדף."}
+].map((p,i)=>({id:"p"+i, img:"", desc:"", nameEn:"", descEn:"", ...p}));
+/* id נקבע מחדש לפי המק"ט מיד אחרי השלמת המק"טים החסרים — ראו סעיף המק"ט למטה. */
+
+/* =========================== קולקציות ומארזים ===========================
+   ids = המק"טים של הפריטים במארז, בדיוק כפי שהם כתובים בשדה sku.
+   להוספת מארז: להוסיף אובייקט עם name, desc ורשימת ids.          */
+const COLLECTIONS = [
+  { name:"מארז פיקניק", desc:"כל מה שנוסע לדשא ולא נשבר בדרך",
+    ids:["PS-63","PS-28","PS-45","PS-40","PS-50","PS-59"] },
+  { name:"פינת הקפה של הבוקר", desc:"פינג׳ן, אספרסו וכד חלב",
+    ids:["PS-12","PS-26","PS-23","PS-28","PS-08"] },
+  { name:"מטבח של אופים", desc:"קערת בצק, תבניות וקופסאות",
+    ids:["PS-29","PS-46","PS-47","PS-59","PS-65"] },
+  { name:"מתנה עד 100 ₪", desc:"פריטים קטנים שנעים לקבל ולתת",
+    ids:["PS-11","PS-19","PS-12","PS-25","PS-69"] }
+];
+
+/* =========================== תשתית =========================== */
+const L = { diameter:"קוטר", height:"גובה", size:"מידות", volume:"נפח", colors:"צבעים קיימים במלאי",
+            uses:"מתאים לשימוש", order:"להזמנה בוואטסאפ", gas:"גז",
+            induction:"אינדוקציה", oven:"תנור", dishwasher:"מדיח",
+            waMsg:"היי, אשמח לפרטים על " };
+
+const WA_ICON = '<svg class="wa-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.86.5 3.62 1.42 5.14L2 22l5.16-1.56a9.8 9.8 0 0 0 4.88 1.28h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.47 2 12.04 2zm0 17.9a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.92.94-2.98-.2-.31a8.06 8.06 0 0 1-1.24-4.37c0-4.46 3.64-8.1 8.11-8.1 2.16 0 4.2.85 5.73 2.38a8.05 8.05 0 0 1 2.37 5.73c0 4.47-3.64 8.05-8.11 8.05zm4.45-6.04c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.96-.14.16-.28.18-.52.06a6.6 6.6 0 0 1-1.95-1.2 7.3 7.3 0 0 1-1.35-1.68c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.4.08-.17.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.3-.22.25-.85.84-.85 2.03 0 1.2.87 2.35.99 2.51.12.17 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>';
+const IG_ICON = '<svg class="wa-i" viewBox="0 0 24 24" aria-hidden="true">'+
+  '<path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23a3.7 3.7 0 0 1-.9 1.38c-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.8c-3.15 0-3.52.01-4.76.07-1.15.05-1.77.24-2.19.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.42-.35 1.04-.4 2.19-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.05 1.15.24 1.77.4 2.19.22.55.47.94.88 1.35.41.41.8.66 1.35.88.42.16 1.04.35 2.19.4 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c1.15-.05 1.77-.24 2.19-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.42.35-1.04.4-2.19.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.05-1.15-.24-1.77-.4-2.19a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.42-.16-1.04-.35-2.19-.4-1.24-.06-1.61-.07-4.76-.07zm0 3.06a4.98 4.98 0 1 1 0 9.96 4.98 4.98 0 0 1 0-9.96zm0 8.21a3.23 3.23 0 1 0 0-6.46 3.23 3.23 0 0 0 0 6.46zm6.34-8.41a1.16 1.16 0 1 1-2.33 0 1.16 1.16 0 0 1 2.33 0z"/></svg>';
+
+const ICONS={
+ gas:'<svg viewBox="0 0 24 24"><path d="M12 3c2 3.5-1 5 .5 7C14 12 17 10.5 17 14a5 5 0 1 1-10 0c0-3 2-4.5 3-7 .7-1.8.9-3 2-4z"/></svg>',
+ induction:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></svg>',
+ oven:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 8h18M7 5.5h.01M10 5.5h.01"/><rect x="6" y="11" width="12" height="7" rx="1"/></svg>',
+ dishwasher:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 8h18"/><path d="M8 12c1.5 1.5 1.5 4 0 5.5M12 12c1.5 1.5 1.5 4 0 5.5M16 12c1.5 1.5 1.5 4 0 5.5"/></svg>'};
+
+function jug(hex){
+ return '<svg viewBox="0 0 120 120" aria-hidden="true">'+
+  '<path d="M34 44h44c8 0 10 6 10 12v30c0 8-5 12-13 12H37c-8 0-13-4-13-12V56c0-6 2-12 10-12z" fill="'+hex+'" stroke="rgba(46,51,39,.55)" stroke-width="2.5"/>'+
+  '<path d="M88 58c12 2 14 10 14 16s-4 12-14 14" fill="none" stroke="rgba(46,51,39,.55)" stroke-width="2.5"/>'+
+  '<path d="M24 56h64" stroke="rgba(46,51,39,.55)" stroke-width="2.5" fill="none"/></svg>';
+}
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const priceOf = p => p.priceText ? p.priceText : (p.price!=null ? p.price+" "+SHOP.currency : "");
+/* תצוגת מחיר: אם יש priceOld מוצג המחיר הישן עם קו לצד החדש */
+const priceHTML = p => esc(priceOf(p)) +
+  (p.priceOld ? '<s>'+esc(p.priceOld+" "+SHOP.currency)+'</s>' : "");
+const subOf   = p => [p.vol, p.dia?L.diameter+" "+p.dia:null, p.h?L.height+" "+p.h:null, p.note]
+                       .filter(Boolean).join(" · ");
+
+/* =========================== בניית העמודים =========================== */
+const PER_PAGE = 6;
+let pages = [], slides = [], idx = 0, tocMap = {}, tocEntries = [], tocPageIndex = 3;
+
+function buildPages(){
+  pages = [];
+
+  /* עמוד 1 — שער ראשי */
+  pages.push({folio:false, cls:"hero", html:
+    '<img src="img/hero.jpg" alt="Pastél — כלי אמייל, עיצוב הבית וגינה">'});
+
+  /* עמוד 2 — הסיפור שלנו */
+  pages.push({html:
+    '<h2 class="pt">לגעת ביופי של פעם</h2>'+
+    '<p>העסק הזה התחיל אצל אבא שלנו, שוקי. שנים הוא הביא כלי אמייל, הכיר כל דגם ומכר אותם באהבה — ואז החיים המשיכו, העסק נעצר, והסחורה נשארה ארוזה במחסן.</p>'+
+    '<p>לפני זמן מה פתחנו את הארגזים. התכוונו לעשות מכירה אחת ולסגור את הסיפור, והמכירה הזאת לא הלכה כמו שציפינו: אנשים הגיעו, נגעו, נזכרו, וקנו. מה שהיה אמור להיות סוף התברר כהתחלה.</p>'+
+    '<p>פסטל הוא המותג החדש של אותו עסק. ענבר מנהלת אותו, אנחנו מזמינים סחורה מאירופה, מסין ומספק אחד מהארץ, ובוחרים כל פריט בעצמנו — רק מה שאנחנו אוהבים.</p>'+
+    '<p>הכלים האלה לא נשארים בארון: הם עולים על השולחן, יוצאים לגינה ומלווים את היום־יום. אתם מוזמנים לבוא לראות, לגעת ולבחור — או פשוט לדפדף כאן בנחת.</p>'+
+    '<p style="margin:18px 0 4px;text-align:center"><button class="btn primary" id="toCatalog" style="display:inline-flex;padding:11px 22px">לקטלוג המוצרים</button></p>'+
+    '<div class="imgrow">'+
+      '<img class="figure wide" src="img/atmo1.jpg" alt="הפינה של פסטל בכפר בן נון">'+
+    '</div>'});
+
+  /* עמוד 3 — האמייל והשימוש */
+  pages.push({html:
+    '<h2 class="pt">מה זה אמייל</h2>'+
+    '<p>אמייל הוא זיגוג זכוכית שנצרב על פלדה בטמפרטורה גבוהה. הוא לא נמרח על הכלי — הוא נהיה חלק ממנו. לכן הוא לא סופג ריחות וטעמים, לא מגיב עם מזון חומצי, ולא מתקלף עם הזמן כמו ציפויים אחרים. זה גם ההבדל מכלי אלומיניום צבועים שנראים דומה על המדף: שם הצבע יורד אחרי כמה חודשי שימוש, כאן הוא נשאר.</p>'+
+    '<p>מכה חזקה יכולה ליצור סדק — זה הטבע של זכוכית. לעומת זאת, שחיקה משימוש יומיומי פשוט לא קורית.</p>'+
+    '<p>הכלים מתאימים לגז, לאינדוקציה ולתנור, ולשטיפה במדיח.</p>'+
+    '<div class="uses" style="justify-content:center;margin:4px 0 20px">'+
+      ["gas","induction","oven","dishwasher"].map(k=>'<div class="use">'+ICONS[k]+'<span>'+L[k]+'</span></div>').join("")+
+    '</div>'+
+    '<div class="rule"></div>'+
+    '<h2 class="pt">בבית, בחצר ומה שביניהם</h2>'+
+    '<p>סיר שעולה על הגז ויורד ממנו ישר לשולחן. קערות שיושבות יפה על המדף גם כשהן ריקות. קנקן עם פרחים במרפסת, וסט שנוסע לפיקניק בלי שאף אחד ידאג שיישבר.</p>'+
+    '<p>הכלים האלה עובדים קשה ונראים טוב בזמן שהם עושים את זה. בדיוק בגלל זה הם גם מתנה שנשארת בשימוש, ולא בארון.</p>'});
+
+  /* עמוד 4 — תוכן עניינים (ממולא אחרי חלוקת המוצרים) */
+  const tocIndex = pages.length; tocPageIndex = tocIndex;
+  pages.push({html:""});
+
+  /* עמודי מוצרים */
+  /* כל קטגוריה מתחילה בעמוד חדש ולא נשפכת לעמוד של קטגוריה אחרת.
+     קטגוריה גדולה מ-PER_PAGE מתחלקת בחלוקה מאוזנת (10 פריטים = 5+5 ולא 6+4),
+     וכל עמוד המשך מסומן "· המשך". */
+  tocMap = {};
+  [...new Set(PRODUCTS.map(p=>p.cat))].forEach(cat=>{
+    const items  = expandColors(PRODUCTS.filter(p=>p.cat===cat));
+    const nPages = Math.max(1, Math.ceil(items.length/PER_PAGE));
+    const base   = Math.floor(items.length/nPages), extra = items.length%nPages;
+    let taken = 0;
+    for(let n=0;n<nPages;n++){
+      const size  = base + (n<extra ? 1 : 0);
+      const chunk = items.slice(taken, taken+size); taken += size;
+      if(tocMap[cat]===undefined) tocMap[cat] = pages.length;
+      pages.push({html:
+        '<div class="pagehead"><h2>'+esc(cat)+'</h2><span class="ln"></span></div>'+
+        '<div class="grid">'+chunk.map(it=>cardHTML(it.p, it)).join("")+'</div>'});
+    }
+  });
+
+  /* עמוד קולקציות ומארזים */
+  const collPage = pages.length;
+  pages.push({html:
+    '<div class="pagehead"><h2>קולקציות ומארזים</h2><span class="ln"></span></div>'+
+    '<p style="margin:0 0 16px;color:var(--muted);font-size:14.5px">צירופים מוכנים למי שלא יודע מאיפה להתחיל — לחיצה על מארז מציגה את הפריטים שבו.</p>'+
+    '<div class="colls">'+COLLECTIONS.map((c,i)=>
+      '<button class="coll" data-coll="'+i+'">'+
+        '<span class="ct">'+esc(c.name)+'</span>'+
+        '<span class="cd">'+esc(c.desc)+'</span>'+
+        '<span class="cn">'+c.ids.length+' פריטים</span>'+
+      '</button>').join("")+'</div>'});
+
+  /* עמוד התמונות מהמושב */
+  const shotsPage = pages.length;
+  pages.push({html:
+    '<div class="pagehead"><h2>הכלים אצלנו במושב</h2><span class="ln"></span></div>'+
+    '<p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">'+
+      'צילומי המוצרים מצולמים על רקע לבן כדי שיהיה אפשר לראות בדיוק את הצורה ואת הגוון. '+
+      'כאן הם נראים כמו שהם באמת — על השולחנות ועל המדפים אצלנו בכפר בן נון.</p>'+
+    '<div class="shots">'+
+      ['moshav4','moshav1','moshav3','moshav2','moshav7','moshav8']
+        .map((n,i)=>'<img class="'+(i===0||n==='moshav7'||n==='moshav2'?'wide':'')+'" src="img/'+n+'.jpg" '+
+             'alt="כלי אמייל של פסטל במושב כפר בן נון" loading="lazy" decoding="async">').join("")+
+    '</div>'});
+
+  /* עמוד משלוח, איסוף ותשלום */
+  const shipPage = pages.length;
+  pages.push({html:
+    '<div class="pagehead"><h2>איפה, מתי ואיך</h2><span class="ln"></span></div>'+
+    '<div class="info">'+
+    '<h4>איפה אנחנו</h4>'+
+    '<p>'+SHOP.address+'.</p>'+
+    '<p style="margin:10px 0 4px"><a class="btn ghost" style="display:inline-flex;padding:9px 16px" href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט בוויז</a></p>'+
+
+    '<h4>מתי אפשר להגיע</h4>'+
+    '<p>אנחנו לא פתוחים בשעות קבועות, אלא מקיימים ימי מכירה מרוכזים. כדי לדעת מתי הדלת פתוחה, '+
+      'הצטרפו לקבוצת הוואטסאפ שלנו — שם מתפרסמים המועדים ראשונים — או פשוט התקשרו ל'+SHOP.phone+' ונתאם.</p>'+
+    '<p>בשבת אנחנו לא זמינים. הודעות שיגיעו בשבת ייענו במוצאי שבת.</p>'+
+    (SHOP.group ? '<p style="margin:10px 0 4px"><a class="btn primary" style="display:inline-flex;padding:10px 18px" href="'+SHOP.group+'" target="_blank" rel="noopener">לקבוצת העדכונים</a></p>' : '')+
+
+    '<h4>משלוחים</h4>'+
+    '<p><b>איסוף עצמי מ'+SHOP.place+' — חינם.</b> מתאמים מראש בוואטסאפ.</p>'+
+    '<p><b>משלוח באזור — '+SHOP.shipCost+' '+SHOP.currency+', וחינם בהזמנה מעל '+
+      SHOP.freeShipping+' '+SHOP.currency+'.</b> אלה היישובים שאנחנו מגיעים אליהם: '+
+      SHOP.shipZone.join(", ")+'.</p>'+
+    '<p><b>קיסריה, חדרה והסביבה</b> — '+SHOP.shipCost+' '+SHOP.currency+
+      ', בימי משלוח מוגדרים. אנחנו מגיעים לאזור אחת לכמה שבועות ונעדכן במועד הקרוב.</p>'+
+    '<p><b>מחוץ לאזור</b> — כתבו לנו ונתאם.</p>'+
+
+    '<h4>תשלום</h4>'+
+    '<p>ביט או מזומן.</p>'+
+
+    '<h4>אם משהו לא בסדר</h4>'+
+    '<p>פריט שהגיע פגום או שאינו מה שהזמנתם — כתבו לנו ונסדר את זה. אנחנו עסק קטן ומעדיפים '+
+      'לדבר על כל מקרה לגופו במקום להחביא תנאים באותיות קטנות.</p>'+
+    '</div>'});
+
+  /* עמוד הידעת? */
+  const factsPage = pages.length;
+  pages.push({html:
+    '<div class="pagehead"><h2>הידעת?</h2><span class="ln"></span></div>'+
+    '<div class="facts">'+
+    '<div class="fact"><span class="num">1</span><span class="tx"><b>זכוכית, לא צבע.</b> האמייל נוצר מאבקת זכוכית שנשרפת על הפלדה בכ-800 מעלות ונמסה לתוכה. לכן הוא לא נסדק מחום ולא יורד עם הזמן — הוא לא שכבה שמונחת על הכלי אלא חלק ממנו.</span></div>'+
+    '<div class="fact"><span class="num">2</span><span class="tx"><b>משטח שלא מגיב עם האוכל.</b> זכוכית היא חומר אינרטי: היא לא סופגת ריחות, לא צובעת ולא משנה טעם. אפשר לבשל רוטב עגבניות או לימון בלי טעם מתכתי, ואפשר לאחסן אוכל בכלי עצמו.</span></div>'+
+    '<div class="fact"><span class="num">3</span><span class="tx"><b>בלי ציפויים סינתטיים.</b> באמייל אין ציפוי נון-סטיק מסוג טפלון, ולכן אין מה שיתפרק או ישתחרר בחום גבוה. זו הסיבה שאמייל חזר לאופנה במטבחים שמקפידים על חומרים.</span></div>'+
+    '<div class="fact"><span class="num">4</span><span class="tx"><b>מאיפה מגיע הצבע.</b> הגוונים מגיעים מתחמוצות מתכת שנשרפות בתוך הזיגוג, ולא מצבע שנמרח מלמעלה. לכן הצבע לא דוהה בשמש — ואפשר להשאיר כלי בגינה או במרפסת.</span></div>'+
+    '<div class="fact"><span class="num">5</span><span class="tx"><b>עובד על אינדוקציה.</b> מתחת לזיגוג יש פלדה, שהיא מגנטית — ולכן כלי אמייל עובדים על כיריים אינדוקציה, בניגוד לאלומיניום, לנחושת ולזכוכית.</span></div>'+
+    '<div class="fact"><span class="num">6</span><span class="tx"><b>אבל לא במיקרוגל.</b> מאותה סיבה בדיוק: בפנים יש מתכת. אמייל הולך לגז, לאינדוקציה, לתנור ואפילו למדורה — רק לא למיקרוגל.</span></div>'+
+    '<div class="fact"><span class="num">7</span><span class="tx"><b>למה זה חשוב מאיפה קונים.</b> אמייל שמיועד למגע עם מזון מיוצר לפי תקן שמגביל מתכות כבדות בפיגמנטים. זו בדיוק ההבחנה בין כלי אמייל אמיתי לבין פריט דקורטיבי שנראה דומה.</span></div>'+
+    '</div>'});
+
+  /* עמוד שאלות נפוצות */
+  const faqPage = pages.length;
+  pages.push({html:
+    '<div class="pagehead"><h2>שאלות נפוצות</h2><span class="ln"></span></div>'+
+    '<div class="info">'+
+    '<h4>על אילו כיריים אפשר להשתמש?</h4><p>גז, אינדוקציה, קרמי וחשמלי, וגם בתנור. מתחת לזיגוג יש פלדה מגנטית, ולכן אינדוקציה עובדת. במיקרוגל אסור, מאותה סיבה בדיוק. שימו לב לפריטים עם ידית עץ — הם לא נכנסים לתנור.</p>'+
+    '<h4>אפשר לשטוף במדיח?</h4><p>כן. שטיפה ידנית בספוג רך תשמור על הברק לאורך זמן, אבל המדיח לא יפגע בכלי.</p>'+
+    '<h4>מה קורה אם נוצר סדק?</h4><p>הפלדה נחשפת ועלולה להחליד, לכן חשוב לייבש היטב אחרי שטיפה. הכלי עדיין שימושי לבישול, אבל לא לאחסון ממושך של מזון חומצי. את רוב הנזק אנשים גורמים בארון ולא על הכיריים — כדאי להניח מטלית בין כלי לכלי.</p>'+
+    '<h4>כמה זמן זה מחזיק?</h4><p>אמייל לא מתבלה משימוש: הוא לא מתקלף ולא מאבד צבע, וכלים מהדורות הקודמים עדיין בשימוש היום. מה שמסכן אותו זו מכה חזקה או הלם טמפרטורה.</p>'+
+    '<h4>איך יודעים שזה אמייל אמיתי?</h4><p>אמייל אמיתי הוא זכוכית שנשרפה על פלדה — הוא כבד יותר מאלומיניום צבוע, קר למגע, והשפה שלו מסתיימת בקו כהה. כלי אמייל למגע עם מזון מיוצרים לפי תקן שמגביל מתכות כבדות בפיגמנטים.</p>'+
+    '<h4>הצבע שאני רוצה במלאי?</h4><p>הצבעים הזמינים מופיעים בכל כרטיס מוצר. פריט שאזל מסומן, ואפשר ללחוץ על הכפתור ולקבל הודעה כשהוא חוזר.</p>'+
+    '<h4>אפשר לראות לפני שקונים?</h4><p>בהחלט. אנחנו במושב כפר בן נון — מוזמנים לתאם בוואטסאפ, לבוא לראות ולגעת.</p>'+
+    '<h4>איך מזמינים?</h4><p>אפשר להוסיף פריטים לעגלה כאן בקטלוג ולשלוח הודעה אחת מסודרת בוואטסאפ, או פשוט לכתוב לנו ישירות עם מספר המק״ט של הפריט.</p>'+
+    '</div>'});
+
+  /* עמוד טיפול באמייל */
+  const carePage = pages.length;
+  pages.push({html:
+    '<div class="pagehead"><h2>איך מטפלים באמייל</h2><span class="ln"></span></div>'+
+    '<div class="info">'+
+    '<h4>שטיפה</h4><p>הכלים מתאימים למדיח. שטיפה ידנית בספוג רך תשמור על הברק לאורך שנים.</p>'+
+    '<h4>מה לא לעשות</h4><p>בלי ספוגית פלדה ובלי חומרי ניקוי שוחקים — הם משאירים שריטות בזיגוג הזכוכיתי, ובשריטה נאחזות כתמים.</p>'+
+    '<h4>חום</h4><p>לא לחמם כלי ריק ולא להכניס כלי לוהט למים קרים. הפלדה והזיגוג מתפשטים בקצב שונה, והפרש טמפרטורה חד הוא מה שמסדק את הציפוי. להבה בגודל תחתית הכלי וחום בינוני יספיקו — אמייל מוליך חום מהר.</p>'+
+    '<h4>אם נוצר שבב</h4><p>הפלדה נחשפת ועלולה להחליד, לכן כדאי לייבש היטב אחרי כל שטיפה. כלי פגום עדיין שימושי לבישול, אבל לא לאחסון ממושך של מזון חומצי כמו לימון או עגבניות.</p>'+
+    '<h4>אחסון</h4><p>בהערמה כדאי להניח מטלית בין כלי לכלי. רוב השבבים נוצרים בארון, לא על הכיריים.</p>'+
+    '</div>'});
+
+  /* מילוי תוכן העניינים */
+  tocEntries = Object.entries(tocMap).concat([["קולקציות ומארזים",collPage],
+                                              ["הכלים אצלנו במושב",shotsPage],
+                                              ["איפה, מתי ואיך",shipPage],
+                                              ["הידעת?",factsPage],
+                                              ["שאלות נפוצות",faqPage],
+                                              ["איך מטפלים באמייל",carePage]]);
+  pages[tocIndex].html =
+    '<div class="pagehead"><h2>תוכן העניינים</h2><span class="ln"></span></div>'+
+    /* בקטלוג של שלושים עמודים החיפוש הוא הכניסה היעילה יותר, אבל הוא מוסתר
+       מאחורי אייקון בסרגל. כאן הוא מוצע במפורש, בנקודה שבה הלקוח בוחר
+       לאן ללכת. */
+    '<p style="margin:0 0 14px;text-align:center"><button class="btn ghost" id="tocSearch" '+
+      'style="display:inline-flex;padding:10px 18px">חיפוש לפי שם, קטגוריה או צבע</button></p>'+
+    '<ul class="toc">'+
+    tocListHTML()+'</ul>';
+
+  /* עמוד אחרון — יצירת קשר */
+  /* עמוד אחרון — יצירת קשר, בעיצוב השער */
+  pages.push({folio:false, cls:"cover", html:
+    '<div class="top">'+
+      '<img class="jug" src="data:image/jpeg;base64,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" alt="">'+
+      '<h1>Pastél</h1>'+
+      '<div class="orn"><span></span><i></i><span></span></div>'+
+      '<div class="sub">נשמח לראותכם</div>'+
+    '</div>'+
+    '<div class="endcard">'+
+      '<p class="ln1">'+SHOP.place+'</p>'+
+      '<p><a href="https://wa.me/'+SHOP.whatsapp+'">'+SHOP.phone+' · וואטסאפ</a></p>'+
+      '<p><a class="iglink" href="'+SHOP.instagram+'" target="_blank" rel="noopener">'+IG_ICON+'@pastel_enamelhouse</a></p>'+
+      '<p><a href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט בוויז</a></p>'+
+      '<p style="margin-top:12px;font-size:13.5px">בשבת אנחנו לא זמינים · נחזור אליכם במוצאי שבת</p>'+
+      (SHOP.group ? '<p style="margin-top:14px"><a class="btn primary" style="display:inline-flex;padding:11px 20px" href="'+SHOP.group+'" target="_blank" rel="noopener">הצטרפות לקבוצת העדכונים</a></p>' : '')+
+      (SHOP.waitlist ? '<p style="margin-top:10px"><button class="btn ghost" id="newsBtn" style="display:inline-flex;padding:10px 18px">הצטרפו לרשימת הדיוור</button></p>' : '')+
+      '<p style="margin-top:10px"><button class="btn ghost" id="shareCat" style="display:inline-flex;padding:10px 18px">'+WA_ICON+'שליחת הקטלוג לחבר</button></p>'+
+      '<p style="margin-top:18px"><button class="tab" id="printPrices">הדפסת מחירון ללא תמונות</button></p>'+
+    '</div>'});
+}
+
+function badgeHTML(p){
+  const b = [];
+  if(p.priceOld) b.push('<span class="badge sale">מבצע</span>');
+  if(p.isNew)    b.push('<span class="badge new">חדש</span>');
+  if(p.isBest)   b.push('<span class="badge best">הכי נמכר</span>');
+  if(p.stock==="out")      b.push('<span class="badge out">אזל מהמלאי</span>');
+  else if(p.stock==="low") b.push('<span class="badge low">אחרון במלאי</span>');
+  return b.length ? '<div class="badges">'+b.join("")+'</div>' : "";
+}
+function tocListHTML(){
+  return tocEntries.map(([c,pg])=>
+    '<li data-page="'+pg+'"><span class="t">'+esc(c)+'</span><span class="dots"></span>'+
+    '<span class="n">'+(pg+1)+'</span></li>').join("");
+}
+/* עיגולי הצבעים הזמינים על הכרטיס — כדי שרואים שיש עוד גוונים בלי להיכנס */
+/* גוון שיש לו צילום מוצג כתמונה ממוזערת ולא כעיגול צבע. עיגול שטוח אומר
+   ללקוח "יש עוד גוון"; תמונה אומרת לו "ככה הוא נראה", וזה ההבדל בין לדעת
+   שיש אפשרויות לבין לרצות אחת מהן. הממוזערות יושבות ב-img/t ושוקלות
+   כשני קילובייט כל אחת, כך שכרטיס עם שישה גוונים לא מכביד על העמוד. */
+function colorDots(p){
+  if(!p.colors || p.colors.length < 2) return "";
+  const imgs = p.colorImgs || {};
+  const has  = p.colors.some(c=>imgs[c[0]]);
+  const show = p.colors.slice(0, has ? 6 : 5);
+  return '<div class="cdots'+(has?" withimg":"")+'">'+
+    show.map(c=> imgs[c[0]]
+      ? '<img src="'+imgs[c[0]].replace("img/","img/t/")+'" alt="'+esc(c[0])+'" title="'+esc(c[0])+'" loading="lazy" decoding="async">'
+      : '<i style="background:'+c[1]+'" title="'+esc(c[0])+'"></i>').join("")+
+    (p.colors.length > show.length ? '<span>+'+(p.colors.length-show.length)+'</span>' : '')+
+    '</div>';
+}
+/* פריט שצולם בכמה גוונים מוצג בגריד ככרטיס נפרד לכל גוון, ולא ככרטיס אחד
+   עם עיגולים. הסיבה מסחרית: לקוח שמדפדף לא פותח כל מוצר, והוא קונה את מה
+   שהעין שלו נתקלה בו. קנקן תה אחד עם שלושה עיגולים נראה כמו פריט אחד;
+   שלושה קנקנים נראים כמו בחירה.
+   המק"ט, המחיר והמלאי נשארים של אותו פריט — זו תצוגה, לא פיצול אמיתי.
+   גוון בלי צילום לא מקבל כרטיס משלו, כדי שלא ייווצרו כרטיסים זהים. */
+function expandColors(list){
+  if(SHOP.splitColors === false) return list.map(p=>({p:p}));
+  const out = [];
+  list.forEach(p=>{
+    const imgs = p.colorImgs || {};
+    const shot = (p.colors||[]).filter(c=>imgs[c[0]]);
+    if(shot.length > 1) shot.forEach(c=>out.push({p:p, color:c[0], img:imgs[c[0]]}));
+    else out.push({p:p});
+  });
+  return out;
+}
+
+function cardHTML(p, v){
+  v = v || {};
+  const src = v.img || p.img;
+  const art = src
+    ? '<img src="'+src+'" alt="'+esc(p.name+(v.color?" "+v.color:""))+'" loading="lazy" decoding="async">'
+    : jug(p.colors[0][1]);
+  const sub = v.color || subOf(p);
+  return '<div class="card'+(p.stock==="out"?" sold":"")+'" data-id="'+p.id+'"'+
+      (v.color?' data-color="'+esc(v.color)+'"':'')+' role="button" tabindex="0">'+
+    '<div class="frame">'+art+badgeHTML(p)+'</div>'+
+    '<h3>'+esc(p.name)+'</h3>'+
+    (sub?'<div class="sub">'+esc(sub)+'</div>':'')+
+    '<div class="sku">'+p.sku+'</div>'+
+    (v.color ? "" : colorDots(p))+
+    '<div class="price">'+esc(priceOf(p))+'</div></div>';
+}
+
+/* =========================== פריסה ודפדוף =========================== */
+const track = document.getElementById("track");
+const stage = document.getElementById("stage");
+let spread = false;
+
+function layout(){
+  spread = window.innerWidth >= 900;
+  /* במצב כפול: השער לבד, ואחריו זוגות — כמו ספר פתוח */
+  slides = [];
+  if(spread){
+    slides.push([0]);
+    for(let i=1;i<pages.length;i+=2) slides.push(pages[i+1]!==undefined?[i,i+1]:[i]);
+  } else {
+    pages.forEach((_,i)=>slides.push([i]));
+  }
+  track.innerHTML = slides.map(s=>
+    '<div class="slide'+(s.length===1&&spread?' single':'')+'">'+
+      s.map(i=>{
+        const pg = pages[i];
+        return '<div class="page '+(pg.cls||'')+'">'+pg.html+
+          (pg.folio===false?'':'<div class="folio">'+(i+1)+'</div>')+'</div>';
+      }).join("")+
+    '</div>').join("");
+  go(Math.min(idx, slides.length-1), true);
+}
+
+function go(n, instant){
+  if(typeof n==="number" && n>STATS.page) STATS.page = n;
+  const target = Math.max(0, Math.min(n, slides.length-1));
+  if(target===idx && !instant){ return; }
+  const from = idx, fwd = target>from;
+  idx = target;
+
+  const reduce = typeof matchMedia === "function" &&
+                 matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const flip = !instant && !reduce && from!==target && track.children.length;
+
+  if(flip){
+    /* דפדוף: הדף מסתובב סביב שדרת הספר בצד ימין, כמו בספר עברי */
+    const src = track.children[fwd ? from : target];
+    const clone = src.cloneNode(true);
+    clone.classList.add("turner");
+    clone.style.transform = fwd ? "rotateY(0deg)" : "rotateY(82deg)";
+    clone.style.opacity = fwd ? "1" : ".3";
+    stage.appendChild(clone);
+    track.style.transition = "none";
+    track.style.transform = "translateX("+(idx*100)+"%)";
+    requestAnimationFrame(()=>{
+      clone.style.transition = "transform .5s cubic-bezier(.3,.55,.3,1), opacity .5s ease";
+      clone.style.transform = fwd ? "rotateY(82deg)" : "rotateY(0deg)";
+      clone.style.opacity = fwd ? ".3" : "1";
+    });
+    setTimeout(()=>clone.remove(), 540);
+  } else {
+    track.style.transition = instant ? "none" : "";
+    track.style.transform = "translateX("+(idx*100)+"%)";
+    if(instant) requestAnimationFrame(()=>track.style.transition="");
+  }
+
+  const last = slides[idx][slides[idx].length-1];
+  const txt = (slides[idx][0]+1)+(slides[idx].length>1?"–"+(last+1):"")+" / "+pages.length;
+  document.getElementById("counter").textContent  = txt;
+  document.getElementById("counter2").textContent = txt;
+  [["prev",idx===0],["prev2",idx===0],
+   ["next",idx===slides.length-1],["next2",idx===slides.length-1]]
+    .forEach(([id,off])=>{ document.getElementById(id).disabled = off; });
+  track.querySelectorAll(".page").forEach(el=>el.scrollTop=0);
+}
+function goToPage(p){
+  const s = slides.findIndex(sl=>sl.includes(p));
+  if(s>=0) go(s);
+}
+
+document.getElementById("prev").onclick  = ()=>go(idx-1);
+document.getElementById("next").onclick  = ()=>go(idx+1);
+document.getElementById("prev2").onclick = ()=>go(idx-1);
+document.getElementById("next2").onclick = ()=>go(idx+1);
+document.addEventListener("keydown", e=>{
+  const open = [...document.querySelectorAll(".overlay")].some(o=>o.classList.contains("open"));
+  if(open){
+    if(e.key==="Escape") closeSheet();
+    return;
+  }
+  if(e.key==="ArrowLeft")  go(idx+1);   /* בעברית: שמאלה = קדימה */
+  if(e.key==="ArrowRight") go(idx-1);
+});
+
+/* החלקה באצבע */
+let sx=0, sy=0, swiping=false, swipedAt=0;
+stage.addEventListener("touchstart", e=>{
+  sx=e.touches[0].clientX; sy=e.touches[0].clientY; swiping=true;
+},{passive:true});
+stage.addEventListener("touchend", e=>{
+  if(!swiping) return; swiping=false;
+  const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+  if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.6){ swipedAt=Date.now(); go(dx>0 ? idx-1 : idx+1); }
+},{passive:true});
+
+/* לחיצה על כרטיס מוצר או על שורה בתוכן העניינים */
+track.addEventListener("click", e=>{
+  const card = e.target.closest(".card");
+  if(card){ openCard(PRODUCTS.find(p=>p.id===card.dataset.id), card.dataset.color); return; }
+  const shot = e.target.closest(".shots img");
+  if(shot){ openZoom(shot.src); return; }
+  const li = e.target.closest(".toc li");
+  if(li) goToPage(Number(li.dataset.page));
+});
+track.addEventListener("keydown", e=>{
+  const card = e.target.closest(".card");
+  if(card && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); openSheet(PRODUCTS.find(p=>p.id===card.dataset.id)); }
+});
+
+/* =========================== חלון המוצר =========================== */
+function galleryOf(p){ return (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : []); }
+function openSheet(p){
+  statBump(STATS.opens, p.sku);
+  if(!p) return;
+  const gal = galleryOf(p);
+  const art = gal.length ? '<img src="'+gal[0]+'" alt="'+esc(p.name)+'">' : jug(p.colors[0][1]);
+  const rows = [
+    p.dia  ? [L.diameter, p.dia ] : null,
+    p.h    ? [L.height,   p.h   ] : null,
+    p.size ? [L.size,     p.size] : null,
+    p.vol  ? [L.volume,   p.vol ] : null
+  ].filter(Boolean);
+  const uses = p.use ? '<p class="label">'+L.uses+'</p><div class="uses">'+
+      ["gas","induction","oven","dishwasher"].map(k=>
+        '<div class="use'+(p.use[k]?"":" off")+'" title="'+L[k]+(p.use[k]?"":" — לא מתאים")+'">'+
+        ICONS[k]+'<span>'+L[k]+'</span></div>').join("")+
+    '</div>'+
+    (["gas","induction","oven","dishwasher"].some(k=>!p.use[k])
+      ? '<p class="label" style="margin:-12px 0 20px;font-size:12.5px">אייקון מעומעם = לא מתאים לפריט הזה</p>' : "")
+    : "";
+  document.getElementById("sheet").innerHTML =
+    '<button class="close" aria-label="סגירה" onclick="closeSheet()">×</button>'+
+
+    '<div class="frame'+(gal.length?' zoomable':'')+'" id="sheetFrame">'+art+'</div>'+
+    (gal.length ? '<p class="label" style="margin:-10px 0 14px;font-size:12px">התמונות להמחשה בלבד; ייתכנו הפרשי גוון בין מסכים</p>' : '')+
+    (gal.length>1 ? '<div class="gallery">'+gal.map((src,i)=>
+        '<img src="'+src+'" data-i="'+i+'" aria-current="'+(i===0)+'" alt="">').join("")+'</div>' : '')+
+    badgeHTML(p)+
+    '<h3>'+esc(p.name)+'</h3>'+
+    '<p class="cat">'+esc(p.cat)+' · '+p.sku+'</p>'+
+    ((p.desc||p.note)?'<p class="desc">'+esc(p.desc||p.note)+'</p>':'')+
+    '<div class="bigprice">'+priceHTML(p)+'</div>'+
+    (rows.length?'<table class="specs"><tbody>'+rows.map(r=>
+      '<tr><th>'+r[0]+'</th><td>'+esc(r[1])+'</td></tr>').join("")+'</tbody></table>':'')+
+    '<p class="label">'+L.colors+'</p><div class="swatches">'+
+      p.colors.map((x,i)=>'<button class="sw" data-color="'+esc(x[0])+'" aria-current="'+(i===0)+'">'+
+        '<i style="background:'+x[1]+'"></i>'+esc(x[0])+'</button>').join("")+
+    '</div>'+ uses +
+    relatedHTML(p)+
+    '<div class="btnrow">'+
+      (p.stock==="out"
+        ? (SHOP.waitlist
+            ? '<button class="btn primary" id="waitBtn">עדכנו אותי כשחוזר</button>'
+            : '<a class="btn primary" href="https://wa.me/'+SHOP.whatsapp+'?text='+
+            encodeURIComponent("בקשת עדכון מלאי · "+p.sku+" · "+p.name+"\nהיי, אשמח לדעת כשהפריט חוזר למלאי.")+
+            '" target="_blank" rel="noopener"><svg class="wa-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.86.5 3.62 1.42 5.14L2 22l5.16-1.56a9.8 9.8 0 0 0 4.88 1.28h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.47 2 12.04 2zm0 17.9a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.92.94-2.98-.2-.31a8.06 8.06 0 0 1-1.24-4.37c0-4.46 3.64-8.1 8.11-8.1 2.16 0 4.2.85 5.73 2.38a8.05 8.05 0 0 1 2.37 5.73c0 4.47-3.64 8.05-8.11 8.05zm4.45-6.04c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.96-.14.16-.28.18-.52.06a6.6 6.6 0 0 1-1.95-1.2 7.3 7.3 0 0 1-1.35-1.68c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.4.08-.17.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.3-.22.25-.85.84-.85 2.03 0 1.2.87 2.35.99 2.51.12.17 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>עדכנו אותי כשחוזר</a>')
+        : '<button class="btn primary" id="addBtn">הוספה להזמנה</button>')+
+      '<a class="btn ghost" href="https://wa.me/'+SHOP.whatsapp+'?text='+
+        encodeURIComponent(L.waMsg+label(p)+srcTag())+'" target="_blank" rel="noopener"><svg class="wa-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.86.5 3.62 1.42 5.14L2 22l5.16-1.56a9.8 9.8 0 0 0 4.88 1.28h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.47 2 12.04 2zm0 17.9a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.92.94-2.98-.2-.31a8.06 8.06 0 0 1-1.24-4.37c0-4.46 3.64-8.1 8.11-8.1 2.16 0 4.2.85 5.73 2.38a8.05 8.05 0 0 1 2.37 5.73c0 4.47-3.64 8.05-8.11 8.05zm4.45-6.04c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.96-.14.16-.28.18-.52.06a6.6 6.6 0 0 1-1.95-1.2 7.3 7.3 0 0 1-1.35-1.68c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.4.08-.17.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.3-.22.25-.85.84-.85 2.03 0 1.2.87 2.35.99 2.51.12.17 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>שאלה בוואטסאפ</a>'+
+    '</div>'+
+    '<div class="btnrow" style="margin-top:9px">'+
+      '<button class="btn ghost" id="favBtn">'+(favs[p.id]?"♥ שמור במועדפים":"♡ שמירה למועדפים")+'</button>'+
+      '<button class="btn ghost" id="shareBtn">שיתוף</button>'+
+    '</div>'+
+    (SHOP.waitlist && p.stock!=="out"
+      ? '<button class="linkbtn" id="colorBtn">לא מצאתם את הצבע שחיפשתם? ספרו לנו</button>'
+      : '');
+  const wb = document.getElementById("waitBtn");
+  if(wb) wb.onclick = ()=>openWaitlist(p, "out");
+  const cb = document.getElementById("colorBtn");
+  if(cb) cb.onclick = ()=>openWaitlist(p, "color");
+  const add = document.getElementById("addBtn");
+  if(add) add.onclick = ()=>{ addToCart(p.id); statBump(STATS.cart, p.sku);
+    add.textContent="נוסף להזמנה ✓"; add.disabled=true; };
+  document.getElementById("shareBtn").onclick = ()=>shareProduct(p);
+  /* גלריה: החלפת התמונה הראשית והגדלה במסך מלא */
+  const frame = document.getElementById("sheetFrame");
+  if(gal.length){
+    frame.onclick = ()=>openZoom(frame.querySelector("img").src);
+    document.querySelectorAll(".gallery img").forEach(t=>{
+      t.onclick = ()=>{
+        frame.querySelector("img").src = t.src;
+        document.querySelectorAll(".gallery img").forEach(o=>o.setAttribute("aria-current", o===t));
+      };
+    });
+  }
+  /* בחירת צבע: מחליפה את התמונה הראשית אם יש תמונה לצבע, ונשמרת להזמנה */
+  chosen[p.id] = chosen[p.id] || p.colors[0][0];
+  document.querySelectorAll(".swatches .sw").forEach(sw=>{
+    sw.setAttribute("aria-current", sw.dataset.color === chosen[p.id]);
+    sw.onclick = ()=>{
+      chosen[p.id] = sw.dataset.color;
+      statBump(STATS.colors, p.sku+" "+sw.dataset.color);
+      document.querySelectorAll(".swatches .sw").forEach(o=>
+        o.setAttribute("aria-current", o===sw));
+      const src = p.colorImgs && p.colorImgs[sw.dataset.color];
+      const main = frame && frame.querySelector("img");
+      if(src && main){
+        main.src = src;
+        document.querySelectorAll(".gallery img").forEach(o=>
+          o.setAttribute("aria-current", o.src===src));
+      }
+    };
+  });
+
+  const fb = document.getElementById("favBtn");
+  fb.onclick = ()=>{
+    favs[p.id] = !favs[p.id];
+    fb.textContent = favs[p.id] ? "♥ שמור במועדפים" : "♡ שמירה למועדפים";
+    updateBadge(); saveStore();
+  };
+  document.querySelectorAll(".relitem").forEach(el=>{
+    el.onclick = ()=>{ const rp = PRODUCTS.find(x=>x.id===el.dataset.id); if(rp) openSheet(rp); };
+  });
+  /* קישור ישיר: הכתובת מקבלת מזהה מוצר, כך שאפשר לשלוח קישור לפריט מסוים */
+  try{ history.replaceState(null,"","#"+p.id); }catch(e){}
+  document.getElementById("overlay").classList.add("open");
+}
+function openZoom(src){
+  const z = document.getElementById("zoom");
+  z.querySelector("img").src = src;
+  z.classList.add("open");
+}
+document.getElementById("zoom").onclick = ()=>document.getElementById("zoom").classList.remove("open");
+
+function closeSheet(){
+  document.getElementById("overlay").classList.remove("open");
+  try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+}
+function relatedHTML(p){
+  /* במקום "עוד מאותה קטגוריה" — פריטים משלימים וזולים יותר.
+     הסיבה: מי שכבר בחר קערה לא מחפש קערה שנייה; הוא פתוח לתוספת קטנה.
+     התקרה היא מחצית ממחיר הפריט הנוכחי (ולא פחות מ-60 ₪), ומתוך הטווח הזה
+     נבחרים היקרים ביותר — תוספת בעלת ערך ולא הזולה ביותר — כל אחד
+     מקטגוריה אחרת, כדי שההצעה תיראה כמו השלמה ולא כמו עוד מאותו דבר. */
+  const cap  = Math.min(100, Math.max(60, Math.round((p.price || 60) * 0.5)));
+  const pool = PRODUCTS.filter(x=>x.id!==p.id && x.price!=null && x.price<=cap && x.stock!=="out")
+                       .sort((a,b)=>b.price-a.price);
+  const seen = {}, spread = [];
+  pool.forEach(x=>{ if(x.cat!==p.cat && !seen[x.cat]){ seen[x.cat]=1; spread.push(x); } });
+  /* פריסה על פני טווח המחירים ולא ארבעה פריטים צמודים לתקרה: הצעה שמשלבת
+     תוספת של תשעים שקלים ותוספת של שלושים מדברת ליותר אנשים. */
+  const rel = [];
+  [0, 1/3, 2/3, 1].forEach(f=>{
+    const x = spread[Math.min(spread.length-1, Math.round(f*(spread.length-1)))];
+    if(x && rel.indexOf(x)<0) rel.push(x);
+  });
+  pool.forEach(x=>{ if(rel.length<4 && rel.indexOf(x)<0 && x.cat!==p.cat) rel.push(x); });
+  if(rel.length<2) return "";
+  return '<div class="related"><h5>מוסיפים להזמנה?</h5><div class="relrow">'+
+    rel.map(x=>'<div class="relitem" data-id="'+x.id+'" role="button" tabindex="0">'+
+      '<div class="fr">'+(x.img?'<img src="'+x.img+'" alt="">':jug(x.colors[0][1]))+'</div>'+
+      esc(x.name)+'<span class="relp">'+esc(priceOf(x))+'</span></div>').join("")+'</div></div>';
+}
+function shareProduct(p){
+  const url = location.origin+location.pathname+"#"+p.id;
+  const text = p.name+" — "+priceOf(p)+" · Pastél";
+  if(navigator.share){ navigator.share({title:"Pastél", text:text, url:url}).catch(()=>{}); return; }
+  const btn = document.getElementById("shareBtn");
+  navigator.clipboard?.writeText(text+"\n"+url)
+    .then(()=>{ btn.textContent="הקישור הועתק ✓"; })
+    .catch(()=>{ btn.textContent="העתיקו מהכתובת למעלה"; });
+}
+/* פתיחת מוצר מקישור נכנס, למשל ‎…/index.html#PS-12 */
+function openFromHash(){
+  const id = decodeURIComponent(location.hash.replace("#",""));
+  if(!id) return;
+  if(id==="verify" || id==="בדיקה"){ verifyOverlay.classList.add("open"); return; }
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  const pageIdx = pages.findIndex(pg => pg.html.indexOf('data-id="'+id+'"')>-1);
+  if(pageIdx>=0) goToPage(pageIdx);
+  openSheet(p);
+}
+document.getElementById("overlay").onclick = e=>{ if(e.target.id==="overlay") closeSheet(); };
+
+/* =========================== מלאי =========================== */
+/* מקור: השדה stock בכל מוצר — "low" לאחרון במלאי, "out" לאזל.
+   פריט שכתוב בהערה שלו "אחרונה במלאי" מסומן אוטומטית.          */
+PRODUCTS.forEach(p=>{ if(!p.stock && p.note && p.note.indexOf("אחרונה במלאי")>-1) p.stock="low"; });
+
+/* מק"ט — מספר קבוע לכל פריט, נכנס אוטומטית לכל הודעת וואטסאפ.
+   המספר כתוב בשדה sku של כל מוצר ולעולם לא משתנה מעצמו.
+   פריט חדש שנוסף בלי sku מקבל את המספר הפנוי הבא — לא משנה איפה במערך הוא יושב. */
+let maxSku = 0;
+PRODUCTS.forEach(p=>{
+  if(!p.sku) return;
+  const n = parseInt(String(p.sku).replace(/\D/g,""), 10);
+  if(n > maxSku) maxSku = n;
+});
+PRODUCTS.forEach(p=>{ if(!p.sku) p.sku = "PS-"+String(++maxSku).padStart(2,"0"); });
+
+/* מזהה המוצר הפנימי הוא המק"ט עצמו. לכן הקישור הישיר (#PS-12), רשימות המארזים
+   והעגלה השמורה אצל הלקוח נשארים נכונים גם כשמוסיפים, מוחקים או מסדרים מחדש
+   פריטים — בעבר המזהה נגזר ממקום הפריט ברשימה וכל מחיקה הזיזה אותו. */
+PRODUCTS.forEach(p=>{ p.id = p.sku; });
+
+const label = p => p.name+" ("+p.sku+")";
+
+/* =========================== מקור התנועה =========================== */
+/* וואטסאפ, אינסטגרם ואפליקציות מובייל מוחקות את document.referrer מטעמי פרטיות,
+   ולכן בלי המנגנון הזה כל התנועה נראית "ישירה". הפתרון: המקור מקודד בכתובת עצמה
+   (?utm_source=instagram&utm_medium=story), נשמר בדפדפן, ונכנס כתג לסוף הודעת
+   הוואטסאפ. כך נמדדת מכירה בפועל ולא רק ביקור — וגם לקוח שנכנס מסטורי, לא קנה,
+   וחזר שבועיים אחר כך ישירות, זוקף את המכירה לסטורי.
+   חלון הזקיפה: SRC_DAYS ימים מהכניסה האחרונה שהייתה בה כתובת עם מקור. */
+/* Google Analytics נטען רק אם הוגדר מזהה. טעינה מותנית ולא קבועה: בלי מזהה
+   אין טעם למשוך 90KB של סקריפט חיצוני ולהאט את הטעינה של הקטלוג. */
+(function loadGA(){
+  if(!SHOP.ga4) return;
+  const t = document.createElement("script");
+  t.async = true;
+  t.src = "https://www.googletagmanager.com/gtag/js?id=" + SHOP.ga4;
+  document.head.appendChild(t);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  gtag("js", new Date());
+  gtag("config", SHOP.ga4);
+})();
+
+const SRC_DAYS = 90;
+const cleanUtm = v => String(v||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,20);
+
+(function captureSource(){
+  const q = new URLSearchParams(location.search);
+  const tag = [cleanUtm(q.get("utm_source")), cleanUtm(q.get("utm_medium")), cleanUtm(q.get("utm_campaign"))]
+                .filter(Boolean).join("/");
+  if(!tag) return;
+  try{ localStorage.setItem("pastel_src", JSON.stringify({tag:tag, ts:Date.now()})); }catch(e){}
+  /* ניקוי הפרמטרים מהכתובת: לקוח שמעתיק את השורה העליונה ושולח לחברה
+     לא מעביר איתה את המקור שלו, אחרת אותו מקור יזוכה גם במכירה שלה. */
+  try{ history.replaceState(null, "", location.pathname+location.hash); }catch(e){}
+})();
+
+/* =========================== מדידת התנהגות ===========================
+   מה נמדד: אילו מוצרים נפתחו, מה חיפשו, אילו צבעים נלחצו, מה נוסף לעגלה,
+   וכמה רחוק דפדפו. הכל נאסף בזיכרון הדפדפן ונשלח **פעם אחת** בסוף הביקור,
+   כשורה אחת לגיליון.
+
+   למה פעם אחת ולא אירוע־אירוע: גיליון גוגל אינו בסיס נתונים. מאה מבקרים
+   ביום עם עשר פעולות כל אחד היו מייצרים אלף שורות ביום ותוקעים אותו תוך
+   שבועות. שורה לביקור מחזיקה שנים.
+
+   מה לא נשמר: שום דבר מזהה. אין שם, אין טלפון, אין כתובת IP — רק מה נעשה
+   בקטלוג, מאיזה סוג מכשיר, ומאיזה מקור תנועה.                        */
+const STATS = { t0:Date.now(), opens:{}, colors:{}, cart:{}, searches:{},
+                page:0, checkout:0, sent:0, done:false };
+
+function statBump(map, key){ if(key) map[key] = (map[key]||0) + 1; }
+function statTop(map, n){
+  return Object.keys(map).sort((a,b)=>map[b]-map[a]).slice(0,n||12)
+         .map(k=>k+"×"+map[k]).join(", ");
+}
+
+/* חיפוש נרשם רק כשהמשתמש מפסיק להקליד. בלי זה "קומקום" היה נרשם
+   כשבע שאילתות נפרדות, ואחת מהן אפילו לא מילה. */
+let searchTimer = null;
+function statSearch(q, hits){
+  clearTimeout(searchTimer);
+  if(!q || q.length < 2) return;
+  searchTimer = setTimeout(()=>statBump(STATS.searches, q+" ("+hits+")"), 1200);
+}
+
+function statsSend(){
+  if(STATS.done || !SHOP.waitlist) return;
+  const acted = Object.keys(STATS.opens).length || Object.keys(STATS.searches).length ||
+                Object.keys(STATS.cart).length  || STATS.page > 1;
+  if(!acted) return;               /* ביקור ריק לא שווה שורה */
+  STATS.done = true;
+
+  let src = "direct";
+  try{ const o = JSON.parse(localStorage.getItem("pastel_src")); if(o && o.tag) src = o.tag; }catch(e){}
+
+  const body = new URLSearchParams({
+    kind:"stats",
+    src:  src,
+    device: innerWidth < 900 ? "נייד" : "מחשב",
+    mins: String(Math.round((Date.now()-STATS.t0)/60000)),
+    page: String(STATS.page + 1),
+    opens: statTop(STATS.opens),
+    searches: Object.keys(STATS.searches).join(" | ").slice(0,300),
+    colors: statTop(STATS.colors, 8),
+    cart: statTop(STATS.cart),
+    checkout: String(STATS.checkout),
+    order: String(STATS.sent)
+  }).toString();
+
+  /* sendBeacon ולא fetch: הדפדפן מבטל בקשות רגילות ברגע שהלשונית נסגרת,
+     ו-beacon מובטח לצאת גם אז. */
+  try{
+    navigator.sendBeacon(SHOP.waitlist,
+      new Blob([body], {type:"application/x-www-form-urlencoded"}));
+  }catch(e){}
+}
+
+addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="hidden") statsSend(); });
+addEventListener("pagehide", statsSend);
+
+function srcTag(){
+  if(SHOP.srcTag === false) return "";
+  let s = null;
+  try{ s = JSON.parse(localStorage.getItem("pastel_src")); }catch(e){}
+  const fresh = s && s.tag && (Date.now()-s.ts) < SRC_DAYS*864e5;
+  return "\n\u200f#" + (fresh ? s.tag : "direct");
+}
+
+/* =========================== חיפוש =========================== */
+const searchOverlay = document.getElementById("searchOverlay");
+const qInput = document.getElementById("q");
+let qCat = "*", qPrice = "*", qIds = null, qSort = "*", qFlag = "*", qColor = "*";
+
+/* טווחי מחיר — שימושי במיוחד לחיפוש מתנה */
+const BANDS = { "*":null, "עד 50 ₪":[0,50], "50–100 ₪":[50,100], "100–200 ₪":[100,200], "מעל 200 ₪":[200,1e9] };
+
+function normalize(s){ return String(s).replace(/["'׳״]/g,"").toLowerCase(); }
+
+/* משפחות צבע. שמות הגוונים בקטלוג מפורטים מדי לסינון — "אדום עם אוזניים",
+   "פס כחול כהה", "ירוק מנוקד" — ולכן הסינון עובד לפי הכלה: כל גוון שמכיל
+   את שם המשפחה שייך אליה. תכלת מופרד מכחול בכוונה, כי זו החלטת קנייה
+   שונה אצל הלקוח.                                                        */
+const COLOR_FAMILIES = [
+  ["לבן",C.white],["שמנת",C.cream],["אדום",C.red],["כחול",C.blue],["תכלת",C.lblue],
+  ["ירוק",C.green],["פיסטוק",C.pist],["צהוב",C.yellow],["כתום","#E8620F"],
+  ["שחור","#242424"],["ורוד","#E9B6D2"],["סגול","#C9A6DE"],["חום","#7A5637"],
+  ["פרחוני",C.cream]
+];
+function colorFamily(name){
+  const n = String(name||"");
+  for(const f of COLOR_FAMILIES) if(n.indexOf(f[0])>-1) return f[0];
+  return null;
+}
+function matchesColor(p, fam){
+  return (p.colors||[]).some(c=>colorFamily(c[0])===fam);
+}
+
+function renderChips(){
+  const cats = [...new Set(PRODUCTS.map(p=>p.cat))];
+  document.getElementById("qchips").innerHTML =
+    [["*","כל הקטגוריות"],...cats.map(c=>[c,c])].map(([v,l])=>
+      '<button class="chip" data-cat="'+esc(v)+'" aria-pressed="'+(qCat===v)+'">'+esc(l)+'</button>').join("")+
+    '<span style="flex-basis:100%;height:0"></span>'+
+    [["*","כל הצבעים"]].concat(COLOR_FAMILIES.filter(f=>PRODUCTS.some(p=>matchesColor(p,f[0]))))
+      .map(([v,hex])=>'<button class="chip'+(v==="*"?"":" cchip")+'" data-color="'+esc(v)+'" aria-pressed="'+(qColor===v)+'">'+
+        (v==="*"?"":'<i style="background:'+hex+'"></i>')+esc(v==="*"?"כל הצבעים":v)+'</button>').join("")+
+    '<span style="flex-basis:100%;height:0"></span>'+
+    Object.keys(BANDS).map(b=>
+      '<button class="chip" data-band="'+esc(b)+'" aria-pressed="'+(qPrice===b)+'">'+
+      (b==="*"?"כל המחירים":esc(b))+'</button>').join("")+
+    '<span style="flex-basis:100%;height:0"></span>'+
+    [["*","סדר הקטלוג"],["asc","מהזול ליקר"],["desc","מהיקר לזול"]].map(([v,l])=>
+      '<button class="chip" data-sort="'+v+'" aria-pressed="'+(qSort===v)+'">'+l+'</button>').join("")+
+    (PRODUCTS.some(p=>p.isNew||p.priceOld||p.isBest) ?
+      '<span style="flex-basis:100%;height:0"></span>'+
+      (PRODUCTS.some(p=>p.isBest)?'<button class="chip" data-flag="best" aria-pressed="'+(qFlag==="best")+'">הכי נמכרים</button>':'')+
+      (PRODUCTS.some(p=>p.isNew)?'<button class="chip" data-flag="new" aria-pressed="'+(qFlag==="new")+'">רק חדשים</button>':'')+
+      (PRODUCTS.some(p=>p.priceOld)?'<button class="chip" data-flag="sale" aria-pressed="'+(qFlag==="sale")+'">רק מבצעים</button>':'')
+      : '');
+}
+function runSearch(){
+  const q = normalize(qInput.value.trim());
+  const band = BANDS[qPrice];
+  const hits = PRODUCTS.filter(p=>{
+    if(qIds && qIds.indexOf(p.id)<0) return false;
+    if(qCat!=="*" && p.cat!==qCat) return false;
+    if(qFlag==="new"  && !p.isNew)    return false;
+    if(qFlag==="sale" && !p.priceOld) return false;
+    if(qFlag==="best" && !p.isBest)   return false;
+    if(qColor!=="*" && !matchesColor(p, qColor)) return false;
+    if(band){
+      if(p.price==null) return false;          /* פריט בתמחור מיוחד לא נכנס לטווח */
+      if(p.price<band[0] || p.price>band[1]) return false;
+    }
+    if(!q) return true;
+    return normalize(p.name+" "+p.cat+" "+(p.note||"")+" "+p.colors.map(c=>c[0]).join(" ")).indexOf(q)>-1;
+  });
+  statSearch(q, hits.length);
+  if(qSort!=="*"){
+    /* פריטים בתמחור מיוחד נשארים בסוף — אין להם מחיר יחיד להשוות */
+    hits.sort((a,b)=>{
+      if(a.price==null) return 1;
+      if(b.price==null) return -1;
+      return qSort==="asc" ? a.price-b.price : b.price-a.price;
+    });
+  }
+  /* תוצאות החיפוש מציגות כרטיס לכל גוון, בדיוק כמו העמודים.
+     בסינון לפי צבע מוצגים רק הגוונים שנבחרו, ולא כל הגוונים של הפריט. */
+  let items = expandColors(hits);
+  if(qColor!=="*") items = items.filter(it=>
+    it.color ? colorFamily(it.color)===qColor : matchesColor(it.p, qColor));
+  document.getElementById("qresults").innerHTML = items.map(it=>cardHTML(it.p, it)).join("");
+  document.getElementById("qempty").hidden = hits.length>0;
+}
+function clearColl(){ qIds = null; document.getElementById("qtitle").textContent = ""; }
+document.getElementById("searchBtn").onclick = ()=>{
+  clearColl(); qCat="*"; qPrice="*"; qSort="*"; qFlag="*"; qColor="*"; qInput.value="";
+  renderChips(); runSearch();
+  searchOverlay.classList.add("open");
+  setTimeout(()=>qInput.focus(),60);
+};
+document.getElementById("searchClose").onclick = ()=>searchOverlay.classList.remove("open");
+searchOverlay.onclick = e=>{ if(e.target===searchOverlay) searchOverlay.classList.remove("open"); };
+qInput.addEventListener("input", ()=>{ clearColl(); runSearch(); });
+document.getElementById("qchips").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  clearColl();
+  if(c.dataset.color!==undefined) qColor = c.dataset.color;
+  else if(c.dataset.flag!==undefined) qFlag = (qFlag===c.dataset.flag ? "*" : c.dataset.flag);
+  else if(c.dataset.sort!==undefined) qSort = c.dataset.sort;
+  else if(c.dataset.band!==undefined) qPrice = c.dataset.band;
+  else qCat = c.dataset.cat;
+  renderChips(); runSearch();
+});
+document.getElementById("qresults").addEventListener("click", e=>{
+  const card = e.target.closest(".card"); if(!card) return;
+  searchOverlay.classList.remove("open");
+  openCard(PRODUCTS.find(p=>p.id===card.dataset.id), card.dataset.color);
+});
+
+/* =========================== עגלת הזמנות =========================== */
+/* העגלה והמועדפים נשמרים בדפדפן של הלקוח, כך שסגירת החלון לא מאפסת אותם.
+   אם הדפדפן חוסם אחסון מקומי, הכל ממשיך לעבוד — רק בלי שמירה בין ביקורים. */
+function loadStore(key){
+  try{ return JSON.parse(localStorage.getItem("pastel_"+key)) || {}; }catch(e){ return {}; }
+}
+function saveStore(){
+  try{
+    localStorage.setItem("pastel_cart", JSON.stringify(cart));
+    localStorage.setItem("pastel_favs", JSON.stringify(favs));
+    localStorage.setItem("pastel_chosen", JSON.stringify(chosen));
+  }catch(e){}
+}
+const cart = loadStore("cart");       /* { מזהה מוצר: כמות } */
+const chosen = loadStore("chosen");   /* { מזהה מוצר: הצבע שנבחר } */
+const favs = loadStore("favs");       /* { מזהה מוצר: true } */
+
+const cartOverlay = document.getElementById("cartOverlay");
+const byId = id => PRODUCTS.find(p=>p.id===id);
+
+function cartCount(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function favCount(){ return Object.values(favs).filter(Boolean).length; }
+function updateBadge(){
+  const c = cartCount(), f = favCount();
+  const ce = document.getElementById("cartCount"), fe = document.getElementById("favCount");
+  ce.textContent = c; ce.hidden = c===0;
+  fe.textContent = f; fe.hidden = f===0;
+}
+function addToCart(id){ cart[id]=(cart[id]||0)+1; updateBadge(); saveStore(); }
+function setQty(id,n){ if(n<=0) delete cart[id]; else cart[id]=n; updateBadge(); saveStore(); renderCart(); }
+
+function renderCart(){
+  const ids = Object.keys(cart);
+  const body = document.getElementById("cartBody"), foot = document.getElementById("cartFoot");
+  if(!ids.length){
+    body.innerHTML = '<div class="empty">עדיין לא נבחרו פריטים.<br>אפשר להוסיף מכל עמוד מוצר.</div>';
+    foot.innerHTML = ""; return;
+  }
+  body.innerHTML = ids.map(id=>{
+    const p = byId(id);
+    return '<div class="cartrow" data-id="'+id+'">'+
+      '<div class="nm">'+esc(p.name)+
+        '<small>'+esc(priceOf(p))+(chosen[id]&&p.colors.length>1?' · '+esc(chosen[id]):'')+'</small></div>'+
+      '<div class="qty"><button data-d="-1" aria-label="פחות">–</button>'+
+        '<span>'+cart[id]+'</span>'+
+        '<button data-d="1" aria-label="עוד">+</button></div>'+
+      '<button class="rm" data-rm="1" aria-label="הסרה">×</button></div>';
+  }).join("");
+
+  /* סכום מחושב רק מפריטים בעלי מחיר יחיד; פריטים בתמחור מיוחד מסומנים בנפרד */
+  let sum = 0, special = 0;
+  ids.forEach(id=>{ const p=byId(id); p.price!=null && !p.priceText ? sum += p.price*cart[id] : special++; });
+  /* כמה חסר למשלוח חינם — מוצג רק כשיש סכום מספרי לחשב ממנו */
+  const gap = SHOP.freeShipping - sum;
+  const ship = sum>0
+    ? (gap>0
+        ? '<div class="shipnote">עוד <b>'+gap+' '+SHOP.currency+'</b> ומשלוח ההזמנה עלינו</div>'
+        : '<div class="shipnote free">המשלוח עלינו — ההזמנה עברה את '+SHOP.freeShipping+' '+SHOP.currency+'</div>')
+    : "";
+  foot.innerHTML =
+    '<div class="total"><span>סה"כ משוער</span><b>'+
+      (sum>0 ? sum+" "+SHOP.currency : "יסוכם בשיחה")+'</b></div>'+ ship +
+    (special?'<p class="label">'+(special===1?'פריט אחד':special+' פריטים')+
+      ' מתומחר לפי גודל — נסגור אותו בשיחה</p>':'')+
+    (SHOP.waitlist ? '<button class="linkbtn" id="newsFromCart" style="margin:0 0 10px">רוצים לשמוע על פריטים חדשים וימי מכירה? הצטרפו לרשימת הדיוור</button>' : '')+
+    '<button class="btn primary" id="sendCart">'+WA_ICON+'מילוי פרטים ושליחת ההזמנה</button>';
+
+  document.getElementById("sendCart").onclick = openCheckout;
+}
+/* =========================== פרטים לפני שליחה ===========================
+   ההזמנה נסגרת בוואטסאפ, ולכן כל פרט שחסר בהודעה הופך לסבב הודעות נוסף.
+   הטופס אוסף מראש את מה שתמיד שואלים — שם, יעד, זמן ותשלום — והפרטים
+   נשמרים בדפדפן, כך שלקוח חוזר לא ממלא אותם שוב.                        */
+const checkoutOverlay = document.getElementById("checkoutOverlay");
+const coEl = id => document.getElementById(id);
+const CO_TEXT = ["coName","coPhone","coCity","coStreet","coApt","coWhen","coNote"];
+const coWay = () => document.querySelector('input[name="coWay"]:checked').value;
+const coPay = () => document.querySelector('input[name="coPay"]:checked').value;
+const coVal = id => coEl(id).value.trim();
+
+function coLoad(){
+  let d = {};
+  try{ d = JSON.parse(localStorage.getItem("pastel_details")) || {}; }catch(e){}
+  CO_TEXT.forEach(k=>{ if(d[k]) coEl(k).value = d[k]; });
+  const w = document.querySelector('input[name="coWay"][value="'+(d.way||"delivery")+'"]');
+  if(w) w.checked = true;
+  const y = document.querySelector('input[name="coPay"][value="'+(d.pay||"ביט")+'"]');
+  if(y) y.checked = true;
+  coEl("coLeave").checked = !!d.leave;
+}
+function coSave(){
+  const d = { way:coWay(), pay:coPay(), leave:coEl("coLeave").checked };
+  CO_TEXT.forEach(k=>d[k] = coVal(k));
+  try{ localStorage.setItem("pastel_details", JSON.stringify(d)); }catch(e){}
+}
+function coSyncWay(){
+  const pickup = coWay()==="pickup";
+  coEl("coShipFields").hidden = pickup;
+  coEl("coWayNote").innerHTML = pickup
+    ? "איסוף עצמי מ"+esc(SHOP.place)+" — חינם, בתיאום מראש."
+    : "משלוח "+SHOP.shipCost+" "+SHOP.currency+", וחינם מעל "+SHOP.freeShipping+" "+SHOP.currency+
+      ". מגיעים ל"+esc(SHOP.shipZone.join(", "))+". מחוץ לאזור — כתבו בהערה ונתאם.";
+}
+
+/* בדיקה רכה: חוסמת רק את מה שבאמת מעכב את ההזמנה */
+function coCheck(){
+  const miss = [];
+  if(coVal("coName").length < 2) miss.push("coName");
+  if(coVal("coPhone").replace(/\D/g,"").length < 9) miss.push("coPhone");
+  if(coWay()==="delivery"){
+    if(!coVal("coCity"))   miss.push("coCity");
+    if(!coVal("coStreet")) miss.push("coStreet");
+  }
+  CO_TEXT.forEach(k=>coEl(k).parentElement.classList.toggle("err", miss.includes(k)));
+  coEl("coErr").textContent = miss.length ? "חסרים פרטים כדי שנוכל להשלים את ההזמנה" : "";
+  return !miss.length;
+}
+
+/* =========================== רישום ההזמנה ===========================
+   ההזמנה נרשמת בגיליון ברגע הלחיצה, לפני שהודעת הוואטסאפ נפתחת. מאותו
+   רגע יש שני עותקים: אחד בגיליון שהלקוח לא נגע בו, ואחד בהודעה שלו —
+   והגיליון הוא הקובע. מספר ההזמנה מופיע בשניהם, כך שאפשר להצליב בשתי
+   שניות בלי להעתיק ולהדביק לשום מקום.
+
+   המספר נוצר כאן ולא בשרת, כי השליחה היא חד־כיוונית ואי אפשר לקרוא ממנה
+   תשובה. פורמט: יום+חודש ואחריהם ארבע ספרות אקראיות.               */
+function newOrderId(){
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2,"0") + String(d.getMonth()+1).padStart(2,"0");
+  return dd + "-" + String(Math.floor(1000 + Math.random()*9000));
+}
+
+function orderRows(){
+  const ids = Object.keys(cart);
+  let sum = 0, special = 0;
+  const parts = ids.map(id=>{
+    const p = byId(id);
+    const c = chosen[id] && p.colors.length>1 ? "·"+chosen[id] : "";
+    if(p.price!=null && !p.priceText) sum += p.price*cart[id]; else special++;
+    return p.sku+c+"×"+cart[id];
+  });
+  return { list:parts.join(", "), sum:sum, special:special };
+}
+
+function logOrder(oid){
+  if(!SHOP.waitlist) return;
+  const r = orderRows();
+  const delivery = coWay()==="delivery";
+  const ship = delivery && r.sum>0 && r.sum < SHOP.freeShipping ? SHOP.shipCost : 0;
+  let src = "direct";
+  try{ const o = JSON.parse(localStorage.getItem("pastel_src")); if(o && o.tag) src = o.tag; }catch(e){}
+
+  const body = new URLSearchParams({
+    kind:"order", id:oid,
+    name:coVal("coName"), phone:coVal("coPhone").replace(/\D/g,""),
+    way: delivery ? "משלוח" : "איסוף עצמי",
+    address: delivery ? [coVal("coStreet"), coVal("coCity"), coVal("coApt")].filter(Boolean).join(", ") : "",
+    leave: delivery && coEl("coLeave").checked ? "כן" : "",
+    items:r.list, sum:String(r.sum), ship:String(ship), total:String(r.sum+ship),
+    special:String(r.special), pay:coPay(), when:coVal("coWhen"), note:coVal("coNote"),
+    src:src
+  }).toString();
+
+  /* sendBeacon ולא fetch: מיד אחרי השורה הזאת הדפדפן עובר לוואטסאפ,
+     ובקשה רגילה הייתה מבוטלת באמצע. */
+  try{
+    navigator.sendBeacon(SHOP.waitlist,
+      new Blob([body], {type:"application/x-www-form-urlencoded"}));
+  }catch(e){}
+}
+
+function orderMessage(oid){
+  const ids = Object.keys(cart);
+  let sum = 0, special = 0;
+  ids.forEach(id=>{ const p=byId(id);
+    p.price!=null && !p.priceText ? sum += p.price*cart[id] : special++; });
+
+  const lines = ids.map(id=>{
+    const p = byId(id);
+    const c = chosen[id] && p.colors.length>1 ? " · "+chosen[id] : "";
+    return "• "+label(p)+c+" ×"+cart[id]+" — "+priceOf(p);
+  });
+
+  const out = ["היי, אשמח להזמין:", lines.join("\n"), ""];
+  if(oid) out.push("מספר הזמנה: "+oid);
+  out.push(special ? "סה\"כ משוער (ללא הפריטים בתמחור מיוחד): "+sum+" "+SHOP.currency
+                   : "סה\"כ: "+sum+" "+SHOP.currency);
+
+  const delivery = coWay()==="delivery";
+  if(delivery && sum>0){
+    out.push(sum >= SHOP.freeShipping
+      ? "משלוח: עליכם (ההזמנה עברה "+SHOP.freeShipping+" "+SHOP.currency+")"
+      : "משלוח: "+SHOP.shipCost+" "+SHOP.currency);
+  }
+
+  out.push("", "הפרטים שלי:");
+  out.push("שם: "+coVal("coName"));
+  out.push("טלפון: "+coVal("coPhone"));
+  if(delivery){
+    out.push("משלוח אל: "+[coVal("coStreet"), coVal("coCity")].filter(Boolean).join(", "));
+    if(coVal("coApt")) out.push("כניסה/קומה/דירה: "+coVal("coApt"));
+    if(coEl("coLeave").checked) out.push("אפשר להשאיר ליד הדלת");
+  } else {
+    out.push("איסוף עצמי מ"+SHOP.place);
+  }
+  if(coVal("coWhen")) out.push("זמן נוח: "+coVal("coWhen"));
+  out.push("תשלום: "+coPay());
+  if(coVal("coNote")) out.push("הערה: "+coVal("coNote"));
+
+  return out.join("\n") + srcTag();
+}
+
+/* =========================== בדיקת הזמנה ===========================
+   הודעת וואטסאפ היא טקסט חופשי שהשולח יכול לערוך לפני השליחה, ולכן אי אפשר
+   להפוך אותה לקשיחה. מה שכן אפשר זה להפוך עריכה לגלויה: המסך הזה קורא את
+   המק"טים והכמויות מתוך ההודעה, מחשב מחדש את הסכום לפי המחירים שבקטלוג
+   ומשווה למה שכתוב. סכום שנערך ידנית קופץ מיד.
+   פתיחה: הוספת ‎#verify‎ לכתובת הקטלוג. המסך לעובדי העסק בלבד.        */
+const verifyOverlay = document.getElementById("verifyOverlay");
+
+function verifyOrder(text){
+  const rows = [];
+  text.split("\n").forEach(line=>{
+    const m = line.match(/\(([A-Za-z]{2}-\d{1,3})\)/);
+    if(!m) return;
+    const q = line.match(/[×xX*]\s*(\d+)/);
+    rows.push({ sku:m[1].toUpperCase(), qty:q ? parseInt(q[1],10) : 1 });
+  });
+  if(!rows.length) return '<p class="vbad" style="margin-top:12px">לא נמצאו מק"טים בהודעה.</p>';
+
+  let real = 0, special = 0, unknown = 0;
+  const lines = rows.map(r=>{
+    const p = PRODUCTS.find(x=>x.sku===r.sku);
+    if(!p){ unknown++; return '<div class="vrow"><span class="vbad">'+esc(r.sku)+' — לא קיים בקטלוג</span><span>—</span></div>'; }
+    if(p.price==null || p.priceText){ special++;
+      return '<div class="vrow"><span>'+esc(p.name)+' ('+p.sku+') ×'+r.qty+'</span><span>'+esc(priceOf(p))+'</span></div>'; }
+    const line = p.price*r.qty; real += line;
+    return '<div class="vrow"><span>'+esc(p.name)+' ('+p.sku+') ×'+r.qty+'</span><span>'+
+           p.price+' × '+r.qty+' = '+line+' '+SHOP.currency+'</span></div>';
+  }).join("");
+
+  /* הסכום שכתוב בהודעה — נלקח מהמופע האחרון, אחרי שורות הפריטים */
+  const totals = [...text.matchAll(/סה[\"״']כ[^\d\n]*(\d[\d,]*)/g)];
+  const stated = totals.length ? parseInt(totals[totals.length-1][1].replace(/,/g,""),10) : null;
+
+  const shipM = text.match(/משלוח:\s*(\d+)/);
+  const statedShip = shipM ? parseInt(shipM[1],10) : 0;
+  const pickup = /איסוף עצמי/.test(text);
+  const expectShip = pickup ? 0 : (real >= SHOP.freeShipping ? 0 : SHOP.shipCost);
+
+  let out = lines;
+  out += '<div class="vsum"><span>סכום הפריטים לפי הקטלוג</span><b>'+real+' '+SHOP.currency+'</b></div>';
+  if(stated===null){
+    out += '<p class="vbad">לא נמצאה שורת סכום בהודעה.</p>';
+  } else if(stated===real){
+    out += '<div class="vsum"><span>הסכום בהודעה</span><b class="vok">'+stated+' '+SHOP.currency+' · תואם</b></div>';
+  } else {
+    out += '<div class="vsum"><span>הסכום בהודעה</span><b class="vbad">'+stated+' '+SHOP.currency+
+           ' · פער של '+(stated-real)+' '+SHOP.currency+'</b></div>';
+  }
+  if(statedShip!==expectShip){
+    out += '<div class="vsum"><span>משלוח</span><b class="vbad">בהודעה '+statedShip+
+           ', לפי הכללים '+expectShip+' '+SHOP.currency+'</b></div>';
+  } else {
+    out += '<div class="vsum"><span>משלוח</span><b class="vok">'+expectShip+' '+SHOP.currency+' · תואם</b></div>';
+  }
+  if(special) out += '<p class="vnote">'+special+' פריטים בתמחור מיוחד לא נכללו בחישוב.</p>';
+  if(unknown) out += '<p class="vnote">שימו לב: יש מק"ט שאינו קיים בקטלוג.</p>';
+  out += '<p class="vnote">הבדיקה משווה מחירים בלבד. את הכמויות מאמתים באריזה.</p>';
+  return out;
+}
+
+document.getElementById("verifyGo").onclick = ()=>{
+  document.getElementById("verifyOut").innerHTML =
+    verifyOrder(document.getElementById("verifyText").value);
+};
+document.getElementById("verifyClose").onclick = ()=>verifyOverlay.classList.remove("open");
+verifyOverlay.onclick = e=>{ if(e.target===verifyOverlay) verifyOverlay.classList.remove("open"); };
+
+/* שיתוף הקטלוג. הקישור נושא utm_medium=share, ולכן פה לאוזן — הערוץ החזק
+   ביותר בעסק הזה וגם היחיד שהיה עד היום בלתי נראה לגמרי — סוף סוף נמדד. */
+function shareCatalog(){
+  const url = location.origin + location.pathname + "?utm_source=whatsapp&utm_medium=share";
+  location.href = "https://wa.me/?text=" +
+    encodeURIComponent("מצאתי קטלוג של כלי אמייל שחשבתי שיעניין אותך:\n" + url);
+}
+
+function openCheckout(){
+  if(!Object.keys(cart).length) return;
+  STATS.checkout++;
+  coLoad(); coSyncWay();
+  coEl("coErr").textContent = "";
+  CO_TEXT.forEach(k=>coEl(k).parentElement.classList.remove("err"));
+  coEl("coNews").checked = false;
+  coEl("coMailField").hidden = true;
+  coEl("coSend").innerHTML = WA_ICON+"שליחת ההזמנה בוואטסאפ";
+  checkoutOverlay.classList.add("open");
+  setTimeout(()=>coEl("coName").focus(), 60);
+}
+
+coEl("checkoutClose").onclick = ()=>checkoutOverlay.classList.remove("open");
+checkoutOverlay.onclick = e=>{ if(e.target===checkoutOverlay) checkoutOverlay.classList.remove("open"); };
+checkoutOverlay.addEventListener("change", e=>{
+  if(e.target.name==="coWay") coSyncWay();
+  if(e.target.id==="coNews") coEl("coMailField").hidden = !coEl("coNews").checked;
+});
+
+/* ההרשמה לדיוור נשלחת לגיליון בנפרד מההזמנה, ורק אם סומנה התיבה.
+   התיבה לא מסומנת מראש בכוונה: הסכמה שלא נבחרה אקטיבית אינה הסכמה,
+   וזו גם דרישת חוק הספאם. כישלון בשליחה לא עוצר את ההזמנה. */
+function coJoinNews(){
+  if(!coEl("coNews").checked || !SHOP.waitlist) return;
+  try{
+    fetch(SHOP.waitlist, { method:"POST", mode:"no-cors", body:new URLSearchParams({
+      kind:"news", name:coVal("coName").slice(0,60),
+      phone:coVal("coPhone").replace(/\D/g,"").slice(0,10),
+      email:coVal("coMail").slice(0,120),
+      at:new Date().toISOString(), website:""
+    })});
+  }catch(e){}
+}
+coEl("coSend").addEventListener("click", ()=>{
+  if(!coCheck()) return;
+  coSave();
+  coJoinNews();
+  const oid = newOrderId();
+  logOrder(oid);
+  STATS.sent++; statsSend();   /* ההזמנה היא סוף הביקור — שולחים לפני היציאה */
+  /* הניווט קורה בתוך אירוע הלחיצה, אחרת הדפדפן חוסם אותו כחלון קופץ */
+  location.href = "https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(orderMessage(oid));
+});
+
+function renderFavs(){
+  const ids = Object.keys(favs).filter(id=>favs[id]);
+  const body = document.getElementById("favBody"), foot = document.getElementById("favFoot");
+  if(!ids.length){
+    body.innerHTML = '<div class="empty">אין עדיין פריטים שמורים.<br>הכפתור נמצא בתחתית כל כרטיס מוצר.</div>';
+    foot.innerHTML = ""; return;
+  }
+  body.innerHTML = ids.map(id=>{
+    const p = byId(id);
+    return '<div class="cartrow" data-id="'+id+'">'+
+      '<div class="nm">'+esc(p.name)+'<small>'+esc(priceOf(p))+'</small></div>'+
+      '<button class="btn ghost" data-add="1" style="flex:0 0 auto;padding:7px 12px;font-size:13.5px">להזמנה</button>'+
+      '<button class="rm" data-unfav="1" aria-label="הסרה">×</button></div>';
+  }).join("");
+  const msg = "היי, שמרתי כמה פריטים ואשמח לשמוע עליהם:\n"+
+    ids.map(id=>"• "+label(byId(id))).join("\n")+srcTag();
+  foot.innerHTML = '<a class="btn primary" target="_blank" rel="noopener" href="https://wa.me/'+
+    SHOP.whatsapp+'?text='+encodeURIComponent(msg)+'"><svg class="wa-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.86.5 3.62 1.42 5.14L2 22l5.16-1.56a9.8 9.8 0 0 0 4.88 1.28h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.47 2 12.04 2zm0 17.9a8.1 8.1 0 0 1-4.14-1.14l-.3-.18-3.06.92.94-2.98-.2-.31a8.06 8.06 0 0 1-1.24-4.37c0-4.46 3.64-8.1 8.11-8.1 2.16 0 4.2.85 5.73 2.38a8.05 8.05 0 0 1 2.37 5.73c0 4.47-3.64 8.05-8.11 8.05zm4.45-6.04c-.24-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.96-.14.16-.28.18-.52.06a6.6 6.6 0 0 1-1.95-1.2 7.3 7.3 0 0 1-1.35-1.68c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.43.12-.14.16-.24.24-.4.08-.17.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.3-.22.25-.85.84-.85 2.03 0 1.2.87 2.35.99 2.51.12.17 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>שליחת הרשימה בוואטסאפ</a>';
+}
+const favOverlay = document.getElementById("favOverlay");
+document.getElementById("favBar").onclick = ()=>{ renderFavs(); favOverlay.classList.add("open"); };
+document.getElementById("favClose").onclick = ()=>favOverlay.classList.remove("open");
+favOverlay.onclick = e=>{ if(e.target===favOverlay) favOverlay.classList.remove("open"); };
+document.getElementById("favBody").addEventListener("click", e=>{
+  const row = e.target.closest(".cartrow"); if(!row) return;
+  const id = row.dataset.id;
+  if(e.target.dataset.unfav){ favs[id]=false; updateBadge(); saveStore(); return renderFavs(); }
+  if(e.target.dataset.add){
+    addToCart(id);
+    favOverlay.classList.remove("open");
+    renderCart(); cartOverlay.classList.add("open");
+  }
+});
+document.getElementById("cartBtn").onclick = ()=>{ renderCart(); cartOverlay.classList.add("open"); };
+document.getElementById("cartClose").onclick = ()=>cartOverlay.classList.remove("open");
+cartOverlay.onclick = e=>{ if(e.target===cartOverlay) cartOverlay.classList.remove("open"); };
+document.getElementById("cartFoot").addEventListener("click", e=>{
+  if(e.target.closest("#newsFromCart")){
+    cartOverlay.classList.remove("open");
+    openWaitlist(null, "news");
+  }
+});
+document.getElementById("cartBody").addEventListener("click", e=>{
+  const row = e.target.closest(".cartrow"); if(!row) return;
+  const id = row.dataset.id;
+  if(e.target.dataset.rm) return setQty(id,0);
+  const d = e.target.dataset.d; if(d) setQty(id, cart[id]+Number(d));
+});
+
+/* סגירת כל חלון פתוח במקש Escape */
+document.addEventListener("keydown", e=>{
+  if(e.key!=="Escape") return;
+  [searchOverlay,cartOverlay,favOverlay,jumpOverlay,waitOverlay,contactOverlay,checkoutOverlay,verifyOverlay]
+    .forEach(o=>o&&o.classList.remove("open"));
+  document.getElementById("zoom").classList.remove("open");
+});
+
+/* פריט שהוסר מהקטלוג יורד גם מהעגלה, מהמועדפים ומבחירות הצבע ששמורות אצל
+   הלקוח. בלי זה עגלה ישנה נתקלת במזהה שכבר לא קיים. */
+[cart,chosen,favs].forEach(o=>Object.keys(o).forEach(id=>{ if(!byId(id)) delete o[id]; }));
+saveStore();
+updateBadge();
+
+/* =========================== פרטי קשר =========================== */
+const contactOverlay = document.getElementById("contactOverlay");
+document.getElementById("contactBtn").onclick = ()=>{
+  document.getElementById("contactBody").innerHTML =
+    '<a class="btn primary" style="margin-bottom:9px" href="https://wa.me/'+SHOP.whatsapp+'" target="_blank" rel="noopener">'+
+      WA_ICON+'כתבו לנו בוואטסאפ</a>'+
+    '<a class="btn ghost" style="margin-bottom:9px" href="tel:+'+SHOP.whatsapp+'">חיוג · '+SHOP.phone+'</a>'+
+    '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.instagram+'" target="_blank" rel="noopener">'+IG_ICON+'@pastel_enamelhouse</a>'+
+    (SHOP.group ? '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.group+'" target="_blank" rel="noopener">קבוצת העדכונים</a>' : '')+
+    '<a class="btn ghost" style="margin-bottom:14px" href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט · '+SHOP.address+'</a>'+
+    '<p class="label" style="text-align:center;margin:0">אין שעות קבועות — ימי מכירה מרוכזים.<br>בשבת אנחנו לא זמינים.</p>';
+  contactOverlay.classList.add("open");
+};
+document.getElementById("contactClose").onclick = ()=>contactOverlay.classList.remove("open");
+contactOverlay.onclick = e=>{ if(e.target===contactOverlay) contactOverlay.classList.remove("open"); };
+
+/* =========================== רשימת המתנה =========================== */
+const waitOverlay = document.getElementById("waitOverlay");
+let waitProduct = null, waitKind = "out";
+
+/* kind = "out"   — ממתין לחזרת הפריט למלאי
+   kind = "color" — הפריט קיים, אבל הלקוח מחפש צבע שאין */
+/* לחיצה על כרטיס: פריט קיים נפתח בחלון המוצר, ופריט שאזל נפתח ישר בטופס
+   העדכון. מי שלוחץ על פריט שאזל כבר יודע שהוא רוצה אותו, וכל מסך ביניים
+   מוריד את שיעור ההרשמה. מתוך הטופס עדיין אפשר לעבור לפרטי המוצר. */
+function openCard(p, color){
+  if(!p) return;
+  if(color && p.colors.some(c=>c[0]===color)){ chosen[p.id] = color; saveStore(); }
+  if(p.stock==="out") openWaitlist(p, "out");
+  else openSheet(p);
+}
+
+function openWaitlist(p, kind){
+  waitProduct = p;
+  waitKind = kind || "out";
+  document.getElementById("waitTitle").textContent =
+    waitKind==="color" ? "איזה צבע חיפשתם?" :
+    waitKind==="news"  ? "רשימת הדיוור שלנו" : "עדכנו אותי כשחוזר";
+  document.getElementById("waitProduct").textContent =
+    waitKind==="news" ? "נעדכן על פריטים חדשים, מבצעים וימי מכירה. אפשר לצאת בכל רגע."
+                      : p.name+" · "+p.sku;
+  document.getElementById("waitMsg").textContent = "";
+  document.getElementById("waitMsg").className = "label";
+  document.getElementById("waitSend").disabled = false;
+  document.getElementById("waitSend").textContent =
+    waitKind==="color" ? "שליחה" :
+    waitKind==="news"  ? "הרשמה" : "שמרו לי מקום";
+  /* הצבע הוא מה שקובע מה מזמינים מחדש, ולכן שואלים עליו בשני המקרים —
+     בפריט שאזל בוחרים מתוך הצבעים הקיימים, ובבקשת צבע כותבים בחופשי. */
+  const cf = document.getElementById("waitColorField");
+  const cs = document.getElementById("waitColor");
+  const ct = document.getElementById("waitColorText");
+  const cl = document.getElementById("waitColorLabel");
+  document.getElementById("waitMailField").hidden = waitKind!=="news";
+  if(waitKind==="news"){
+    cf.hidden = true;
+  } else if(waitKind==="color"){
+    cl.textContent = "איזה צבע הייתם רוצים?";
+    cs.hidden = true; ct.hidden = false; ct.value = ""; cf.hidden = false;
+  } else if(p.colors && p.colors.length > 1){
+    cl.textContent = "איזה צבע מעניין אתכם?";
+    cs.innerHTML = '<option value="">לא משנה לי</option>'+
+      p.colors.map(c=>'<option value="'+esc(c[0])+'">'+esc(c[0])+'</option>').join("");
+    cs.hidden = false; ct.hidden = true; cf.hidden = false;
+  } else {
+    cf.hidden = true;
+  }
+  const det = document.getElementById("waitDetails");
+  det.hidden = waitKind!=="out" || !p;
+  waitOverlay.classList.add("open");
+  setTimeout(()=>document.getElementById("waitName").focus(),60);
+}
+document.getElementById("waitDetails").onclick = ()=>{
+  const p = waitProduct;
+  waitOverlay.classList.remove("open");
+  if(p) openSheet(p);
+};
+document.getElementById("waitClose").onclick = ()=>waitOverlay.classList.remove("open");
+waitOverlay.onclick = e=>{ if(e.target===waitOverlay) waitOverlay.classList.remove("open"); };
+
+document.getElementById("waitSend").onclick = function(){
+  const name  = document.getElementById("waitName");
+  const phone = document.getElementById("waitPhone");
+  const msg   = document.getElementById("waitMsg");
+  const digits = phone.value.replace(/\D/g,"");
+  name.parentElement.classList.toggle("err", !name.value.trim());
+  phone.parentElement.classList.toggle("err", digits.length<9);
+  if(!name.value.trim() || digits.length<9){
+    msg.className = "label bad";
+    msg.textContent = "צריך שם וטלפון תקין כדי שנוכל לעדכן.";
+    return;
+  }
+  /* עד 10 שליחות בשעה מאותו דפדפן — חלון מתגלגל, לא השהיה קבועה */
+  try{
+    const now  = Date.now();
+    const hits = JSON.parse(localStorage.getItem("pastel_sends") || "[]")
+                   .filter(t => now - t < 3600000);
+    if(hits.length >= 10){
+      msg.className = "label bad";
+      msg.textContent = "נשלחו הרבה בקשות מהמכשיר הזה. אפשר להמשיך בעוד זמן קצר, או לכתוב לנו בוואטסאפ.";
+      return;
+    }
+  }catch(e){}
+
+  const btn = this;
+  btn.disabled = true; btn.textContent = "שולח…";
+  const body = new URLSearchParams({
+    sku:      waitProduct ? waitProduct.sku  : "",
+    product:  waitProduct ? waitProduct.name : "",
+    category: waitProduct ? waitProduct.cat  : "",
+    website:  document.getElementById("waitWebsite").value,   /* מלכודת לבוטים */
+    name: name.value.trim().slice(0,60), phone: digits.slice(0,10), at: new Date().toISOString(),
+    kind: waitKind,
+    email: (document.getElementById("waitMail").value || "").trim().slice(0,120),
+    color: ((waitKind==="color"
+              ? document.getElementById("waitColorText").value.trim()
+              : document.getElementById("waitColor").value) || "").slice(0,40)
+  });
+  fetch(SHOP.waitlist, { method:"POST", mode:"no-cors", body: body })
+    .then(()=>{
+      msg.className = "label ok";
+      msg.textContent =
+        waitKind==="color" ? "תודה, רשמנו. נעדכן אתכם אם הצבע הזה מגיע." :
+        waitKind==="news"  ? "נרשמתם לרשימת הדיוור. תודה!" :
+                             "נרשמתם. נודיע לכם ברגע שהפריט חוזר.";
+      btn.textContent = "נשמר ✓";
+      try{
+        const now = Date.now();
+        const hits = JSON.parse(localStorage.getItem("pastel_sends") || "[]")
+                       .filter(t => now - t < 3600000);
+        hits.push(now);
+        localStorage.setItem("pastel_sends", JSON.stringify(hits));
+      }catch(e){}
+      name.value = ""; phone.value = "";
+      setTimeout(()=>waitOverlay.classList.remove("open"), 1400);
+    })
+    .catch(()=>{
+      /* אם השמירה נכשלה — לא מאבדים את הלקוח, מפנים לוואטסאפ */
+      msg.className = "label bad";
+      msg.innerHTML = 'לא הצלחנו לשמור. <a href="https://wa.me/'+SHOP.whatsapp+'?text='+
+        encodeURIComponent("בקשת עדכון מלאי · "+waitProduct.sku+" · "+waitProduct.name)+
+        '" target="_blank" rel="noopener">אפשר לכתוב לנו בוואטסאפ</a>';
+      btn.disabled = false; btn.textContent = "שמרו לי מקום";
+    });
+};
+
+/* =========================== קפיצה לעמוד =========================== */
+const jumpOverlay = document.getElementById("jumpOverlay");
+function openJump(){
+  document.getElementById("jumpHint").textContent = "בקטלוג "+pages.length+" עמודים.";
+  document.getElementById("jumpToc").innerHTML =
+    tocListHTML();
+  jumpOverlay.classList.add("open");
+  setTimeout(()=>document.getElementById("jumpInput").focus(),60);
+}
+document.getElementById("counter").onclick  = openJump;
+document.getElementById("counter2").onclick = openJump;
+function doJump(){
+  const n = parseInt(document.getElementById("jumpInput").value,10);
+  if(!n || n<1 || n>pages.length){
+    document.getElementById("jumpHint").textContent = "יש להזין מספר בין 1 ל-"+pages.length+".";
+    return;
+  }
+  jumpOverlay.classList.remove("open");
+  goToPage(n-1);
+}
+document.getElementById("jumpGo").onclick = doJump;
+document.getElementById("jumpInput").addEventListener("keydown", e=>{ if(e.key==="Enter") doJump(); });
+document.getElementById("jumpClose").onclick = ()=>jumpOverlay.classList.remove("open");
+jumpOverlay.onclick = e=>{ if(e.target===jumpOverlay) jumpOverlay.classList.remove("open"); };
+document.getElementById("jumpToc").addEventListener("click", e=>{
+  const li = e.target.closest("li"); if(!li) return;
+  jumpOverlay.classList.remove("open"); goToPage(Number(li.dataset.page));
+});
+
+/* לחיצה על השער — קפיצה לתוכן העניינים. מחליפה את הכפתור שהיה בעמוד כרטיס
+   הביקור, כי הכיתוב "קטלוג מוצרים" מודפס בתמונת השער עצמה.
+   החלקה מייצרת בחלק מהדפדפנים גם אירוע click, ולכן מתעלמים מלחיצה
+   שהגיעה מיד אחרי החלקה. */
+track.addEventListener("click", e=>{
+  if(e.target.closest("#toCatalog")){ goToPage(tocPageIndex); return; }
+  if(e.target.closest("#tocSearch")){ document.getElementById("searchBtn").click(); return; }
+  if(e.target.closest(".page.hero") && Date.now()-swipedAt > 500) goToPage(tocPageIndex);
+  if(e.target.closest("#newsBtn"))  openWaitlist(null, "news");
+  if(e.target.closest("#shareCat")) shareCatalog();
+});
+
+/* =========================== מארזים =========================== */
+track.addEventListener("click", e=>{
+  const c = e.target.closest(".coll"); if(!c) return;
+  const coll = COLLECTIONS[Number(c.dataset.coll)];
+  qCat="*"; qPrice="*"; qIds=coll.ids; qInput.value="";
+  renderChips(); runSearch();
+  document.getElementById("qtitle").textContent = coll.name;
+  searchOverlay.classList.add("open");
+});
+
+/* =========================== מחירון להדפסה =========================== */
+function buildPriceList(){
+  let rows = "", cur = "";
+  PRODUCTS.forEach(p=>{
+    if(p.cat!==cur){ cur = p.cat; rows += '<tr class="h"><td colspan="2">'+esc(cur)+'</td></tr>'; }
+    rows += '<tr><td>'+esc(p.sku)+' · '+esc(p.name)+(subOf(p)?' <span style="color:#777">('+esc(subOf(p))+')</span>':'')+
+            '</td><td>'+esc(priceOf(p))+'</td></tr>';
+  });
+  document.getElementById("pricelist").innerHTML =
+    '<h2>Pastel &middot; מחירון כלי אמייל</h2>'+
+    '<p style="font-size:9.5pt;color:#666">'+SHOP.place+' &middot; '+SHOP.phone+' &middot; @pastel_enamelhouse</p>'+
+    '<table><tbody>'+rows+'</tbody></table>';
+}
+document.addEventListener("click", function(e){
+  if(e.target.id!=="printPrices") return;
+  buildPriceList();
+  document.body.classList.add("pricelist");
+  setTimeout(function(){ print(); setTimeout(function(){ document.body.classList.remove("pricelist"); },400); },60);
+});
+
+/* =========================== הפעלה =========================== */
+buildPages();
+layout();
+let rt; addEventListener("resize", ()=>{ clearTimeout(rt); rt=setTimeout(layout,180); });
+openFromHash();
+addEventListener("hashchange", openFromHash);
+</script>
+</body>
+</html>
