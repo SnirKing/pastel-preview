@@ -656,7 +656,7 @@ const SHOP = {
 /* =========================== המוצרים =========================== */
 const C = {
   white:"#F4F1EA", cream:"#EFE3CE", red:"#B3372F", blue:"#26436E", lblue:"#8FC9DE",
-  green:"#3E7A4E", dgreen:"#2C5738", pist:"#BFCF9A", yellow:"#D8A13A", black:"#2E3327",
+  green:"#3E7A4E", dgreen:"#2C5738", pist:"#BFCF9A", yellow:"#EFC94C", black:"#2E3327",
   brown:"#7A5236", mint:"#A9C48A"
 };
 const cookware = {gas:true,induction:true,oven:true,dishwasher:true};
@@ -730,10 +730,11 @@ const PRODUCTS = [
   desc:"הגדול שבקנקנים — כחול עמוק שנראה יפה גם ריק, וגם עם ענף אחד בפנים."},
 {sku:"PS-23", name:"כד חלב", cat:"קנקנים וכדים", price:150, colors:[["מגוון",C.cream]],
   desc:"כד רחב לחלב, למיץ או לזר פרחים. אחד הפריטים שקונים בשביל השולחן ולא בשביל המטבח."},
-{sku:"PS-24", name:"כד פרחוני", cat:"קנקנים וכדים", price:90, colors:[["פיסטוק",C.pist],["כחול",C.blue]],
+{sku:"PS-24", name:"כד", cat:"קנקנים וכדים", price:90,
+  colors:[["פיסטוק פרחוני",C.pist],["כחול",C.blue]],
   img:"img/PS-24-pistachio-floral.jpg",
-  colorImgs:{"פיסטוק":"img/PS-24-pistachio-floral.jpg","כחול":"img/PS-24-blue.jpg"},
-  desc:"הכד עם הציור הפרחוני, בשני גוונים. פריט סוג ב׳ במחיר מופחת — שלמות לא מושלמת, בדיוק כמו שאמייל אמור להיראות."},
+  colorImgs:{"פיסטוק פרחוני":"img/PS-24-pistachio-floral.jpg","כחול":"img/PS-24-blue.jpg"},
+  desc:"כד רחב לפרחים, למים או למיץ. במחיר מופחת בשל פגמי זיגוג קלים — בדיוק מה שנותן לאמייל את האופי שלו."},
 
 /* --- ספלים וכוסות --- */
 {sku:"PS-25", name:"ספל אמייל", cat:"ספלים וכוסות", price:30,
@@ -1306,8 +1307,15 @@ function galleryOf(p){ return (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.i
 function openSheet(p){
   statBump(STATS.opens, p.sku);
   if(!p) return;
-  const gal = galleryOf(p);
-  const art = gal.length ? '<img src="'+gal[0]+'" alt="'+esc(p.name)+'">' : jug(p.colors[0][1]);
+  /* הגוון שנבחר — מכרטיס גוון בגריד, או מבחירה קודמת ששמורה אצל הלקוח.
+     בלעדיו החלון פתח תמיד את התמונה הראשית ואת הגוון הראשון ברשימה, ולכן
+     לחיצה על הקומקום הירוק הציגה קומקום אדום. */
+  const sel  = chosen[p.id] && (p.colors||[]).some(c=>c[0]===chosen[p.id]) ? chosen[p.id] : null;
+  const selI = sel ? p.colors.findIndex(c=>c[0]===sel) : 0;
+  const gal  = galleryOf(p);
+  const main = (sel && p.colorImgs && p.colorImgs[sel]) || gal[0];
+  const art  = main ? '<img src="'+main+'" alt="'+esc(p.name+(sel?" "+sel:""))+'">'
+                    : jug(p.colors[selI][1]);
   const rows = [
     p.dia  ? [L.diameter, p.dia ] : null,
     p.h    ? [L.height,   p.h   ] : null,
@@ -1334,16 +1342,16 @@ function openSheet(p){
     '<div class="frame'+(gal.length?' zoomable':'')+'" id="sheetFrame">'+art+'</div>'+
     (gal.length ? '<p class="label" style="margin:-10px 0 14px;font-size:12px">התמונות להמחשה בלבד; ייתכנו הפרשי גוון בין מסכים</p>' : '')+
     (gal.length>1 ? '<div class="gallery">'+gal.map((src,i)=>
-        '<img src="'+src+'" data-i="'+i+'" aria-current="'+(i===0)+'" alt="">').join("")+'</div>' : '')+
+        '<img src="'+src+'" data-i="'+i+'" aria-current="'+(src===main)+'" alt="">').join("")+'</div>' : '')+
     badgeHTML(p)+
-    '<h3>'+esc(p.name)+'</h3>'+
+    '<h3>'+esc(p.name + (sel && p.colors.length>1 ? " · "+sel : ""))+'</h3>'+
     '<p class="cat">'+esc(p.cat)+' · '+p.sku+'</p>'+
     ((p.desc||p.note)?'<p class="desc">'+esc(p.desc||p.note)+'</p>':'')+
     '<div class="bigprice">'+priceHTML(p)+'</div>'+
     (rows.length?'<table class="specs"><tbody>'+rows.map(r=>
       '<tr><th>'+r[0]+'</th><td>'+esc(r[1])+'</td></tr>').join("")+'</tbody></table>':'')+
     '<p class="label">'+L.colors+'</p><div class="swatches">'+
-      p.colors.map((x,i)=>'<button class="sw" data-color="'+esc(x[0])+'" aria-current="'+(i===0)+'">'+
+      p.colors.map((x,i)=>'<button class="sw" data-color="'+esc(x[0])+'" aria-current="'+(i===selI)+'">'+
         '<i style="background:'+x[1]+'"></i>'+esc(x[0])+'</button>').join("")+
     '</div>'+ uses +
     relatedHTML(p)+
