@@ -657,7 +657,7 @@ const SHOP = {
 const C = {
   white:"#F4F1EA", cream:"#EFE3CE", red:"#B3372F", blue:"#26436E", lblue:"#8FC9DE",
   green:"#3E7A4E", dgreen:"#2C5738", pist:"#BFCF9A", yellow:"#EFC94C", black:"#2E3327",
-  brown:"#7A5236", mint:"#A9C48A"
+  brown:"#7A5236", mustard:"#C9962E", orange:"#E8620F", mint:"#A9C48A"
 };
 const cookware = {gas:true,induction:true,oven:true,dishwasher:true};
 const stovetop = {gas:true,induction:true,oven:true,dishwasher:true};
@@ -666,157 +666,179 @@ const bakeware = {gas:false,induction:false,oven:true,dishwasher:true};
 const PRODUCTS = [
 /* --- סירים ומחבתות --- */
 {sku:"PS-01", name:"סיר גדול חום", cat:"סירים ומחבתות", price:300, vol:"16 ליטר",
-  colors:[["חום",C.brown]], img:"img/PS-01-brown.jpg", use:cookware,
-  desc:"שישה עשר ליטר: סיר החמין של שבת, המרק של כל המשפחה ובישולי החג. גם מי שלא מוציא אותו כל שבוע מגלה שאין לו תחליף ביום שצריך אותו."},
+  colors:[["חום",C.brown]], use:cookware,
+  desc:"שישה עשר ליטר: סיר החמין של שבת, המרק של כל המשפחה ובישולי החג. גם מי שלא מוציא אותו כל שבוע מגלה שאין לו תחליף ביום שצריך אותו.",
+  img:"img/PS-01-brown.jpg", colorImgs:{"חום":"img/PS-01-brown.jpg"}},
 {sku:"PS-02", name:"סירים", cat:"סירים ומחבתות", priceText:"50–100 ₪", note:"במגוון גדלים וצבעים", use:cookware, colors:[["מגוון",C.red]],
   desc:"מגוון גדלים וגוונים שמתחלף לפי המלאי. כתבו לנו מה אתם מחפשים ונראה לכם מה יש עכשיו."},
 {sku:"PS-03", name:"סיר / קערה אישית", cat:"סירים ומחבתות", price:30,
   colors:[["אדום",C.red],["אדום עם אוזניים",C.red],["ירוק",C.green]],
-  img:"img/PS-03-red.jpg",
-  colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles.jpg"},
   desc:"הגודל של מנה אחת. עולה על הגז, יורד ממנו ישר לשולחן, ומשמש גם כקערת הגשה אישית.",
-  use:cookware},
+  use:cookware,
+  img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles.jpg","ירוק":"img/PS-03-green.jpg"}},
 {sku:"PS-04", name:"מחבת שחורה קטנה", cat:"סירים ומחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
-  desc:"לביצה של הבוקר ולחימום מהיר. דווקא הגודל הקטן הופך אותה לזו שנשלפת הכי הרבה."},
+  desc:"לביצה של הבוקר ולחימום מהיר. דווקא הגודל הקטן הופך אותה לזו שנשלפת הכי הרבה.",
+  img:"img/PS-04-main.jpg", dia:"16.5 ס\"מ", h:"4 ס\"מ"},
 {sku:"PS-05", name:"מחבת", cat:"סירים ומחבתות", price:70, colors:[["אדום",C.red],["ירוק",C.green]], use:cookware,
   desc:"מחבת יומיומית בגודל נוח לשניים. אמייל מוליך חום מהר, אז חום בינוני מספיק לה."},
 
 /* --- קומקומים ופינג'נים --- */
 {sku:"PS-06", name:"קומקום בסגנון הודי", cat:"קומקומים ופינג'נים", price:120, vol:"1.1 ליטר", use:stovetop,
-  colors:[["אדום",C.red],["צהוב",C.yellow]],
-  img:"img/PS-06-red.jpg",
-  colorImgs:{"אדום":"img/PS-06-red.jpg","צהוב":"img/PS-06-yellow.jpg"},
-  desc:"הצורה המעוגלת עם הפייה הגבוהה — קומקום שנראה טוב על הכיריים ועוד יותר טוב על השולחן."},
+  colors:[["אדום",C.red],["צהוב",C.yellow],["כחול",C.blue],["שחור",C.black]],
+  desc:"הצורה המעוגלת עם הפייה הגבוהה — קומקום שנראה טוב על הכיריים ועוד יותר טוב על השולחן.",
+  img:"img/PS-06-red.jpg", colorImgs:{"אדום":"img/PS-06-red.jpg","צהוב":"img/PS-06-yellow.jpg","כחול":"img/PS-06-blue.jpg","שחור":"img/PS-06-black.jpg"}},
 {sku:"PS-07", name:"קומקום אדום מנוקד", cat:"קומקומים ופינג'נים", price:150, vol:"2.5 ליטר", colors:[["אדום מנוקד",C.red]], use:stovetop,
-  img:"img/PS-07-red-dots.jpg",
-  desc:"הדגם הגדול של הנקודות הלבנות, שניים וחצי ליטר. מספיק תה לכל היושבים סביב השולחן."},
+  desc:"הדגם הגדול של הנקודות הלבנות, שניים וחצי ליטר. מספיק תה לכל היושבים סביב השולחן.",
+  img:"img/PS-07-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-07-red-dots.jpg"}},
 {sku:"PS-08", name:"קומקום תכלת", cat:"קומקומים ופינג'נים", price:90, isNew:true,
   colors:[["תכלת",C.lblue]], use:stovetop,
-  desc:"דגם חדש אצלנו. תכלת בהיר שמאיר את הכיריים גם כשהוא סתם עומד שם."},
+  desc:"דגם חדש אצלנו. תכלת בהיר שמאיר את הכיריים גם כשהוא סתם עומד שם.",
+  img:"img/PS-08-lightblue.jpg", colorImgs:{"תכלת":"img/PS-08-lightblue.jpg"}, h:"17 ס\"מ"},
 {sku:"PS-09", name:"קומקום כחול עם נקודות לבנות", cat:"קומקומים ופינג'נים", price:90, vol:"1.5 ליטר", colors:[["כחול מנוקד",C.blue]], use:stovetop,
-  img:"img/PS-09-blue-dots.jpg",
-  desc:"הקלאסיקה הכחולה עם הנקודות, בגודל המשפחתי."},
+  desc:"הקלאסיקה הכחולה עם הנקודות, בגודל המשפחתי.",
+  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול מנוקד":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול מנוקד":"img/PS-09-blue-dots-alt.jpg"}},
 {sku:"PS-10", name:"קומקום כחול עם נקודות לבנות", cat:"קומקומים ופינג'נים", price:90, vol:"0.8 ליטר", colors:[["כחול מנוקד",C.blue]], use:stovetop,
-  desc:"אותו דגם מנוקד בגרסה הקטנה — לזוג, או למי שרוצה קומקום שלא תופס חצי כיריים."},
+  desc:"אותו דגם מנוקד בגרסה הקטנה — לזוג, או למי שרוצה קומקום שלא תופס חצי כיריים.",
+  img:"img/PS-10-blue-dots.jpg", colorImgs:{"כחול מנוקד":"img/PS-10-blue-dots.jpg"}},
 {sku:"PS-11", name:"קומקום", cat:"קומקומים ופינג'נים", price:90, vol:"1.2 ליטר", colors:[["אדום",C.red],["תכלת",C.lblue],["ירוק כהה",C.dgreen],["לבן עם נקודות אדומות",C.white]], use:stovetop,
-  img:"img/PS-11-red.jpg", colorImgs:{"אדום":"img/PS-11-red.jpg","ירוק כהה":"img/PS-11-darkgreen.jpg"},
-  desc:"הגודל היומיומי, בארבעה גוונים שונים לגמרי. אחד לכיריים ואחד למדף, וזה כבר מרגיש מכוון."},
-{sku:"PS-12", name:"פינג'ן קטן", cat:"קומקומים ופינג'נים", price:85, use:stovetop, colors:[["מגוון",C.cream]],
-  desc:"לקפה טורקי אחד או שניים. הידית נשארת קרירה יחסית, והפייה הצרה מוזגת בלי לטפטף."},
-{sku:"PS-13", name:"פינג'ן גדול", cat:"קומקומים ופינג'נים", price:95, use:stovetop, colors:[["מגוון",C.cream]],
-  desc:"הגודל שמכינים בו לכולם בבת אחת, ולא שופכים כוס אחרי כוס."},
+  desc:"הגודל היומיומי, בארבעה גוונים שונים לגמרי. אחד לכיריים ואחד למדף, וזה כבר מרגיש מכוון.",
+  img:"img/PS-11-red.jpg", colorImgs:{"אדום":"img/PS-11-red.jpg","ירוק כהה":"img/PS-11-darkgreen.jpg","תכלת":"img/PS-11-lightblue.jpg"}},
+{sku:"PS-12", name:"פינג'ן קטן", cat:"קומקומים ופינג'נים", price:85, use:stovetop, colors:[["פיסטוק",C.pist],["תכלת",C.lblue]],
+  desc:"לקפה טורקי אחד או שניים. הידית נשארת קרירה יחסית, והפייה הצרה מוזגת בלי לטפטף.",
+  img:"img/PS-12-pistachio.jpg", colorImgs:{"פיסטוק":"img/PS-12-pistachio.jpg","תכלת":"img/PS-12-lightblue.jpg"}, dia:"8.5 ס\"מ"},
+{sku:"PS-13", name:"פינג'ן גדול", cat:"קומקומים ופינג'נים", price:95, use:stovetop, colors:[["ירוק כהה",C.dgreen]],
+  desc:"הגודל שמכינים בו לכולם בבת אחת, ולא שופכים כוס אחרי כוס.",
+  img:"img/PS-13-darkgreen.jpg", colorImgs:{"ירוק כהה":"img/PS-13-darkgreen.jpg"}},
 {sku:"PS-14", name:"פינג'ן — סט 3 יחידות", cat:"קומקומים ופינג'נים", price:99, colors:[["אדום מנוקד",C.red],["לבן מנוקד",C.white]], use:stovetop,
-  desc:"שלושה פינג׳נים בגדלים עולים — קטן לאחד, בינוני לשניים, וגדול לאורחים. מתנה שנראית מלאה."},
+  desc:"שלושה פינג׳נים בגדלים עולים — קטן לאחד, בינוני לשניים, וגדול לאורחים. מתנה שנראית מלאה.",
+  img:"img/PS-14-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-14-red-dots.jpg","לבן מנוקד":"img/PS-14-white-dots.jpg"}},
 
 /* --- קנקנים וכדים --- */
 {sku:"PS-15", name:"קנקן עם מכסה", cat:"קנקנים וכדים", price:110, vol:"1 ליטר", colors:[["מגוון",C.cream]],
   desc:"קנקן עם מכסה לליטר של מים קרים או חליטה. המכסה שומר על הטמפרטורה ועל מה שבחוץ בחוץ."},
 {sku:"PS-16", name:"קנקן תה", cat:"קנקנים וכדים", price:140, vol:"1.5 ליטר", colors:[["ירוק",C.dgreen],["תכלת",C.lblue],["שמנת",C.cream]],
-  img:"img/PS-16-green.jpg", colorImgs:{"ירוק":"img/PS-16-green.jpg","תכלת":"img/PS-16-lightblue.jpg","שמנת":"img/PS-16-cream.jpg"},
-  desc:"קנקן תה של ממש — ליטר וחצי, לשולחן שיושבים סביבו זמן. שלושה גוונים רכים לבחירה."},
+  desc:"קנקן תה של ממש — ליטר וחצי, לשולחן שיושבים סביבו זמן. שלושה גוונים רכים לבחירה.",
+  img:"img/PS-16-green.jpg", colorImgs:{"ירוק":"img/PS-16-green.jpg","תכלת":"img/PS-16-lightblue.jpg","שמנת":"img/PS-16-cream.jpg"}},
 {sku:"PS-17", name:"קנקן שחור", cat:"קנקנים וכדים", price:160, vol:"2.5 ליטר", colors:[["שחור",C.black]],
-  desc:"שחור מט ושני וחצי ליטר. הכלי שנראה כמו רהיט קטן על השולחן."},
+  desc:"שחור מט ושני וחצי ליטר. הכלי שנראה כמו רהיט קטן על השולחן.",
+  img:"img/PS-17-black.jpg", colorImgs:{"שחור":"img/PS-17-black.jpg"}},
 {sku:"PS-18", name:"קנקן אלאדין אדום מנוקד עם מסננת", cat:"קנקנים וכדים", price:90, vol:"1 ליטר", colors:[["אדום מנוקד",C.red]],
-  img:"img/PS-18-red-dots.jpg",
-  desc:"עם המסננת בפנים — שמים עלים ישר בקנקן ומוזגים תה נקי בלי אביזרים נוספים."},
+  desc:"עם המסננת בפנים — שמים עלים ישר בקנקן ומוזגים תה נקי בלי אביזרים נוספים.",
+  img:"img/PS-18-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-18-red-dots.jpg"}},
 {sku:"PS-19", name:"קנקן אדום מנוקד", cat:"קנקנים וכדים", price:90, vol:"1.2 ליטר", colors:[["אדום מנוקד",C.red]],
-  img:"img/PS-19-red-dots.jpg",
-  desc:"הדגם הקלאסי, ליטר ומאתיים. זה הקנקן שרוב האנשים מזהים מהבית של פעם."},
+  desc:"הדגם הקלאסי, ליטר ומאתיים. זה הקנקן שרוב האנשים מזהים מהבית של פעם.",
+  img:"img/PS-19-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-19-red-dots.jpg"}},
 {sku:"PS-20", name:"קנקן לבן משולב עץ", cat:"קנקנים וכדים", price:90, vol:"1.3 ליטר", colors:[["לבן",C.white]],
-  desc:"אמייל לבן עם ידית עץ. שילוב שעובד עם כל מטבח, גם המודרני. שימו לב שהוא לא נכנס לתנור."},
+  desc:"אמייל לבן עם ידית עץ. שילוב שעובד עם כל מטבח, גם המודרני. שימו לב שהוא לא נכנס לתנור.",
+  img:"img/PS-20-white.jpg", colorImgs:{"לבן":"img/PS-20-white.jpg"}},
 {sku:"PS-21", name:"קנקני אלאדין — סט 3 יחידות", cat:"קנקנים וכדים", price:99, colors:[["מגוון",C.red]],
-  desc:"שלושה קנקני אלאדין בגדלים עולים. הצירוף הזה עובד מצוין כמתנה, וגם כפינה על המדף."},
+  desc:"שלושה קנקני אלאדין בגדלים עולים. הצירוף הזה עובד מצוין כמתנה, וגם כפינה על המדף.",
+  img:"img/PS-21-mixed.jpg", colorImgs:{"מגוון":"img/PS-21-mixed.jpg"}},
 {sku:"PS-22", name:"קנקן כחול ג'מבו", cat:"קנקנים וכדים", price:120, colors:[["כחול",C.blue]],
-  desc:"הגדול שבקנקנים — כחול עמוק שנראה יפה גם ריק, וגם עם ענף אחד בפנים."},
-{sku:"PS-23", name:"כד חלב", cat:"קנקנים וכדים", price:150, colors:[["מגוון",C.cream]],
-  desc:"כד רחב לחלב, למיץ או לזר פרחים. אחד הפריטים שקונים בשביל השולחן ולא בשביל המטבח."},
+  desc:"הגדול שבקנקנים — כחול עמוק שנראה יפה גם ריק, וגם עם ענף אחד בפנים.",
+  img:"img/PS-22-blue.jpg", colorImgs:{"כחול":"img/PS-22-blue.jpg"}},
+{sku:"PS-23", name:"כד חלב", cat:"קנקנים וכדים", price:150, colors:[["לבן",C.white]],
+  desc:"כד רחב לחלב, למיץ או לזר פרחים. אחד הפריטים שקונים בשביל השולחן ולא בשביל המטבח.",
+  img:"img/PS-23-white.jpg", colorImgs:{"לבן":"img/PS-23-white.jpg"}},
 {sku:"PS-24", name:"כד", cat:"קנקנים וכדים", price:90,
   colors:[["פיסטוק פרחוני",C.pist],["כחול",C.blue]],
-  img:"img/PS-24-pistachio-floral.jpg",
-  colorImgs:{"פיסטוק פרחוני":"img/PS-24-pistachio-floral.jpg","כחול":"img/PS-24-blue.jpg"},
-  desc:"כד רחב לפרחים, למים או למיץ. במחיר מופחת בשל פגמי זיגוג קלים — בדיוק מה שנותן לאמייל את האופי שלו."},
+  desc:"כד רחב לפרחים, למים או למיץ. במחיר מופחת בשל פגמי זיגוג קלים — בדיוק מה שנותן לאמייל את האופי שלו.",
+  img:"img/PS-24-pistachio-floral.jpg", colorImgs:{"פיסטוק פרחוני":"img/PS-24-pistachio-floral.jpg","כחול":"img/PS-24-blue.jpg"}, colorAlts:{"פיסטוק פרחוני":"img/PS-24-pistachio-floral-alt.jpg"}},
 
 /* --- ספלים וכוסות --- */
 {sku:"PS-25", name:"ספל אמייל", cat:"ספלים וכוסות", price:30,
   dia:"8.5 ס\"מ", h:"8 ס\"מ",
-  colors:[["לבן","#F2F2F0"],["שמנת","#EFE4C8"],["כחול","#2B4C8C"],["ירוק בהיר","#3BC7A0"],
-          ["ירוק מנוקד","#1F6B45"],["כתום","#E8620F"],["שחור","#242424"],["סגול","#C9A6DE"],["ורוד","#E9B6D2"],["תכלת","#4FB3E8"],["תכלת מנוקד","#2E7FA6"]],
-  img:"img/PS-25-white.jpg",
-  colorImgs:{"לבן":"img/PS-25-white.jpg","שמנת":"img/PS-25-cream.jpg","כחול":"img/PS-25-blue.jpg",
-    "ירוק בהיר":"img/PS-25-mint.jpg","ירוק מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange.jpg",
-    "שחור":"img/PS-25-black.jpg","סגול":"img/PS-25-purple.jpg","ורוד":"img/PS-25-pink.jpg",
-    "תכלת":"img/PS-25-lightblue.jpg","תכלת מנוקד":"img/PS-25-teal-speckled.jpg"},
+  colors:[["לבן","#F2F2F0"],["שמנת","#EFE4C8"],["כחול","#2B4C8C"],["ירוק בהיר","#3BC7A0"],["ירוק מנוקד","#1F6B45"],["כתום","#E8620F"],["שחור","#242424"],["סגול","#C9A6DE"],["ורוד","#E9B6D2"],["תכלת","#4FB3E8"],["תכלת מנוקד","#2E7FA6"]],
   desc:"הספל הבסיסי, ובו כל הקסם: אחד עשר גוונים. אפשר לקנות ספל לכל בן בית בצבע משלו.",
-  use:cookware},
+  use:cookware,
+  img:"img/PS-25-white.jpg", colorImgs:{"לבן":"img/PS-25-white.jpg","שמנת":"img/PS-25-cream.jpg","כחול":"img/PS-25-blue.jpg","ירוק בהיר":"img/PS-25-mint.jpg","ירוק מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange.jpg","שחור":"img/PS-25-black.jpg","סגול":"img/PS-25-purple.jpg","ורוד":"img/PS-25-pink.jpg","תכלת":"img/PS-25-lightblue.jpg","תכלת מנוקד":"img/PS-25-teal-speckled.jpg"}},
 {sku:"PS-26", name:"כוסות אספרסו עבות", cat:"ספלים וכוסות", price:15, colors:[["לבן",C.white]], use:cookware,
-  desc:"הדופן העבה שומרת על הקפה חם יותר זמן. לבן נקי, בגודל אספרסו."},
+  desc:"הדופן העבה שומרת על הקפה חם יותר זמן. לבן נקי, בגודל אספרסו.",
+  img:"img/PS-26-white.jpg", colorImgs:{"לבן":"img/PS-26-white.jpg"}, dia:"7 ס\"מ", h:"6 ס\"מ"},
 {sku:"PS-27", name:"כוסות אספרסו דקות", cat:"ספלים וכוסות", price:10,
-  colors:[["צהוב",C.yellow],["פיסטוק",C.pist]], img:"img/PS-27-yellow.jpg",
-  colorImgs:{"צהוב":"img/PS-27-yellow.jpg"},
+  colors:[["צהוב",C.yellow],["פיסטוק",C.pist]],
   desc:"הגרסה הדקה והקלילה, בצהוב ובפיסטוק. נעים ביד ומחיר שמאפשר לקחת כמה.",
-  use:cookware},
+  use:cookware,
+  img:"img/PS-27-yellow.jpg", colorImgs:{"צהוב":"img/PS-27-yellow.jpg","פיסטוק":"img/PS-27-pistachio.jpg"}, dia:"6.5 ס\"מ", h:"6 ס\"מ"},
 {sku:"PS-28", name:"ספל כולל צלחת", cat:"ספלים וכוסות", price:25,
-  colors:[["לבן",C.white],["צהוב",C.yellow]], img:"img/PS-28-white.jpg",
-  colorImgs:{"לבן":"img/PS-28-white.jpg","צהוב":"img/PS-28-yellow.jpg"},
+  colors:[["לבן",C.white],["צהוב",C.yellow]],
   desc:"ספל וצלחת תואמת — הסט שהופך כוס קפה לישיבה. יפה גם כמנת קינוח קטנה.",
-  use:cookware},
+  use:cookware,
+  img:"img/PS-28-white.jpg", colorImgs:{"לבן":"img/PS-28-white.jpg","צהוב":"img/PS-28-yellow.jpg"}},
 
 /* --- קערות --- */
-{sku:"PS-29", name:"קערה לבצק", cat:"קערות", price:150, dia:"40 ס\"מ", colors:[["מגוון",C.cream]],
-  desc:"ארבעים סנטימטר של קערה. ללישת בצק, לסלט למסיבה, ולערבוב שלא עף החוצה. הכובד שלה הוא היתרון."},
+{sku:"PS-29", name:"קערה לבצק", cat:"קערות", price:150, dia:"40 ס\"מ", colors:[["צהוב",C.yellow],["תכלת",C.lblue]],
+  desc:"ארבעים סנטימטר של קערה. ללישת בצק, לסלט למסיבה, ולערבוב שלא עף החוצה. הכובד שלה הוא היתרון.",
+  img:"img/PS-29-yellow.jpg", colorImgs:{"צהוב":"img/PS-29-yellow.jpg","תכלת":"img/PS-29-lightblue.jpg"}},
 {sku:"PS-30", name:"קערה ענקית שחורה", cat:"קערות", price:250, dia:"כ-50 ס\"מ", colors:[["שחור",C.black]],
-  desc:"חמישים סנטימטר בשחור. גדולה מדי למטבח ומושלמת לחצר — להשריית ירקות, לקרח עם בקבוקים, או כעציץ.", use:{outdoor:true}},
+  desc:"חמישים סנטימטר בשחור. גדולה מדי למטבח ומושלמת לחצר — להשריית ירקות, לקרח עם בקבוקים, או כעציץ.", use:{outdoor:true},
+  img:"img/PS-30-black.jpg", colorImgs:{"שחור":"img/PS-30-black.jpg"}},
 {sku:"PS-32", name:"קערה עבה", cat:"קערות", price:95, dia:"28 ס\"מ", note:"אחרונה במלאי", colors:[["כחול",C.blue]],
   desc:"דופן עבה ועמידה במיוחד, בקוטר עשרים ושמונה. נשארה אחת בכחול."},
-{sku:"PS-33", name:"קערה עבה", cat:"קערות", price:110, dia:"32 ס\"מ", colors:[["מגוון",C.cream]],
-  desc:"הגודל הגדול של הדגם העבה. קערת הסלט המרכזית שמחזיקה שנים."},
+{sku:"PS-33", name:"קערה עבה", cat:"קערות", price:110, dia:"32 ס\"מ", colors:[["כחול",C.blue],["שמנת",C.cream],["לבן",C.white]],
+  desc:"הגודל הגדול של הדגם העבה. קערת הסלט המרכזית שמחזיקה שנים.",
+  img:"img/PS-33-blue.jpg", colorImgs:{"כחול":"img/PS-33-blue.jpg","שמנת":"img/PS-33-cream.jpg","לבן":"img/PS-33-white.jpg"}},
 {sku:"PS-34", name:"קערה פשוטה", cat:"קערות", price:50, dia:"26 ס\"מ", colors:[["שמנת",C.cream],["פיסטוק",C.pist]],
-  desc:"קערה יומיומית בקו נקי, בקוטר עשרים ושש. הגודל שמשמש להכל."},
+  desc:"קערה יומיומית בקו נקי, בקוטר עשרים ושש. הגודל שמשמש להכל.",
+  img:"img/PS-34-cream.jpg", colorImgs:{"שמנת":"img/PS-34-cream.jpg","פיסטוק":"img/PS-34-pistachio.jpg"}},
 {sku:"PS-35", name:"קערה פשוטה", cat:"קערות", price:65, dia:"30 ס\"מ", colors:[["שמנת",C.cream]],
-  desc:"אותה קערה בגרסה הגדולה יותר — לסלט של ארוחת ערב או לפירות על השיש."},
-{sku:"PS-36", name:"קערה מלבנית קטנה", cat:"קערות", price:45, colors:[["מגוון",C.cream]],
-  desc:"הצורה המלבנית נכנסת יפה למגש ולמקרר, וההגשה בה נראית מסודרת. הגודל הקטן למטבלים ולתוספות."},
-{sku:"PS-37", name:"קערה מלבנית גדולה", cat:"קערות", price:65, colors:[["מגוון",C.cream]],
-  desc:"מלבנית גדולה, לסלט אחד או למנה עיקרית. אפשר להגיש ישר ממנה."},
+  desc:"אותה קערה בגרסה הגדולה יותר — לסלט של ארוחת ערב או לפירות על השיש.",
+  img:"img/PS-35-cream.jpg", colorImgs:{"שמנת":"img/PS-35-cream.jpg"}},
+{sku:"PS-36", name:"קערה מלבנית קטנה", cat:"קערות", price:45, colors:[["לבן",C.white]],
+  desc:"הצורה המלבנית נכנסת יפה למגש ולמקרר, וההגשה בה נראית מסודרת. הגודל הקטן למטבלים ולתוספות.",
+  img:"img/PS-36-white.jpg", colorImgs:{"לבן":"img/PS-36-white.jpg"}, dia:"20 ס\"מ"},
+{sku:"PS-37", name:"קערה מלבנית גדולה", cat:"קערות", price:65, colors:[["לבן",C.white]],
+  desc:"מלבנית גדולה, לסלט אחד או למנה עיקרית. אפשר להגיש ישר ממנה.",
+  img:"img/PS-37-white.jpg", colorImgs:{"לבן":"img/PS-37-white.jpg"}, dia:"24 ס\"מ"},
 {sku:"PS-38", name:"קערה עגולה חצי עמוקה קטנה", cat:"קערות", price:45, colors:[["פס כחול כהה",C.blue]],
-  desc:"עם פס כחול כהה על השפה. חצי עמוקה — בין צלחת לקערה, בדיוק לדייסה או למרק קטן."},
+  desc:"עם פס כחול כהה על השפה. חצי עמוקה — בין צלחת לקערה, בדיוק לדייסה או למרק קטן.",
+  img:"img/PS-38-navy-stripe.jpg", colorImgs:{"פס כחול כהה":"img/PS-38-navy-stripe.jpg"}, dia:"24 ס\"מ", h:"3 ס\"מ"},
 {sku:"PS-39", name:"קערה עגולה חצי עמוקה גדולה", cat:"קערות", price:65, colors:[["פס כחול כהה",C.blue]],
-  desc:"אותו דגם בגודל שמספיק למרק מלא. הפס הכחול הוא סימן ההיכר של האמייל הישן."},
-{sku:"PS-40", name:"קערה קטנה", cat:"קערות", price:18, colors:[["לבן",C.white],["צהוב",C.yellow],["ירוק",C.green]],
-  desc:"קערית קטנה בשלושה גוונים. לחומוס, לזיתים, לאגוזים — ובמחיר שאפשר לקחת סט שלם."},
+  desc:"אותו דגם בגודל שמספיק למרק מלא. הפס הכחול הוא סימן ההיכר של האמייל הישן.",
+  img:"img/PS-39-navy-stripe.jpg", colorImgs:{"פס כחול כהה":"img/PS-39-navy-stripe.jpg"}, dia:"25 ס\"מ", h:"4 ס\"מ"},
+{sku:"PS-40", name:"קערה קטנה", cat:"קערות", price:18, colors:[["לבן",C.white],["צהוב",C.yellow],["ירוק",C.green],["פיסטוק",C.pist]],
+  desc:"קערית קטנה בשלושה גוונים. לחומוס, לזיתים, לאגוזים — ובמחיר שאפשר לקחת סט שלם.",
+  img:"img/PS-40-white.jpg", colorImgs:{"לבן":"img/PS-40-white.jpg","פיסטוק":"img/PS-40-pistachio.jpg"}, dia:"16 ס\"מ", h:"4.5 ס\"מ"},
 {sku:"PS-41", name:"קערה אישית קטנה מאוד", cat:"קערות", price:10, colors:[["מגוון",C.cream]],
   desc:"הקטנה ביותר, לתבלינים ולרטבים. גם השמושית ביותר במטבח בזמן בישול."},
 {sku:"PS-42", name:"קערה אישית קטנה מאוד, עבה", cat:"קערות", price:24, colors:[["לבן",C.white]],
-  desc:"אותו גודל בדופן עבה ובלבן נקי. מחזיקה חום ולא נוטה להתהפך."},
+  desc:"אותו גודל בדופן עבה ובלבן נקי. מחזיקה חום ולא נוטה להתהפך.",
+  img:"img/PS-42-white.jpg", colorImgs:{"לבן":"img/PS-42-white.jpg"}},
 
 /* --- צלחות --- */
 {sku:"PS-43", name:"צלחת הגשה", cat:"צלחות", price:140, colors:[["מגוון",C.cream]],
   desc:"מגש הגשה רחב — לעוגה, למאפים או לפירות. זה הפריט שיוצא כשיש אורחים."},
 {sku:"PS-44", name:"צלחת חצי עמוקה", cat:"צלחות", price:15,
   colors:[["צהוב עם פס ירוק כהה",C.yellow]],
-  desc:"צלחת דקה עם עומק קל, בצהוב עם פס ירוק כהה על השפה. הגודל של ארוחת צהריים אמיתית."},
-{sku:"PS-45", name:"צלחת שטוחה", cat:"צלחות", price:24, dia:"25 ס\"מ", colors:[["לבן",C.white]],
-  desc:"צלחת מנה עיקרית בקוטר עשרים וחמישה. נערמת נמוך ולא נשברת כשמערימים."},
+  desc:"צלחת דקה עם עומק קל, בצהוב עם פס ירוק כהה על השפה. הגודל של ארוחת צהריים אמיתית.",
+  img:"img/PS-44-yellow-green.jpg", colorImgs:{"צהוב עם פס ירוק כהה":"img/PS-44-yellow-green.jpg"}, colorAlts:{"צהוב עם פס ירוק כהה":"img/PS-44-yellow-green-alt.jpg"}, dia:"22 ס\"מ"},
+{sku:"PS-45", name:"צלחת שטוחה", cat:"צלחות", price:24, dia:"25 ס\"מ", colors:[["לבן",C.white],["שמנת",C.cream]],
+  desc:"צלחת מנה עיקרית בקוטר עשרים וחמישה. נערמת נמוך ולא נשברת כשמערימים.",
+  img:"img/PS-45-cream.jpg", colorImgs:{"שמנת":"img/PS-45-cream.jpg"}, colorAlts:{"שמנת":"img/PS-45-cream-alt.jpg"}},
 
 /* --- תבניות אפייה --- */
 {sku:"PS-46", name:"תבנית מלבנית", cat:"תבניות אפייה", price:110, use:bakeware, colors:[["מגוון",C.cream]],
   desc:"מלבנית לאפייה ולתנור — קוגל, לזניה או ירקות בתנור. יוצאת מהתנור ישר לשולחן בלי להעביר כלים."},
 {sku:"PS-47", name:"תבנית עגולה", cat:"תבניות אפייה", price:90, dia:"22 ס\"מ", use:bakeware, colors:[["מגוון",C.cream]],
   desc:"הקוטר הקטן, עשרים ושניים. לעוגה של יום חול ולכמות שנגמרת."},
-{sku:"PS-48", name:"תבנית עגולה", cat:"תבניות אפייה", price:110, dia:"26 ס\"מ", use:bakeware, colors:[["מגוון",C.cream]],
-  desc:"עשרים ושש — הגודל הסטנדרטי של רוב מתכוני העוגות."},
-{sku:"PS-49", name:"תבנית עגולה", cat:"תבניות אפייה", price:130, dia:"28 ס\"מ", use:bakeware, colors:[["מגוון",C.cream]],
-  desc:"הגדולה, עשרים ושמונה. לעוגות חג ולכל מה שצריך להספיק להרבה אנשים."},
+{sku:"PS-48", name:"תבנית עגולה", cat:"תבניות אפייה", price:110, dia:"26 ס\"מ", use:bakeware, colors:[["לבן",C.white],["שמנת",C.cream],["פיסטוק",C.pist],["תכלת",C.lblue],["חרדל",C.mustard]],
+  desc:"עשרים ושש — הגודל הסטנדרטי של רוב מתכוני העוגות.",
+  img:"img/PS-48-white.jpg", colorImgs:{"לבן":"img/PS-48-white.jpg","שמנת":"img/PS-48-cream.jpg","פיסטוק":"img/PS-48-pistachio.jpg","תכלת":"img/PS-48-lightblue.jpg","חרדל":"img/PS-48-mustard.jpg"}, colorAlts:{"לבן":"img/PS-48-white-alt.jpg","שמנת":"img/PS-48-cream-alt.jpg","פיסטוק":"img/PS-48-pistachio-alt.jpg","תכלת":"img/PS-48-lightblue-alt.jpg","חרדל":"img/PS-48-mustard-alt.jpg"}, h:"7.5 ס\"מ"},
+{sku:"PS-49", name:"תבנית עגולה", cat:"תבניות אפייה", price:130, dia:"28 ס\"מ", use:bakeware, colors:[["לבן",C.white],["שמנת",C.cream],["פיסטוק",C.pist],["תכלת",C.lblue]],
+  desc:"הגדולה, עשרים ושמונה. לעוגות חג ולכל מה שצריך להספיק להרבה אנשים.",
+  img:"img/PS-49-white.jpg", colorImgs:{"לבן":"img/PS-49-white.jpg","שמנת":"img/PS-49-cream.jpg","פיסטוק":"img/PS-49-pistachio.jpg","תכלת":"img/PS-49-lightblue.jpg"}, colorAlts:{"לבן":"img/PS-49-white-alt.jpg","שמנת":"img/PS-49-cream-alt.jpg","פיסטוק":"img/PS-49-pistachio-alt.jpg","תכלת":"img/PS-49-lightblue-alt.jpg"}, h:"6 ס\"מ"},
 
 /* --- מסטינגים --- */
 {sku:"PS-50", name:"מסטינג 3 קומות, קטן", cat:"מסטינגים", price:120,
-  colors:[["צהוב",C.yellow]], img:"img/PS-50-yellow.jpg",
-  desc:"שלוש קומות שמתחברות לכלי אחד עם ידית. הגודל הקטן מתאים לארוחה אישית."},
+  colors:[["צהוב",C.yellow]],
+  desc:"שלוש קומות שמתחברות לכלי אחד עם ידית. הגודל הקטן מתאים לארוחה אישית.",
+  img:"img/PS-50-yellow.jpg", colorImgs:{"צהוב":"img/PS-50-yellow.jpg"}},
 {sku:"PS-51", name:"מסטינג 3 קומות, גדול", cat:"מסטינגים", price:130, colors:[["מגוון",C.cream]],
   desc:"אותו רעיון בגודל שמספיק לארוחה מלאה — מנה עיקרית, תוספת וסלט, כל אחד בקומה שלו."},
 {sku:"PS-52", name:"מסטינג 4 קומות", cat:"מסטינגים", price:160,
-  colors:[["צהוב",C.yellow]], img:"img/PS-52-yellow.jpg",
-  desc:"ארבע קומות. הדגם שמצליחים לארוז בו ארוחה שלמה ולקחת לעבודה או לטיול."},
+  colors:[["צהוב",C.yellow]],
+  desc:"ארבע קומות. הדגם שמצליחים לארוז בו ארוחה שלמה ולקחת לעבודה או לטיול.",
+  img:"img/PS-52-yellow.jpg", colorImgs:{"צהוב":"img/PS-52-yellow.jpg"}},
 {sku:"PS-53", name:"מסטינג 2 קומות, צורה מיוחדת", cat:"מסטינגים", price:150, colors:[["מגוון",C.cream]],
   desc:"הצורה המיוחדת, בשתי קומות. פחות פונקציונלי ויותר יפה — ויש מי שקונה אותו רק בשביל המדף."},
 {sku:"PS-54", name:"מסטינג 3 קומות, צורה מיוחדת", cat:"מסטינגים", price:180, colors:[["מגוון",C.cream]],
@@ -824,25 +846,28 @@ const PRODUCTS = [
 
 /* --- כלי מטבח והגשה --- */
 {sku:"PS-55", name:"מסננת עם רגליים", cat:"כלי מטבח והגשה", price:100, dia:"22 ס\"מ",
-  colors:[["לבן",C.white],["תכלת",C.lblue],["שמנת",C.cream]], img:"img/PS-55-white.jpg",
-  colorImgs:{"לבן":"img/PS-55-white.jpg"},
-  desc:"מסננת שעומדת בעצמה בכיור בלי להחזיק. עשרים ושניים סנטימטר, בשלושה גוונים."},
+  colors:[["לבן",C.white],["תכלת",C.lblue],["שמנת",C.cream]],
+  desc:"מסננת שעומדת בעצמה בכיור בלי להחזיק. עשרים ושניים סנטימטר, בשלושה גוונים.",
+  img:"img/PS-55-white.jpg", colorImgs:{"לבן":"img/PS-55-white.jpg","תכלת":"img/PS-55-lightblue.jpg","שמנת":"img/PS-55-cream.jpg"}},
 {sku:"PS-56", name:"מסננת עם ידית", cat:"כלי מטבח והגשה", price:70, colors:[["מגוון",C.white]],
   desc:"עם ידית להחזקה מעל הסיר. נוחה לסינון של כמויות קטנות ולשטיפת ירקות."},
-{sku:"PS-57", name:"סכומון", cat:"כלי מטבח והגשה", price:70, colors:[["מגוון",C.cream]],
-  desc:"מעמד לסכום על השולחן, או כלי אחסון לכל מה שמתגלגל בשיש."},
+{sku:"PS-57", name:"סכומון", cat:"כלי מטבח והגשה", price:70, colors:[["תכלת",C.lblue],["אדום",C.red]],
+  desc:"מעמד לסכום על השולחן, או כלי אחסון לכל מה שמתגלגל בשיש.",
+  img:"img/PS-57-lightblue.jpg", colorImgs:{"תכלת":"img/PS-57-lightblue.jpg","אדום":"img/PS-57-red.jpg"}, dia:"13 ס\"מ", h:"13 ס\"מ"},
 {sku:"PS-58", name:"מצקת", cat:"כלי מטבח והגשה", price:30, colors:[["לבן",C.white]],
-  img:"img/PS-58-ladle.jpg",
-  desc:"מצקת אמייל קלאסית. הידית הארוכה לא מתחממת בקצה, ונוחה לסיר עמוק."},
+  desc:"מצקת אמייל קלאסית. הידית הארוכה לא מתחממת בקצה, ונוחה לסיר עמוק.",
+  img:"img/PS-58-white.jpg", colorImgs:{"לבן":"img/PS-58-white.jpg"}},
 {sku:"PS-73", name:"כף רשת", cat:"כלי מטבח והגשה", price:30, colors:[["לבן",C.white]],
-  img:"img/PS-58-skimmer.jpg",
-  desc:"לסינון והוצאה מתוך נוזל — קניידלך, ביצים או ירקות מבושלים."},
+  desc:"לסינון והוצאה מתוך נוזל — קניידלך, ביצים או ירקות מבושלים.",
+  img:"img/PS-73-white.jpg", colorImgs:{"לבן":"img/PS-73-white.jpg"}},
 {sku:"PS-59", name:"כף עץ", cat:"כלי מטבח והגשה", price:15, note:"מחיר ליחידה", colors:[["עץ",C.brown]],
-  desc:"כפות עץ פשוטות שלא שורטות את הזיגוג. המחיר ליחידה, אז אפשר לקחת כמה."},
+  desc:"כפות עץ פשוטות שלא שורטות את הזיגוג. המחיר ליחידה, אז אפשר לקחת כמה.",
+  img:"img/PS-59-wood.jpg", colorImgs:{"עץ":"img/PS-59-wood.jpg"}},
 {sku:"PS-60", name:"כף אמייל להגשה", cat:"כלי מטבח והגשה", price:20, note:"להגשה בלבד · 4 יחידות ב-60 ₪", colors:[["מגוון",C.cream]],
   desc:"כפות אמייל להגשה בלבד, לא לאכילה. יפות במיוחד בתוך קערת סלט או צנצנת על השיש."},
 {sku:"PS-61", name:"מלחייה ופלפלייה", cat:"כלי מטבח והגשה", price:60, note:"מחיר ליחידה", colors:[["מגוון",C.cream]],
-  desc:"הצמד הקלאסי לשולחן, במחיר ליחידה. אפשר לקחת שתיים תואמות או שתיים בגוונים שונים."},
+  desc:"הצמד הקלאסי לשולחן, במחיר ליחידה. אפשר לקחת שתיים תואמות או שתיים בגוונים שונים.",
+  img:"img/PS-61-mixed.jpg", colorImgs:{"מגוון":"img/PS-61-mixed.jpg"}},
 {sku:"PS-62", name:"מתקן לשמן זית כולל מברשת", cat:"כלי מטבח והגשה", price:70, vol:"500 מ״ל",
   stock:"out", colors:[["מגוון",C.cream]],
   desc:"בקבוק שמן עם מברשת מובנית, למריחה על תבנית או על בצק. אזל כרגע — השאירו פרטים ונעדכן כשהוא חוזר."},
@@ -853,21 +878,26 @@ const PRODUCTS = [
 {sku:"PS-64", name:"ארגז לחם וינטג'", cat:"אחסון", price:300, stock:"low", colors:[["מגוון",C.cream]],
   desc:"ארגז לחם וינטג׳ אמיתי, לא שחזור. שומר על הלחם רך ונראה כמו חלק מהמטבח ולא כמו אביזר."},
 {sku:"PS-65", name:"סט קופסאות אחסון, 5 יחידות", cat:"אחסון", price:150, note:"כולל מכסה", colors:[["אדום מנוקד",C.red]],
-  desc:"חמש קופסאות בגדלים עולים, כולן עם מכסה. לאורז, לקטניות ולכל מה שהיה עד עכשיו בשקיות."},
-{sku:"PS-66", name:"קופסת אחסון עם מכסה", cat:"אחסון", price:85, vol:"1 ליטר", colors:[["מגוון",C.cream]],
-  desc:"קופסה בודדת לליטר, עם מכסה. אטומה מספיק לקפה, לסוכר או לעוגיות."},
+  desc:"חמש קופסאות בגדלים עולים, כולן עם מכסה. לאורז, לקטניות ולכל מה שהיה עד עכשיו בשקיות.",
+  img:"img/PS-65-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-65-red-dots.jpg"}},
+{sku:"PS-66", name:"קופסת אחסון עם מכסה", cat:"אחסון", price:85, vol:"1 ליטר", colors:[["לבן",C.white],["שמנת",C.cream],["כחול כהה",C.blue]],
+  desc:"קופסה בודדת לליטר, עם מכסה. אטומה מספיק לקפה, לסוכר או לעוגיות.",
+  img:"img/PS-66-white.jpg", colorImgs:{"לבן":"img/PS-66-white.jpg","שמנת":"img/PS-66-cream.jpg","כחול כהה":"img/PS-66-navy.jpg"}, size:"21 × 13 × 5 ס\"מ"},
 
 /* --- לבית ולחצר --- */
 {sku:"PS-67", name:"דלי לבן כולל מכסה", cat:"לבית ולחצר", price:250, colors:[["לבן",C.white]],
-  desc:"דלי אמייל לבן עם מכסה — לאחסון, לכביסה, או כעציץ גדול במרפסת.", use:{outdoor:true}},
+  desc:"דלי אמייל לבן עם מכסה — לאחסון, לכביסה, או כעציץ גדול במרפסת.", use:{outdoor:true},
+  img:"img/PS-67-white.jpg", colorImgs:{"לבן":"img/PS-67-white.jpg"}},
 {sku:"PS-68", name:"דלי שחור גדול עם תלייה", cat:"לבית ולחצר", price:90, colors:[["שחור",C.black]],
-  desc:"גדול ושחור, עם ידית לתלייה. עובד גם בבית וגם בחצר, וגם כאדנית שלא מחלידה בשמש.", use:{outdoor:true}},
+  desc:"גדול ושחור, עם ידית לתלייה. עובד גם בבית וגם בחצר, וגם כאדנית שלא מחלידה בשמש.", use:{outdoor:true},
+  img:"img/PS-68-black.jpg", colorImgs:{"שחור":"img/PS-68-black.jpg"}},
 {sku:"PS-69", name:"דלי אדום קטן עם תלייה", cat:"לבית ולחצר", price:30, colors:[["אדום",C.red]],
-  desc:"הקטן שבדליים, עם ידית לתלייה. הכי מבוקש כעציץ קטן וכמתנה קטנה.", use:{outdoor:true}},
+  desc:"הקטן שבדליים, עם ידית לתלייה. הכי מבוקש כעציץ קטן וכמתנה קטנה.", use:{outdoor:true},
+  img:"img/PS-69-red.jpg", colorImgs:{"אדום":"img/PS-69-red.jpg"}},
 {sku:"PS-70", name:"סבונייה", cat:"לבית ולחצר", price:60,
-  colors:[["לבן",C.white],["שמנת",C.cream]], img:"img/PS-70-white.jpg",
-  colorImgs:{"לבן":"img/PS-70-white.jpg"},
-  desc:"סבונייה לכיור או למקלחת, בלבן ובשמנת. פרט קטן שמשנה את המראה של חדר האמבטיה."},
+  colors:[["לבן",C.white],["שמנת",C.cream]],
+  desc:"סבונייה לכיור או למקלחת, בלבן ובשמנת. פרט קטן שמשנה את המראה של חדר האמבטיה.",
+  img:"img/PS-70-white.jpg", colorImgs:{"לבן":"img/PS-70-white.jpg","שמנת":"img/PS-70-cream.jpg"}},
 {sku:"PS-71", name:"סיר לילה", cat:"לבית ולחצר", price:85, colors:[["מגוון",C.white]],
   desc:"הכלי שכולם מזהים מהבית של סבתא. היום הוא בעיקר עציץ, מתקן לצמחים או פריט נוסטלגיה על המדף.", use:{outdoor:true}}
 ].map((p,i)=>({id:"p"+i, img:"", desc:"", nameEn:"", descEn:"", ...p}));
@@ -1303,7 +1333,23 @@ track.addEventListener("keydown", e=>{
 });
 
 /* =========================== חלון המוצר =========================== */
-function galleryOf(p){ return (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : []); }
+/* הגלריה נגזרת מהגוון שנבחר: לתבנית התכלת יוצגו התמונה שלה והזווית הנוספת
+   שלה בלבד. בלי זה הרצועה הייתה מציגה את חמשת הגוונים יחד, וזה נראה כמו
+   חמישה מוצרים שונים ולא כמו מוצר אחד מכמה זוויות. */
+function galleryOf(p, sel){
+  const c = sel || ((p.colors && p.colors[0]) ? p.colors[0][0] : null);
+  if(c){
+    const a = [];
+    if(p.colorImgs && p.colorImgs[c]) a.push(p.colorImgs[c]);
+    if(p.colorAlts && p.colorAlts[c]) a.push(p.colorAlts[c]);
+    if(a.length) return a;
+  }
+  return (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : []);
+}
+function galleryHTML(gal, main){
+  return gal.length>1 ? gal.map((src,i)=>
+    '<img src="'+src+'" data-i="'+i+'" aria-current="'+(src===main)+'" alt="">').join("") : "";
+}
 function openSheet(p){
   statBump(STATS.opens, p.sku);
   if(!p) return;
@@ -1312,7 +1358,7 @@ function openSheet(p){
      לחיצה על הקומקום הירוק הציגה קומקום אדום. */
   const sel  = chosen[p.id] && (p.colors||[]).some(c=>c[0]===chosen[p.id]) ? chosen[p.id] : null;
   const selI = sel ? p.colors.findIndex(c=>c[0]===sel) : 0;
-  const gal  = galleryOf(p);
+  const gal  = galleryOf(p, sel);
   const main = (sel && p.colorImgs && p.colorImgs[sel]) || gal[0];
   const art  = main ? '<img src="'+main+'" alt="'+esc(p.name+(sel?" "+sel:""))+'">'
                     : jug(p.colors[selI][1]);
@@ -1341,8 +1387,7 @@ function openSheet(p){
 
     '<div class="frame'+(gal.length?' zoomable':'')+'" id="sheetFrame">'+art+'</div>'+
     (gal.length ? '<p class="label" style="margin:-10px 0 14px;font-size:12px">התמונות להמחשה בלבד; ייתכנו הפרשי גוון בין מסכים</p>' : '')+
-    (gal.length>1 ? '<div class="gallery">'+gal.map((src,i)=>
-        '<img src="'+src+'" data-i="'+i+'" aria-current="'+(src===main)+'" alt="">').join("")+'</div>' : '')+
+    '<div class="gallery" id="sheetGallery"'+(gal.length>1?'':' hidden')+'>'+galleryHTML(gal,main)+'</div>'+
     badgeHTML(p)+
     '<h3>'+esc(p.name + (sel && p.colors.length>1 ? " · "+sel : ""))+'</h3>'+
     '<p class="cat">'+esc(p.cat)+' · '+p.sku+'</p>'+
@@ -1383,15 +1428,16 @@ function openSheet(p){
   document.getElementById("shareBtn").onclick = ()=>shareProduct(p);
   /* גלריה: החלפת התמונה הראשית והגדלה במסך מלא */
   const frame = document.getElementById("sheetFrame");
-  if(gal.length){
-    frame.onclick = ()=>openZoom(frame.querySelector("img").src);
-    document.querySelectorAll(".gallery img").forEach(t=>{
+  const strip = document.getElementById("sheetGallery");
+  function bindThumbs(){
+    strip.querySelectorAll("img").forEach(t=>{
       t.onclick = ()=>{
         frame.querySelector("img").src = t.src;
-        document.querySelectorAll(".gallery img").forEach(o=>o.setAttribute("aria-current", o===t));
+        strip.querySelectorAll("img").forEach(o=>o.setAttribute("aria-current", o===t));
       };
     });
   }
+  if(gal.length){ frame.onclick = ()=>openZoom(frame.querySelector("img").src); bindThumbs(); }
   /* בחירת צבע: מחליפה את התמונה הראשית אם יש תמונה לצבע, ונשמרת להזמנה */
   chosen[p.id] = chosen[p.id] || p.colors[0][0];
   document.querySelectorAll(".swatches .sw").forEach(sw=>{
@@ -1401,12 +1447,15 @@ function openSheet(p){
       statBump(STATS.colors, p.sku+" "+sw.dataset.color);
       document.querySelectorAll(".swatches .sw").forEach(o=>
         o.setAttribute("aria-current", o===sw));
-      const src = p.colorImgs && p.colorImgs[sw.dataset.color];
-      const main = frame && frame.querySelector("img");
-      if(src && main){
-        main.src = src;
-        document.querySelectorAll(".gallery img").forEach(o=>
-          o.setAttribute("aria-current", o.src===src));
+      /* החלפת גוון מרעננת גם את רצועת הזוויות, כי לכל גוון זוויות משלו */
+      const g2 = galleryOf(p, sw.dataset.color);
+      const m2 = (p.colorImgs && p.colorImgs[sw.dataset.color]) || g2[0];
+      const el = frame && frame.querySelector("img");
+      if(m2 && el) el.src = m2;
+      if(strip){
+        strip.innerHTML = galleryHTML(g2, m2);
+        strip.hidden = g2.length < 2;
+        bindThumbs();
       }
     };
   });
