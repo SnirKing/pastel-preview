@@ -142,7 +142,9 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 #zoom{position:fixed;inset:0;z-index:80;background:rgba(46,51,39,.92);display:none;
   align-items:center;justify-content:center;padding:16px}
 #zoom.open{display:flex}
-#zoom img{max-width:100%;max-height:100%;object-fit:contain}
+/* עוטף בגודל התמונה עצמה, כדי שהסמל ייצמד לפינת התמונה ולא לפינת המסך */
+#zoom .zwrap{position:relative;display:inline-block;max-width:100%;max-height:100%;line-height:0}
+#zoom img{max-width:100%;max-height:calc(100dvh - 40px);object-fit:contain;display:block}
 #zoom .x{position:absolute;top:14px;inset-inline-end:16px;color:#fff;font-size:30px;line-height:1}
 
 /* ---------- מועדפים ומוצרים דומים ---------- */
@@ -263,6 +265,14 @@ h2.pt{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 10px;co
   padding:8px 8px 11px;text-align:center;cursor:pointer;display:flex;flex-direction:column;
   transition:border-color .15s ease}
 .card:hover,.card:focus-visible{border-color:var(--olive);outline:none}
+.card{position:relative}
+.quickadd{position:absolute;inset-inline-end:14px;top:14px;width:30px;height:30px;
+  border-radius:50%;background:rgba(252,247,243,.92);border:1px solid rgba(92,107,76,.45);
+  color:var(--olive-deep);font-size:19px;line-height:1;display:grid;place-items:center;
+  padding:0 0 2px;transition:background .15s ease,color .15s ease,transform .12s ease}
+.quickadd:hover{background:var(--olive-deep);color:#F4F1EA;border-color:var(--olive-deep)}
+.quickadd.done{background:var(--olive-deep);color:#F4F1EA;border-color:var(--olive-deep);transform:scale(1.08)}
+@media (prefers-reduced-motion:reduce){.quickadd{transition:none}}
 .card .frame{background:var(--page);border:1px solid rgba(46,51,39,.45);border-radius:2px;
   aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;margin-bottom:8px}
 .card .frame img{width:100%;height:100%;object-fit:contain}
@@ -281,9 +291,18 @@ h2.pt{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 10px;co
    בלי זה לחיצה על תוצאת חיפוש הייתה חייבת לסגור את החיפוש, וסגירת המוצר
    החזירה לקטלוג במקום לרשימת התוצאות המסוננת. */
 #overlay{z-index:65}
+/* סמל הלוגו — רק בתמונה הגדולה של דף המוצר ובמסך ההגדלה, לא בגריד */
+.sheet .frame{position:relative}
+.sheet .frame::after,#zoom .zwrap::after{content:"";position:absolute;pointer-events:none;
+  background:url(img/logo-mark.png) center/contain no-repeat;opacity:.55}
+.sheet .frame::after{width:13%;aspect-ratio:176/220;inset-inline-start:10px;bottom:10px}
+#zoom .zwrap::after{width:11%;max-width:90px;aspect-ratio:176/220;inset-inline-start:14px;bottom:14px;opacity:.6}
 .realshot{border:1px solid rgba(46,51,39,.45);border-radius:3px;overflow:hidden;
   margin:0 0 12px;background:var(--paper-2);cursor:zoom-in}
 .realshot img{display:block;width:100%;height:auto}
+.qfoot{position:sticky;bottom:0;padding:10px 14px 12px;background:var(--paper);
+  border-top:1px solid rgba(92,107,76,.25)}
+.qfoot .btn{width:100%;justify-content:center}
 .fbar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--olive-deep);
   color:#F4F1EA;font-size:14px;flex:0 0 auto}
 .fbar button{color:#F4F1EA;text-decoration:underline;font-size:13.5px;white-space:nowrap}
@@ -435,22 +454,16 @@ h2.pt{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 10px;co
   <span class="spacer"></span>
   <button class="iconbtn" id="contactBtn" aria-label="פרטי קשר">
     <svg viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6.5 3z"/></svg></button>
-  <button class="iconbtn" id="searchBtn" aria-label="חיפוש מוצר">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
-  <button class="iconbtn cartbtn" id="filterBtn" aria-label="סינון הקטלוג">
-    <svg viewBox="0 0 24 24"><path d="M3 5h18M7 12h10M10 19h4"/></svg>
+  <button class="iconbtn cartbtn" id="searchBtn" aria-label="חיפוש וסינון">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
     <span class="n" id="filterCount" hidden>0</span></button>
+
   <button class="iconbtn cartbtn" id="favBar" aria-label="המועדפים שלי">
     <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9a3.8 3.8 0 0 1 7-2 3.8 3.8 0 0 1 7 2c0 4.6-7 9-7 9z"/></svg>
     <span class="n" id="favCount" hidden>0</span></button>
   <button class="iconbtn cartbtn" id="cartBtn" aria-label="ההזמנה שלי">
     <svg viewBox="0 0 24 24"><path d="M6 7h13l-1.5 9h-10z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.3"/><circle cx="16" cy="20" r="1.3"/></svg>
     <span class="n" id="cartCount" hidden>0</span></button>
-  <button class="iconbtn" id="prev" aria-label="העמוד הקודם">
-    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-  <span class="counter" id="counter">1 / 1</span>
-  <button class="iconbtn" id="next" aria-label="העמוד הבא">
-    <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
 </div>
 
 <div class="fbar" id="fbar" hidden>
@@ -482,30 +495,15 @@ h2.pt{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 10px;co
       <div class="grid" id="qresults"></div>
       <div class="empty" id="qempty" hidden>לא נמצאו מוצרים מתאימים</div>
     </div>
-  </div>
-</div>
-
-<div class="overlay" id="filterOverlay" role="dialog" aria-modal="true">
-  <div class="panel">
-    <div class="head"><h4 style="margin:0;font-family:var(--serif);color:var(--olive-deep)">סינון הקטלוג</h4>
-      <span style="flex:1"></span>
-      <button class="iconbtn" id="filterClose" aria-label="סגירה">
-        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    </div>
-    <div class="body">
-      <p style="margin:0 0 12px;color:var(--muted);font-size:14px">בחרו צבע, קטגוריה או טווח מחיר — והקטלוג עצמו יוצג מסונן, עם דפדוף רגיל.</p>
-      <div class="chips" id="fchips"></div>
-      <p style="margin:16px 0 0;display:flex;gap:9px">
-        <button class="btn primary" id="filterApply">הצגה בקטלוג</button>
-        <button class="btn ghost" id="filterClear">ניקוי</button>
-      </p>
+    <div class="qfoot" id="qfoot" hidden>
+      <button class="btn primary" id="qToCatalog">הצגה בקטלוג</button>
     </div>
   </div>
 </div>
 
 <div id="pricelist"></div>
 
-<div id="zoom" role="dialog" aria-modal="true"><button class="x" aria-label="סגירה">×</button><img alt=""></div>
+<div id="zoom" role="dialog" aria-modal="true"><button class="x" aria-label="סגירה">×</button><div class="zwrap"><img alt=""></div></div>
 
 <div class="overlay" id="jumpOverlay" role="dialog" aria-modal="true">
   <div class="panel">
@@ -751,11 +749,13 @@ const PRODUCTS = [
 {sku:"PS-08", name:"קומקום תכלת", cat:"קומקומים", price:90, isNew:true,
   colors:[["תכלת",C.lblue]], use:stovetop,
   desc:"דגם חדש אצלנו. תכלת בהיר שמאיר את הכיריים גם כשהוא סתם עומד שם.",
-  img:"img/PS-08-lightblue.jpg", colorImgs:{"תכלת":"img/PS-08-lightblue.jpg"}, h:"17 ס\"מ"},
+  img:"img/PS-08-lightblue.jpg", colorImgs:{"תכלת":"img/PS-08-lightblue.jpg"}, h:"17 ס\"מ",
+  real:"img/real-PS-08.jpg", realNote:"על השולחן אצלנו, בלי עריכה"},
 {sku:"PS-09", name:"קומקום כחול עם נקודות לבנות", cat:"קומקומים", price:90, vol:"0.8 ליטר", colors:[["כחול מנוקד",C.blue]], use:stovetop,
   desc:"הקלאסיקה הכחולה עם הנקודות הלבנות, בגודל הקטן — לזוג, או למי שרוצה קומקום שלא תופס חצי כיריים.",
   h:"20 ס\"מ",
-  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול מנוקד":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול מנוקד":"img/PS-09-blue-dots-alt.jpg"}},
+  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול מנוקד":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול מנוקד":"img/PS-09-blue-dots-alt.jpg"},
+  real:"img/real-PS-09.jpg", realNote:"על השולחן — ככה נראה הכחול המנוקד באור יום"},
 {sku:"PS-10", name:"קומקום כחול עם נקודות תכלת בהיר", cat:"קומקומים", price:90, vol:"1.5 ליטר", colors:[["כחול מנוקד תכלת","#2C5E9E"]], use:stovetop,
   desc:"דגם קרוב, אבל לא אותו כלי: הנקודות כאן בתכלת בהיר והנפח גדול יותר — ליטר וחצי לשולחן מלא.",
   img:"img/PS-10-blue-dots.jpg", colorImgs:{"כחול מנוקד תכלת":"img/PS-10-blue-dots.jpg"}},
@@ -772,7 +772,7 @@ const PRODUCTS = [
   desc:"הגודל שמכינים בו לכולם בבת אחת, ולא שופכים כוס אחרי כוס. הפיסטוק והתכלת קיימים גם בקטן; הירוק הכהה רק כאן.",
   img:"img/PS-13-darkgreen.jpg", colorImgs:{"ירוק כהה":"img/PS-13-darkgreen.jpg","תכלת":"img/PS-13-lightblue.jpg","פיסטוק":"img/PS-13-pistachio.jpg"},
   skus:{"ירוק כהה":"PS-13-01","תכלת":"PS-13-02","פיסטוק":"PS-13-03"},
-  real:"img/real-colanders.jpg", realNote:"שלושת הפינג׳נים מימין, לצד המסננות — כך נראה הגודל האמיתי"},
+  realImgs:{"ירוק כהה":"img/real-PS-13-01.jpg"}, realNotes:{"ירוק כהה":"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"}, real:"img/real-colanders.jpg", realNote:"שלושת הפינג׳נים מימין, לצד המסננות — כך נראה הגודל האמיתי"},
 {sku:"PS-14", name:"פינג'ן — סט 3 יחידות", cat:"פינג'נים", price:99, colors:[["אדום מנוקד",C.red],["לבן מנוקד",C.white]], use:stovetop,
   desc:"שלושה פינג׳נים בגדלים עולים — קטן לאחד, בינוני לשניים, וגדול לאורחים. מתנה שנראית מלאה.",
   img:"img/PS-14-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-14-red-dots.jpg","לבן מנוקד":"img/PS-14-white-dots.jpg"},
@@ -807,7 +807,8 @@ const PRODUCTS = [
   img:"img/PS-19-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-19-red-dots.jpg"}},
 {sku:"PS-20", name:"קומקום לבן משולב עץ", cat:"קומקומים", price:90, vol:"1.3 ליטר", colors:[["לבן",C.white]],
   desc:"אמייל לבן עם ידית עץ. שילוב שעובד עם כל מטבח, גם המודרני. שימו לב שהוא לא נכנס לתנור.",
-  img:"img/PS-20-white.jpg", colorImgs:{"לבן":"img/PS-20-white.jpg"}},
+  img:"img/PS-20-white.jpg", colorImgs:{"לבן":"img/PS-20-white.jpg"},
+  real:"img/real-PS-20.jpg", realNote:"הקומקום הלבן עם ידית העץ, אצלנו"},
 {sku:"PS-21", name:"קומקומי אלאדין — סט 3 יחידות", cat:"קומקומים", price:99, colors:[["מגוון",C.red]],
   desc:"שלושה קומקומי אלאדין בגדלים עולים. הצירוף הזה עובד מצוין כמתנה, וגם כפינה על המדף.",
   img:"img/PS-21-mixed.jpg", colorImgs:{"מגוון":"img/PS-21-mixed.jpg"}},
@@ -817,7 +818,8 @@ const PRODUCTS = [
   real:"img/real-PS-22.jpg", realNote:"בחוץ, על משטח העץ — ארבעה ליטר"},
 {sku:"PS-23", name:"כד חלב", cat:"כדים", price:150, colors:[["לבן",C.white]],
   desc:"כד רחב לחלב, למיץ או לזר פרחים. אחד הפריטים שקונים בשביל השולחן ולא בשביל המטבח.",
-  img:"img/PS-23-white.jpg", colorImgs:{"לבן":"img/PS-23-white.jpg"}},
+  img:"img/PS-23-white.jpg", colorImgs:{"לבן":"img/PS-23-white.jpg"},
+  real:"img/real-PS-23.jpg", realNote:"אצלנו על המדף"},
 {sku:"PS-24", name:"כד", cat:"כדים", price:90,
   colors:[["פיסטוק פרחוני",C.pist],["כחול",C.blue]],
   desc:"כד רחב לפרחים, למים או למיץ. במחיר מופחת בשל פגמי זיגוג קלים — בדיוק מה שנותן לאמייל את האופי שלו.",
@@ -834,7 +836,8 @@ const PRODUCTS = [
   skus:{"לבן":"PS-25-01","שמנת":"PS-25-02","כחול":"PS-25-03","ירוק בהיר":"PS-25-04","ירוק מנוקד":"PS-25-05","כתום":"PS-25-06","שחור":"PS-25-07","סגול":"PS-25-08","ורוד":"PS-25-09","תכלת":"PS-25-10","טורקיז מנוקד":"PS-25-11"}},
 {sku:"PS-26", name:"כוסות אספרסו עבות", cat:"ספלים וכוסות", price:15, colors:[["לבן",C.white]], use:cookware,
   desc:"הדופן העבה שומרת על הקפה חם יותר זמן. לבן נקי, בגודל אספרסו.",
-  img:"img/PS-26-white.jpg", colorImgs:{"לבן":"img/PS-26-white.jpg"}, dia:"7 ס\"מ", h:"6 ס\"מ"},
+  img:"img/PS-26-white.jpg", colorImgs:{"לבן":"img/PS-26-white.jpg"}, dia:"7 ס\"מ", h:"6 ס\"מ",
+  real:"img/real-PS-26.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
 {sku:"PS-27", name:"כוסות אספרסו דקות", cat:"ספלים וכוסות", price:10,
   colors:[["צהוב",C.yellow],["פיסטוק",C.pist]],
   desc:"הגרסה הדקה והקלילה, בצהוב ובפיסטוק. נעים ביד ומחיר שמאפשר לקחת כמה.",
@@ -856,7 +859,8 @@ const PRODUCTS = [
 {sku:"PS-29", name:"קערה לבצק", cat:"קערות", price:150, dia:"40 ס\"מ", colors:[["צהוב",C.yellow],["תכלת",C.lblue]],
   desc:"ארבעים סנטימטר של קערה. ללישת בצק, לסלט למסיבה, ולערבוב שלא עף החוצה. הכובד שלה הוא היתרון.",
   img:"img/PS-29-yellow.jpg", colorImgs:{"צהוב":"img/PS-29-yellow.jpg","תכלת":"img/PS-29-lightblue.jpg"},
-  skus:{"צהוב":"PS-29-01","תכלת":"PS-29-02"}},
+  skus:{"צהוב":"PS-29-01","תכלת":"PS-29-02"},
+  realImgs:{"תכלת":"img/real-PS-29-02.jpg"}, realNotes:{"תכלת":"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"}},
 {sku:"PS-30", name:"קערה ענקית שחורה", cat:"קערות", price:250, dia:"כ-50 ס\"מ", colors:[["שחור",C.black]],
   desc:"חמישים סנטימטר בשחור. גדולה מדי למטבח ומושלמת לחצר — להשריית ירקות, לקרח עם בקבוקים, או כעציץ.", use:{outdoor:true},
   img:"img/PS-30-black.jpg", colorImgs:{"שחור":"img/PS-30-black.jpg"},
@@ -891,26 +895,32 @@ const PRODUCTS = [
 {sku:"PS-34", name:"קערה פשוטה", cat:"קערות", price:50, dia:"26 ס\"מ", colors:[["שמנת",C.cream],["פיסטוק",C.pist]],
   desc:"קערה יומיומית בקו נקי, בקוטר עשרים ושש. הגודל שמשמש להכל.",
   img:"img/PS-34-cream.jpg", colorImgs:{"שמנת":"img/PS-34-cream.jpg","פיסטוק":"img/PS-34-pistachio.jpg"},
-  skus:{"שמנת":"PS-34-01","פיסטוק":"PS-34-02"}},
+  skus:{"שמנת":"PS-34-01","פיסטוק":"PS-34-02"},
+  realImgs:{"פיסטוק":"img/real-PS-34-02.jpg"}, realNotes:{"פיסטוק":"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"}},
 {sku:"PS-35", name:"קערה פשוטה", cat:"קערות", price:65, dia:"30 ס\"מ", colors:[["שמנת",C.cream]],
   desc:"אותה קערה בגרסה הגדולה יותר — לסלט של ארוחת ערב או לפירות על השיש.",
   img:"img/PS-35-cream.jpg", colorImgs:{"שמנת":"img/PS-35-cream.jpg"}},
 {sku:"PS-36", name:"קערה מלבנית קטנה", cat:"קערות", price:45, colors:[["לבן",C.white]],
   desc:"הצורה המלבנית נכנסת יפה למגש ולמקרר, וההגשה בה נראית מסודרת. הגודל הקטן למטבלים ולתוספות.",
-  img:"img/PS-36-white.jpg", colorImgs:{"לבן":"img/PS-36-white.jpg"}, dia:"20 ס\"מ"},
+  img:"img/PS-36-white.jpg", colorImgs:{"לבן":"img/PS-36-white.jpg"}, dia:"20 ס\"מ",
+  real:"img/real-PS-36.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
 {sku:"PS-37", name:"קערה מלבנית גדולה", cat:"קערות", price:65, colors:[["לבן",C.white]],
   desc:"מלבנית גדולה, לסלט אחד או למנה עיקרית. אפשר להגיש ישר ממנה.",
-  img:"img/PS-37-white.jpg", colorImgs:{"לבן":"img/PS-37-white.jpg"}, dia:"24 ס\"מ"},
+  img:"img/PS-37-white.jpg", colorImgs:{"לבן":"img/PS-37-white.jpg"}, dia:"24 ס\"מ",
+  real:"img/real-PS-37.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
 {sku:"PS-38", name:"צלחת חצי עמוקה קטנה", cat:"צלחות", price:35, colors:[["פס כחול כהה",C.blue]],
   desc:"עם פס כחול כהה על השפה. חצי עמוקה — בין צלחת לקערה, בדיוק לדייסה או למרק קטן.",
-  img:"img/PS-38-navy-stripe.jpg", colorImgs:{"פס כחול כהה":"img/PS-38-navy-stripe.jpg"}, dia:"24 ס\"מ", h:"3 ס\"מ"},
+  img:"img/PS-38-navy-stripe.jpg", colorImgs:{"פס כחול כהה":"img/PS-38-navy-stripe.jpg"}, dia:"24 ס\"מ", h:"3 ס\"מ",
+  real:"img/real-PS-38.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
 {sku:"PS-39", name:"צלחת חצי עמוקה גדולה", cat:"צלחות", price:45, colors:[["פס כחול כהה",C.blue]],
   desc:"אותה צלחת בגודל שמספיק למרק מלא. הפס הכחול הוא סימן ההיכר של האמייל הישן.",
-  img:"img/PS-39-navy-stripe.jpg", colorImgs:{"פס כחול כהה":"img/PS-39-navy-stripe.jpg"}, dia:"25 ס\"מ", h:"4 ס\"מ"},
+  img:"img/PS-39-navy-stripe.jpg", colorImgs:{"פס כחול כהה":"img/PS-39-navy-stripe.jpg"}, dia:"25 ס\"מ", h:"4 ס\"מ",
+  real:"img/real-PS-39.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
 {sku:"PS-40", name:"קערה קטנה", cat:"קערות", price:18, colors:[["לבן",C.white],["צהוב",C.yellow],["ירוק",C.green],["פיסטוק",C.pist]],
   desc:"קערית קטנה בשלושה גוונים. לחומוס, לזיתים, לאגוזים — ובמחיר שאפשר לקחת סט שלם.",
   img:"img/PS-40-white.jpg", colorImgs:{"לבן":"img/PS-40-white.jpg","פיסטוק":"img/PS-40-pistachio.jpg"}, dia:"16 ס\"מ", h:"4.5 ס\"מ",
-  skus:{"לבן":"PS-40-01","צהוב":"PS-40-02","ירוק":"PS-40-03","פיסטוק":"PS-40-04"}},
+  skus:{"לבן":"PS-40-01","צהוב":"PS-40-02","ירוק":"PS-40-03","פיסטוק":"PS-40-04"},
+  realImgs:{"לבן":"img/real-PS-40-01.jpg","פיסטוק":"img/real-PS-40-04.jpg"}, realNotes:{"לבן":"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר","פיסטוק":"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"}},
 {sku:"PS-77", name:"קערה קטנה, קוטר 18", cat:"קערות", price:20, colors:[["לבן עם פס כחול",C.white]],
   desc:"שני סנטימטרים יותר מהקטנה, והאמייל כאן דק. בדיוק בין קערית הזיתים לקערת הסלט האישית.",
   img:"img/PS-77-white.jpg", colorImgs:{"לבן עם פס כחול":"img/PS-77-white.jpg"}, dia:"18 ס\"מ", h:"5.5 ס\"מ"},
@@ -1015,7 +1025,8 @@ const PRODUCTS = [
 {sku:"PS-57", name:"סכומון", cat:"כלי מטבח והגשה", price:70, colors:[["תכלת",C.lblue],["אדום",C.red]],
   desc:"מעמד לסכום על השולחן, או כלי אחסון לכל מה שמתגלגל בשיש.",
   img:"img/PS-57-lightblue.jpg", colorImgs:{"תכלת":"img/PS-57-lightblue.jpg","אדום":"img/PS-57-red.jpg"}, dia:"13 ס\"מ", h:"13 ס\"מ",
-  skus:{"תכלת":"PS-57-01","אדום":"PS-57-02"}},
+  skus:{"תכלת":"PS-57-01","אדום":"PS-57-02"},
+  real:"img/real-PS-57.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
 {sku:"PS-58", name:"מצקת", cat:"כלי מטבח והגשה", price:30, colors:[["לבן",C.white]],
   desc:"מצקת אמייל קלאסית. הידית הארוכה לא מתחממת בקצה, ונוחה לסיר עמוק.",
   img:"img/PS-58-white.jpg", colorImgs:{"לבן":"img/PS-58-white.jpg"}},
@@ -1107,7 +1118,8 @@ const PRODUCTS = [
 ,
 {sku:"PS-79", name:"מתקן למברשות שיניים", cat:"לבית ולחצר", stock:"out", colors:[["לבן",C.white]],
   desc:"גליל אמייל לבן עם שפה שחורה ומכסה מחורר, שמחזיק את המברשות זקופות ומאוורר אותן. אזל מהמלאי כרגע.",
-  img:"img/PS-79-white.jpg", colorImgs:{"לבן":"img/PS-79-white.jpg"}}
+  img:"img/PS-79-white.jpg", colorImgs:{"לבן":"img/PS-79-white.jpg"},
+  real:"img/real-PS-79.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"}
 ].map((p,i)=>({id:"p"+i, img:"", desc:"", nameEn:"", descEn:"", ...p}));
 /* id נקבע מחדש לפי המק"ט מיד אחרי השלמת המק"טים החסרים — ראו סעיף המק"ט למטה. */
 
@@ -1217,7 +1229,11 @@ let catFilter = null;
 function passesFilter(p){
   if(!catFilter) return true;
   if(catFilter.cat && p.cat !== catFilter.cat) return false;
-  if(catFilter.flag === "new" && !p.isNew) return false;
+  if(catFilter.flag === "new"  && !p.isNew)    return false;
+  if(catFilter.flag === "sale" && !p.priceOld) return false;
+  if(catFilter.flag === "best" && !p.isBest)   return false;
+  if(catFilter.text && normalize(p.name+" "+p.cat+" "+(p.note||"")+" "+(p.colorName||"")+" "+
+       p.colors.map(c=>c[0]).join(" ")).indexOf(normalize(catFilter.text))<0) return false;
   if(catFilter.color){
     const ok = p.colorName ? colorFamily(p.colorName) === catFilter.color
                            : matchesColor(p, catFilter.color);
@@ -1236,7 +1252,10 @@ function filterSummary(){
   if(catFilter.color) parts.push(catFilter.color);
   if(catFilter.cat)   parts.push(catFilter.cat);
   if(catFilter.band && catFilter.band !== "*") parts.push(catFilter.band);
-  if(catFilter.flag === "new") parts.push("רק חדשים");
+  if(catFilter.flag === "new")  parts.push("רק חדשים");
+  if(catFilter.flag === "sale") parts.push("מבצע");
+  if(catFilter.flag === "best") parts.push("הכי נמכרים");
+  if(catFilter.text) parts.push("״"+catFilter.text+"״");
   return parts.join(" · ");
 }
 function buildPages(){
@@ -1366,45 +1385,34 @@ function buildPages(){
       'לדבר על כל מקרה לגופו במקום להחביא תנאים באותיות קטנות.</p>'+
     '</div>'});
 
-  /* עמוד הידעת? */
+  /* עמוד הידעת? — מה מיוחד בחומר. רק עובדות שלא מופיעות בעמוד הבא:
+     אינדוקציה, מיקרוגל ושטיפה עברו לשאלות הנפוצות, כדי שכל פרט יופיע
+     במקום אחד בלבד. בעבר אותם שלושה פרטים הופיעו בשלושה עמודים. */
   const factsPage = pages.length;
   pages.push({html:
     '<div class="pagehead"><h2>הידעת?</h2><span class="ln"></span></div>'+
     '<div class="facts">'+
     '<div class="fact"><span class="num">1</span><span class="tx"><b>זכוכית, לא צבע.</b> האמייל נוצר מאבקת זכוכית שנשרפת על הפלדה בכ-800 מעלות ונמסה לתוכה. לכן הוא לא נסדק מחום ולא יורד עם הזמן — הוא לא שכבה שמונחת על הכלי אלא חלק ממנו.</span></div>'+
     '<div class="fact"><span class="num">2</span><span class="tx"><b>משטח שלא מגיב עם האוכל.</b> זכוכית היא חומר אינרטי: היא לא סופגת ריחות, לא צובעת ולא משנה טעם. אפשר לבשל רוטב עגבניות או לימון בלי טעם מתכתי, ואפשר לאחסן אוכל בכלי עצמו.</span></div>'+
-    '<div class="fact"><span class="num">3</span><span class="tx"><b>בלי ציפויים סינתטיים.</b> באמייל אין ציפוי נון-סטיק מסוג טפלון, ולכן אין מה שיתפרק או ישתחרר בחום גבוה. זו הסיבה שאמייל חזר לאופנה במטבחים שמקפידים על חומרים.</span></div>'+
+    '<div class="fact"><span class="num">3</span><span class="tx"><b>בלי ציפויים סינתטיים.</b> באמייל אין ציפוי נון-סטיק מסוג טפלון, ולכן אין מה שיתפרק או ישתחרר בחום גבוה.</span></div>'+
     '<div class="fact"><span class="num">4</span><span class="tx"><b>מאיפה מגיע הצבע.</b> הגוונים מגיעים מתחמוצות מתכת שנשרפות בתוך הזיגוג, ולא מצבע שנמרח מלמעלה. לכן הצבע לא דוהה בשמש — ואפשר להשאיר כלי בגינה או במרפסת.</span></div>'+
-    '<div class="fact"><span class="num">5</span><span class="tx"><b>עובד על אינדוקציה.</b> מתחת לזיגוג יש פלדה, שהיא מגנטית — ולכן כלי אמייל עובדים על כיריים אינדוקציה, בניגוד לאלומיניום, לנחושת ולזכוכית.</span></div>'+
-    '<div class="fact"><span class="num">6</span><span class="tx"><b>אבל לא במיקרוגל.</b> מאותה סיבה בדיוק: בפנים יש מתכת. אמייל הולך לגז, לאינדוקציה, לתנור ואפילו למדורה — רק לא למיקרוגל.</span></div>'+
-    '<div class="fact"><span class="num">7</span><span class="tx"><b>למה זה חשוב מאיפה קונים.</b> אמייל שמיועד למגע עם מזון מיוצר לפי תקן שמגביל מתכות כבדות בפיגמנטים. זו בדיוק ההבחנה בין כלי אמייל אמיתי לבין פריט דקורטיבי שנראה דומה.</span></div>'+
+    '<div class="fact"><span class="num">5</span><span class="tx"><b>למה זה חשוב מאיפה קונים.</b> אמייל שמיועד למגע עם מזון מיוצר לפי תקן שמגביל מתכות כבדות בפיגמנטים. זו ההבחנה בין כלי אמייל אמיתי לבין פריט דקורטיבי שנראה דומה.</span></div>'+
     '</div>'});
 
-  /* עמוד שאלות נפוצות */
+  /* עמוד שאלות נפוצות וטיפול — איחוד של "שאלות נפוצות" ו"איך מטפלים". */
   const faqPage = pages.length;
   pages.push({html:
-    '<div class="pagehead"><h2>שאלות נפוצות</h2><span class="ln"></span></div>'+
+    '<div class="pagehead"><h2>שאלות נפוצות וטיפול</h2><span class="ln"></span></div>'+
     '<div class="info">'+
-    '<h4>על אילו כיריים אפשר להשתמש?</h4><p>גז, אינדוקציה, קרמי וחשמלי, וגם בתנור. מתחת לזיגוג יש פלדה מגנטית, ולכן אינדוקציה עובדת. במיקרוגל אסור, מאותה סיבה בדיוק. שימו לב לפריטים עם ידית עץ — הם לא נכנסים לתנור.</p>'+
-    '<h4>אפשר לשטוף במדיח?</h4><p>כן. שטיפה ידנית בספוג רך תשמור על הברק לאורך זמן, אבל המדיח לא יפגע בכלי.</p>'+
-    '<h4>מה קורה אם נוצר סדק?</h4><p>הפלדה נחשפת ועלולה להחליד, לכן חשוב לייבש היטב אחרי שטיפה. הכלי עדיין שימושי לבישול, אבל לא לאחסון ממושך של מזון חומצי. את רוב הנזק אנשים גורמים בארון ולא על הכיריים — כדאי להניח מטלית בין כלי לכלי.</p>'+
-    '<h4>כמה זמן זה מחזיק?</h4><p>אמייל לא מתבלה משימוש: הוא לא מתקלף ולא מאבד צבע, וכלים מהדורות הקודמים עדיין בשימוש היום. מה שמסכן אותו זו מכה חזקה או הלם טמפרטורה.</p>'+
-    '<h4>איך יודעים שזה אמייל אמיתי?</h4><p>אמייל אמיתי הוא זכוכית שנשרפה על פלדה — הוא כבד יותר מאלומיניום צבוע, קר למגע, והשפה שלו מסתיימת בקו כהה. כלי אמייל למגע עם מזון מיוצרים לפי תקן שמגביל מתכות כבדות בפיגמנטים.</p>'+
-    '<h4>הצבע שאני רוצה במלאי?</h4><p>הצבעים הזמינים מופיעים בכל כרטיס מוצר. פריט שאזל מסומן, ואפשר ללחוץ על הכפתור ולקבל הודעה כשהוא חוזר.</p>'+
-    '<h4>אפשר לראות לפני שקונים?</h4><p>בהחלט. אנחנו במושב כפר בן נון — מוזמנים לתאם בוואטסאפ, לבוא לראות ולגעת.</p>'+
-    '<h4>איך מזמינים?</h4><p>אפשר להוסיף פריטים לעגלה כאן בקטלוג ולשלוח הודעה אחת מסודרת בוואטסאפ, או פשוט לכתוב לנו ישירות עם מספר המק״ט של הפריט.</p>'+
-    '</div>'});
-
-  /* עמוד טיפול באמייל */
-  const carePage = pages.length;
-  pages.push({html:
-    '<div class="pagehead"><h2>איך מטפלים באמייל</h2><span class="ln"></span></div>'+
-    '<div class="info">'+
-    '<h4>שטיפה</h4><p>הכלים מתאימים למדיח. שטיפה ידנית בספוג רך תשמור על הברק לאורך שנים.</p>'+
-    '<h4>מה לא לעשות</h4><p>בלי ספוגית פלדה ובלי חומרי ניקוי שוחקים — הם משאירים שריטות בזיגוג הזכוכיתי, ובשריטה נאחזות כתמים.</p>'+
-    '<h4>חום</h4><p>לא לחמם כלי ריק ולא להכניס כלי לוהט למים קרים. הפלדה והזיגוג מתפשטים בקצב שונה, והפרש טמפרטורה חד הוא מה שמסדק את הציפוי. להבה בגודל תחתית הכלי וחום בינוני יספיקו — אמייל מוליך חום מהר.</p>'+
-    '<h4>אם נוצר שבב</h4><p>הפלדה נחשפת ועלולה להחליד, לכן כדאי לייבש היטב אחרי כל שטיפה. כלי פגום עדיין שימושי לבישול, אבל לא לאחסון ממושך של מזון חומצי כמו לימון או עגבניות.</p>'+
-    '<h4>אחסון</h4><p>בהערמה כדאי להניח מטלית בין כלי לכלי. רוב השבבים נוצרים בארון, לא על הכיריים.</p>'+
+    '<h4>על אילו כיריים אפשר להשתמש?</h4><p>גז, אינדוקציה, קרמי וחשמלי, וגם בתנור — מתחת לזיגוג יש פלדה מגנטית. במיקרוגל אסור, מאותה סיבה בדיוק. פריטים עם ידית עץ או פלסטיק לא נכנסים לתנור.</p>'+
+    '<h4>איך שוטפים?</h4><p>הכלים מתאימים למדיח. שטיפה ידנית בספוג רך תשמור על הברק לאורך שנים. בלי ספוגית פלדה ובלי חומרים שוחקים — הם משאירים שריטות שבהן נאחזים כתמים.</p>'+
+    '<h4>מה עם חום?</h4><p>לא לחמם כלי ריק ולא להכניס כלי לוהט למים קרים: הפלדה והזיגוג מתפשטים בקצב שונה, והפרש חד הוא מה שמסדק. חום בינוני מספיק — אמייל מוליך חום מהר.</p>'+
+    '<h4>ואם נוצר שבב?</h4><p>הפלדה נחשפת ועלולה להחליד, אז כדאי לייבש היטב. הכלי עדיין שימושי לבישול, אבל לא לאחסון ממושך של מזון חומצי. רוב השבבים נוצרים בארון ולא על הכיריים — כדאי להניח מטלית בין כלי לכלי.</p>'+
+    '<h4>כמה זמן זה מחזיק?</h4><p>אמייל לא מתבלה משימוש: הוא לא מתקלף ולא מאבד צבע. מה שמסכן אותו זו מכה חזקה או הלם טמפרטורה.</p>'+
+    '<h4>איך יודעים שזה אמייל אמיתי?</h4><p>הוא כבד יותר מאלומיניום צבוע, קר למגע, והשפה שלו מסתיימת בקו כהה.</p>'+
+    '<h4>הצבע שאני רוצה במלאי?</h4><p>כל גוון מופיע בקטלוג ככרטיס נפרד. פריט שאזל מסומן, ואפשר לבקש הודעה כשהוא חוזר.</p>'+
+    '<h4>אפשר לראות לפני שקונים?</h4><p>בהחלט — אנחנו במושב כפר בן נון. מתאמים בוואטסאפ ובאים לראות ולגעת.</p>'+
+    '<h4>איך מזמינים?</h4><p>מוסיפים פריטים לעגלה ושולחים הודעה אחת מסודרת בוואטסאפ, או כותבים לנו ישירות עם מספר המק״ט.</p>'+
     '</div>'});
 
   /* מילוי תוכן העניינים */
@@ -1412,8 +1420,7 @@ function buildPages(){
                                               ["הכלים אצלנו במושב",shotsPage],
                                               ["איפה, מתי ואיך",shipPage],
                                               ["הידעת?",factsPage],
-                                              ["שאלות נפוצות",faqPage],
-                                              ["איך מטפלים באמייל",carePage]]);
+                                              ["שאלות נפוצות וטיפול",faqPage]]);
   pages[tocIndex].html =
     '<div class="pagehead"><h2>תוכן העניינים</h2><span class="ln"></span></div>'+
     /* בקטלוג של שלושים עמודים החיפוש הוא הכניסה היעילה יותר, אבל הוא מוסתר
@@ -1478,6 +1485,17 @@ function colorDots(p){
    אחד. הסיבה שהגוונים מופיעים נפרדים בגריד היא מסחרית — לקוח שמדפדף לא
    פותח כל מוצר, והוא קונה את מה שהעין שלו נתקלה בה. קומקום אחד עם שלושה
    עיגולים נראה כמו פריט אחד; שלושה קומקומים נראים כמו בחירה. */
+/* הוספה מהירה: מוסיפה לעגלה ומסמנת ✓ לשתי שניות. בלי פתיחת חלון —
+   הרעיון הוא שמי שכבר יודע מה הוא רוצה לא ייעצר בדף מוצר. */
+function quickAdd(btn){
+  const id = btn.dataset.add, p = byId(id);
+  if(!p) return;
+  addToCart(id);
+  statBump(STATS.cart, p.sku);
+  btn.classList.add("done"); btn.textContent = "✓";
+  clearTimeout(btn._t);
+  btn._t = setTimeout(()=>{ btn.classList.remove("done"); btn.textContent = "+"; }, 1800);
+}
 function cardHTML(p){
   const art = p.img
     ? '<img src="'+p.img+'" alt="'+esc(p.name+(p.colorName?" "+p.colorName:""))+'" loading="lazy" decoding="async">'
@@ -1489,7 +1507,14 @@ function cardHTML(p){
     (sub?'<div class="sub">'+esc(sub)+'</div>':'')+
     '<div class="sku">'+p.sku+'</div>'+
     (p.colorName ? "" : colorDots(p))+
-    '<div class="price">'+esc(priceOf(p))+'</div></div>';
+    '<div class="price">'+esc(priceOf(p))+'</div>'+
+    /* הוספה מהירה בלי לפתוח את דף המוצר. יושב בפינת המסגרת ולא מתחת
+       לכרטיס, כדי לא להוסיף שורה לכל כרטיס ולהאריך את העמוד. פריט
+       שאזל לא מקבל אותו. */
+    (p.stock==="out" ? "" :
+      '<button class="quickadd" data-add="'+p.id+'" aria-label="הוספה מהירה להזמנה — '+
+      esc(p.name+(p.colorName?" "+p.colorName:""))+'" title="הוספה להזמנה">+</button>')+
+    '</div>';
 }
 
 /* =========================== פריסה ודפדוף =========================== */
@@ -1553,10 +1578,8 @@ function go(n, instant){
 
   const last = slides[idx][slides[idx].length-1];
   const txt = (slides[idx][0]+1)+(slides[idx].length>1?"–"+(last+1):"")+" / "+pages.length;
-  document.getElementById("counter").textContent  = txt;
   document.getElementById("counter2").textContent = txt;
-  [["prev",idx===0],["prev2",idx===0],
-   ["next",idx===slides.length-1],["next2",idx===slides.length-1]]
+  [["prev2",idx===0],["next2",idx===slides.length-1]]
     .forEach(([id,off])=>{ document.getElementById(id).disabled = off; });
   track.querySelectorAll(".page").forEach(el=>el.scrollTop=0);
 }
@@ -1565,8 +1588,6 @@ function goToPage(p){
   if(s>=0) go(s);
 }
 
-document.getElementById("prev").onclick  = ()=>go(idx-1);
-document.getElementById("next").onclick  = ()=>go(idx+1);
 document.getElementById("prev2").onclick = ()=>go(idx-1);
 document.getElementById("next2").onclick = ()=>go(idx+1);
 document.addEventListener("keydown", e=>{
@@ -1592,6 +1613,10 @@ stage.addEventListener("touchend", e=>{
 
 /* לחיצה על כרטיס מוצר או על שורה בתוכן העניינים */
 track.addEventListener("click", e=>{
+  /* הפלוס נבדק לפני הכרטיס: הוא יושב בתוכו, ובלי זה כל הוספה מהירה
+     הייתה גם פותחת את דף המוצר. */
+  const qa = e.target.closest(".quickadd");
+  if(qa){ e.stopPropagation(); quickAdd(qa); return; }
   const card = e.target.closest(".card");
   if(card){ openCard(PRODUCTS.find(p=>p.id===card.dataset.id), card.dataset.color); return; }
   const shot = e.target.closest(".shots img");
@@ -1886,8 +1911,13 @@ PRODUCTS.forEach(p=>{ p.id = p.sku; });
         colorName: c[0], colors: [c], siblings: family,
         img: img,
         colorImgs: img ? {[c[0]]: img} : null,
-        colorAlts: alt ? {[c[0]]: alt} : null
+        colorAlts: alt ? {[c[0]]: alt} : null,
+        /* תמונת "מהמציאות" לגוון המסוים אם יש, ואחרת זו של הכלי */
+        real: (p.realImgs && p.realImgs[c[0]]) || p.real || "",
+        realNote: (p.realNotes && p.realNotes[c[0]]) || p.realNote || ""
       });
+      delete out[out.length-1].realImgs;
+      delete out[out.length-1].realNotes;
       delete v.skus;
       out.push(v);
     });
@@ -2104,63 +2134,35 @@ function runSearch(){
     p.colorName ? colorFamily(p.colorName)===qColor : matchesColor(p, qColor));
   document.getElementById("qresults").innerHTML = items.map(cardHTML).join("");
   document.getElementById("qempty").hidden = hits.length>0;
+  document.getElementById("qfoot").hidden = !(hasQuery() && hits.length && !qIds);
+  document.getElementById("qToCatalog").textContent = "הצגה בקטלוג · " + items.length + " פריטים";
 }
 function clearColl(){ qIds = null; document.getElementById("qtitle").textContent = ""; }
-/* =========================== סינון הקטלוג =========================== */
-const filterOverlay = document.getElementById("filterOverlay");
-let fCat="*", fColor="*", fBand="*", fFlag="*";
-function renderFilterChips(){
-  const cats = catOrder();
-  document.getElementById("fchips").innerHTML =
-    '<div class="cgroup"><span class="clabel">צבע</span>'+
-      COLOR_FAMILIES.map(f=>
-        '<button class="chip swatchchip" data-fcolor="'+esc(f[0])+'" aria-pressed="'+(fColor===f[0])+'">'+
-          '<i style="background:'+f[1]+'"></i>'+esc(f[0])+'</button>').join("")+
-    '</div><div class="csep"></div>'+
-    '<div class="cgroup"><span class="clabel">קטגוריה</span>'+
-      cats.map(c=>'<button class="chip" data-fcat="'+esc(c)+'" aria-pressed="'+(fCat===c)+'">'+esc(c)+'</button>').join("")+
-    '</div><div class="csep"></div>'+
-    '<div class="cgroup"><span class="clabel">מחיר</span>'+
-      Object.keys(BANDS).filter(b=>b!=="*").map(b=>
-        '<button class="chip" data-fband="'+esc(b)+'" aria-pressed="'+(fBand===b)+'">'+esc(b)+'</button>').join("")+
-    '</div><div class="csep"></div>'+
-    '<div class="cgroup"><span class="clabel">אחר</span>'+
-      '<button class="chip" data-fflag="new" aria-pressed="'+(fFlag==="new")+'">רק חדשים</button>'+
-    '</div>';
-}
-document.getElementById("fchips").addEventListener("click", e=>{
-  const c = e.target.closest(".chip"); if(!c) return;
-  /* לחיצה חוזרת על אותו ערך מבטלת אותו — בלי צורך בכפתור נפרד לכל שדה */
-  if(c.dataset.fcolor!==undefined) fColor = (fColor===c.dataset.fcolor ? "*" : c.dataset.fcolor);
-  else if(c.dataset.fcat!==undefined) fCat = (fCat===c.dataset.fcat ? "*" : c.dataset.fcat);
-  else if(c.dataset.fband!==undefined) fBand = (fBand===c.dataset.fband ? "*" : c.dataset.fband);
-  else if(c.dataset.fflag!==undefined) fFlag = (fFlag===c.dataset.fflag ? "*" : c.dataset.fflag);
-  renderFilterChips();
-});
-function activeFilterCount(){
-  return [fColor,fCat,fBand,fFlag].filter(v=>v!=="*").length;
+/* =========================== סינון הקטלוג ===========================
+   חלון אחד לחיפוש ולסינון. הבחירות בו (טקסט, צבע, קטגוריה, מחיר) מציגות
+   רשימת תוצאות, והכפתור בתחתית מעביר את אותן בחירות לקטלוג עצמו —
+   הדפים נבנים מחדש רק מהפריטים שעברו, עם דפדוף רגיל. בעבר היו שני
+   אייקונים ושני חלונות עם אותם מסננים בדיוק. */
+function hasQuery(){
+  return qColor!=="*" || qCat!=="*" || qPrice!=="*" || qFlag!=="*" || qInput.value.trim()!=="";
 }
 function applyCatFilter(){
-  const n = activeFilterCount();
-  catFilter = n ? {color: fColor==="*"?null:fColor,
-                   cat:   fCat==="*"  ?null:fCat,
-                   band:  fBand,
-                   flag:  fFlag} : null;
+  const n = [qColor,qCat,qPrice,qFlag].filter(v=>v!=="*").length + (qInput.value.trim()?1:0);
+  catFilter = n ? {color: qColor==="*"?null:qColor, cat: qCat==="*"?null:qCat,
+                   band: qPrice, flag: qFlag, text: qInput.value.trim()} : null;
   idx = 0;
   buildPages(); layout(); go(0, true);
-  const bar = document.getElementById("fbar");
-  bar.hidden = !catFilter;
+  document.getElementById("fbar").hidden = !catFilter;
   if(catFilter) document.getElementById("fbarText").textContent = "מסונן: " + filterSummary();
   const badge = document.getElementById("filterCount");
   badge.hidden = !n; badge.textContent = n;
-  filterOverlay.classList.remove("open");
+  searchOverlay.classList.remove("open");
 }
-function clearCatFilter(){ fCat=fColor=fBand=fFlag="*"; renderFilterChips(); applyCatFilter(); }
-document.getElementById("filterBtn").onclick = ()=>{ renderFilterChips(); filterOverlay.classList.add("open"); };
-document.getElementById("filterClose").onclick = ()=>filterOverlay.classList.remove("open");
-filterOverlay.onclick = e=>{ if(e.target===filterOverlay) filterOverlay.classList.remove("open"); };
-document.getElementById("filterApply").onclick = applyCatFilter;
-document.getElementById("filterClear").onclick = clearCatFilter;
+function clearCatFilter(){
+  qColor=qCat=qPrice=qFlag=qSort="*"; qInput.value=""; clearColl();
+  renderChips(); runSearch(); applyCatFilter();
+}
+document.getElementById("qToCatalog").onclick = applyCatFilter;
 document.getElementById("fbarClear").onclick = clearCatFilter;
 
 document.getElementById("searchBtn").onclick = ()=>{
@@ -2183,6 +2185,8 @@ document.getElementById("qchips").addEventListener("click", e=>{
   renderChips(); runSearch();
 });
 document.getElementById("qresults").addEventListener("click", e=>{
+  const qa = e.target.closest(".quickadd");
+  if(qa){ e.stopPropagation(); quickAdd(qa); return; }
   const card = e.target.closest(".card"); if(!card) return;
   /* החיפוש נשאר פתוח מתחת: סגירת דף המוצר מחזירה לתוצאות המסוננות. */
   openCard(PRODUCTS.find(p=>p.id===card.dataset.id), card.dataset.color);
@@ -2580,7 +2584,7 @@ document.addEventListener("keydown", e=>{
   const sheet = document.getElementById("overlay");
   if(sheet.classList.contains("open")) return closeSheet();
   [checkoutOverlay,verifyOverlay,waitOverlay,contactOverlay,jumpOverlay,
-   cartOverlay,favOverlay,filterOverlay,searchOverlay]
+   cartOverlay,favOverlay,searchOverlay]
     .forEach(o=>o&&o.classList.remove("open"));
 });
 
@@ -2745,7 +2749,6 @@ function openJump(){
   jumpOverlay.classList.add("open");
   setTimeout(()=>document.getElementById("jumpInput").focus(),60);
 }
-document.getElementById("counter").onclick  = openJump;
 document.getElementById("counter2").onclick = openJump;
 function doJump(){
   const n = parseInt(document.getElementById("jumpInput").value,10);
