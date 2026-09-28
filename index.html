@@ -329,6 +329,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .sheet .frame img{width:100%;height:100%;object-fit:contain}
 .sheet .frame svg{width:48%;height:48%}
 .sheet h3{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 4px;color:var(--olive-deep)}
+.sheet .csub{font-size:15px;color:var(--muted);margin:-2px 0 4px}
 .sheet .cat{font-size:13px;color:var(--muted);margin:0 0 14px}
 .sheet .desc{font-size:15px;margin:0 0 16px}
 .bigprice{font-size:21px;color:var(--rim);margin-bottom:18px}
@@ -409,6 +410,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
   border-bottom:1px solid rgba(92,107,76,.22)}
 .panel .head h4{font-family:var(--serif);font-weight:400;font-size:19px;margin:0;color:var(--olive-deep)}
 .panel .body{overflow:auto;padding:14px 16px 20px}
+.colldesc{margin:2px 0 0;font-size:13.5px;color:var(--muted)}
 .panel .foot{border-top:1px solid rgba(92,107,76,.25);padding:12px 16px 18px;background:var(--paper-2)}
 #q{flex:1;min-width:0;font:inherit;font-size:16px;padding:9px 12px;border-radius:8px;
   border:1px solid rgba(92,107,76,.45);background:var(--page);color:var(--ink)}
@@ -523,6 +525,17 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     <div class="qfoot" id="qfoot" hidden>
       <button class="btn primary" id="qToCatalog">הצגה בקטלוג</button>
     </div>
+  </div>
+</div>
+
+<div class="overlay" id="collOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head">
+      <div style="flex:1;min-width:0"><h4 id="collName"></h4><p id="collDesc" class="colldesc"></p></div>
+      <button class="iconbtn" id="collClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body"><div class="grid" id="collGrid"></div></div>
   </div>
 </div>
 
@@ -698,7 +711,7 @@ const SHOP = {
   address:"הגפן 25, כפר בן נון",
   maps:"https://waze.com/ul?q=" + encodeURIComponent("הגפן 25 כפר בן נון"),
   group:"https://chat.whatsapp.com/EaFHnrsxf0pLfuvp78Bcaw",
-  shipCost:40,                   /* עלות משלוח מתחת לסכום למשלוח חינם */
+  shipCost:50,                   /* עלות משלוח מתחת לסכום למשלוח חינם */
   /* כתובת ה-Web App של Google Apps Script לרשימת ההמתנה.
      כל עוד היא ריקה, כפתור "עדכנו אותי" פותח וואטסאפ במקום טופס. */
   waitlist:"https://script.google.com/macros/s/AKfycbzs6E2eecokE12XY8UThCgqk1Em1keP5dOQsNAQTKwNjUKHoulsKot_6W8zVNfRNVWuEA/exec",
@@ -729,7 +742,7 @@ const bakeware = {gas:false,induction:false,oven:true,dishwasher:true};
 
 const PRODUCTS = [
 /* --- סירים ומחבתות --- */
-{sku:"PS-01", name:"סיר גדול חום", cat:"סירים ומחבתות", price:300, vol:"16 ליטר",
+{sku:"PS-01", name:"סיר גדול", cat:"סירים ומחבתות", price:300, vol:"16 ליטר",
   colors:[["חום",C.brown]], use:cookware,
   desc:"סיר גדול לבישולים של כל המשפחה: חמין לשבת, מרק לכולם ובישולי חג.",
   img:"img/PS-01-brown.jpg", colorImgs:{"חום":"img/PS-01-brown.jpg"},
@@ -742,7 +755,7 @@ const PRODUCTS = [
   use:cookware,
   img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles.jpg","ירוק":"img/PS-03-green.jpg"},
   skus:{"אדום":"PS-03-01","אדום עם אוזניים":"PS-03-02","ירוק":"PS-03-03"}},
-{sku:"PS-04", name:"מחבת שחורה קטנה", cat:"סירים ומחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
+{sku:"PS-04", name:"מחבת קטנה", cat:"סירים ומחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
   desc:"מחבת קטנה לביצה של הבוקר, לחימום מהיר או לשקשוקה אישית. עוברת מהכיריים ישר לשולחן.",
   img:"img/PS-04-main.jpg", colorImgs:{"שחור":"img/PS-04-main.jpg"}, dia:"16.5 ס\"מ", h:"4 ס\"מ"},
 {sku:"PS-05", name:"מחבת", cat:"סירים ומחבתות", price:70, colors:[["אדום",C.red],["ירוק",C.green]], use:cookware,
@@ -770,20 +783,20 @@ const PRODUCTS = [
   img:"img/PS-06-red.jpg", colorImgs:{"אדום":"img/PS-06-red.jpg","צהוב":"img/PS-06-yellow.jpg","כחול":"img/PS-06-blue.jpg","שחור":"img/PS-06-black.jpg"},
   skus:{"אדום":"PS-06-01","צהוב":"PS-06-02","כחול":"PS-06-03","שחור":"PS-06-04"},
   colorStock:{"כחול":"out","שחור":"out"}},
-{sku:"PS-07", name:"קומקום אדום מנוקד", cat:"קומקומים", price:150, vol:"2.5 ליטר", colors:[["אדום מנוקד",C.red]], use:stovetop,
+{sku:"PS-07", name:"קומקום", cat:"קומקומים", price:150, vol:"2.5 ליטר", colors:[["אדום מנוקד",C.red]], use:stovetop,
   desc:"קומקום גדול, אדום עם נקודות לבנות. לתה לכל השולחן, לאירוח ולישיבה בחוץ.",
   img:"img/PS-07-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-07-red-dots.jpg"}},
-{sku:"PS-08", name:"קומקום תכלת", cat:"קומקומים", price:90, isNew:true,
+{sku:"PS-08", name:"קומקום", cat:"קומקומים", price:90, isNew:true,
   colors:[["תכלת",C.lblue]], use:stovetop,
   desc:"קומקום בתכלת בהיר. לחימום מים לתה ולקפה, ומוסיף צבע למטבח גם כשהוא עומד על הכיריים.",
   img:"img/PS-08-lightblue.jpg", colorImgs:{"תכלת":"img/PS-08-lightblue.jpg"}, h:"17 ס\"מ"},
-{sku:"PS-09", name:"קומקום כחול עם נקודות לבנות", cat:"קומקומים", price:90, vol:"0.8 ליטר", colors:[["כחול מנוקד",C.blue]], use:stovetop,
+{sku:"PS-09", name:"קומקום", cat:"קומקומים", price:90, vol:"0.8 ליטר", colors:[["כחול עם נקודות לבנות",C.blue]], use:stovetop,
   desc:"קומקום קטן, כחול עם נקודות לבנות. מתאים לזוג, לכוס תה של בוקר או למטבח קטן.",
   h:"20 ס\"מ",
-  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול מנוקד":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול מנוקד":"img/PS-09-blue-dots-alt.jpg"}},
-{sku:"PS-10", name:"קומקום כחול עם נקודות תכלת בהיר", cat:"קומקומים", price:90, vol:"1.5 ליטר", colors:[["כחול מנוקד תכלת","#2C5E9E"]], use:stovetop,
+  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots-alt.jpg"}},
+{sku:"PS-10", name:"קומקום", cat:"קומקומים", price:90, vol:"1.5 ליטר", colors:[["כחול עם נקודות תכלת בהיר","#2C5E9E"]], use:stovetop,
   desc:"קומקום כחול עם נקודות בתכלת בהיר, בגודל שמספיק לכמה כוסות. לתה, לקפה ולאירוח.",
-  img:"img/PS-10-blue-dots.jpg", colorImgs:{"כחול מנוקד תכלת":"img/PS-10-blue-dots.jpg"}},
+  img:"img/PS-10-blue-dots.jpg", colorImgs:{"כחול עם נקודות תכלת בהיר":"img/PS-10-blue-dots.jpg"}},
 {sku:"PS-11", name:"קומקום", cat:"קומקומים", price:90, vol:"1.2 ליטר", colors:[["אדום",C.red],["תכלת",C.lblue],["ירוק כהה",C.dgreen],["לבן עם נקודות אדומות",C.white],["אדום מנוקד",C.red]], use:stovetop,
   desc:"קומקום בגודל יומיומי, בכמה גוונים. לחימום מים לתה ולקפה, ויפה גם על המדף.",
   img:"img/PS-11-red.jpg", colorImgs:{"אדום":"img/PS-11-red.jpg","ירוק כהה":"img/PS-11-darkgreen.jpg","תכלת":"img/PS-11-lightblue.jpg","אדום מנוקד":"img/PS-19-red-dots.jpg"},
@@ -830,10 +843,10 @@ const PRODUCTS = [
   desc:"קומקום גדול, שחור עם נקודות לבנות קטנות וידית תיל. לתה לכל השולחן, לאירוח ולישיבה בחוץ.",
   img:"img/PS-17-black.jpg", colorImgs:{"שחור עם נקודות קטנות לבנות":"img/PS-17-black.jpg"},
   colorAlts:{"שחור עם נקודות קטנות לבנות":"img/PS-17-black-alt.jpg"}},
-{sku:"PS-18", name:"קומקום אלאדין אדום מנוקד עם מסננת", cat:"קומקומים", price:90, vol:"1 ליטר", colors:[["אדום מנוקד",C.red]],
+{sku:"PS-18", name:"קומקום אלאדין עם מסננת", cat:"קומקומים", price:90, vol:"1 ליטר", colors:[["אדום מנוקד",C.red]],
   desc:"קומקום אלאדין אדום עם נקודות לבנות ומסננת בפנים. שמים עלי תה ישר בקומקום ומוזגים תה נקי.",
   img:"img/PS-18-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-18-red-dots.jpg"}, colorAlts:{"אדום מנוקד":["img/PS-18-red-dots-alt.jpg","img/PS-18-strainer.jpg"]}},
-{sku:"PS-20", name:"קומקום לבן משולב עץ", cat:"קומקומים", price:90, vol:"1.3 ליטר", colors:[["לבן",C.white]],
+{sku:"PS-20", name:"קומקום עם ידית עץ", cat:"קומקומים", price:90, vol:"1.3 ליטר", colors:[["לבן",C.white]],
   desc:"קומקום לבן עם ידית עץ, שמשתלב בכל מטבח. לחימום מים לתה ולקפה. בגלל ידית העץ הוא מיועד לכיריים בלבד.",
   img:"img/PS-20-white.jpg", colorImgs:{"לבן":"img/PS-20-white.jpg"}},
 {sku:"PS-21", name:"קומקומי אלאדין — סט 3 יחידות", cat:"קומקומים", price:99, colors:[["מגוון",C.red]],
@@ -841,7 +854,7 @@ const PRODUCTS = [
   img:"img/PS-21-mixed.jpg", colorImgs:{"מגוון":"img/PS-21-mixed.jpg"},
   real:"img/real-PS-21.jpg",
   realNote:"שלושת הקומקומים של הסט, בגדלים העולים"},
-{sku:"PS-22", name:"קומקום כחול ג'מבו", cat:"קומקומים", price:180, vol:"4 ליטר", colors:[["כחול",C.blue]],
+{sku:"PS-22", name:"קומקום ג'מבו", cat:"קומקומים", price:180, vol:"4 ליטר", colors:[["כחול",C.blue]],
   desc:"קומקום כחול גדול במיוחד. לקפה או לתה לכל השולחן, לאירוח ולאירועים משפחתיים.",
   img:"img/PS-22-blue.jpg", colorImgs:{"כחול":"img/PS-22-blue.jpg"},
   real:"img/real-PS-22.jpg", realNote:"בחוץ, על משטח העץ — ארבעה ליטר"},
@@ -880,7 +893,7 @@ const PRODUCTS = [
   use:cookware,
   img:"img/PS-28-white.jpg", colorImgs:{"לבן":"img/PS-28-white.jpg","צהוב":"img/PS-28-yellow.jpg"},
   skus:{"לבן":"PS-28-01","צהוב":"PS-28-02"}},
-{sku:"PS-76", name:"כוס אספרסו עם פס כחול", cat:"ספלים וכוסות", price:12, use:cookware,
+{sku:"PS-76", name:"כוס אספרסו קטנה", cat:"ספלים וכוסות", price:12, use:cookware,
   dia:"5 ס\"מ", h:"4 ס\"מ", colors:[["לבן עם פס כחול כהה",C.white]],
   desc:"כוס אספרסו קטנה באמייל דק, לבנה עם פס כחול כהה על השפה. לאספרסו קצר ולקפה שחור.",
   img:"img/PS-76-white.jpg", colorImgs:{"לבן עם פס כחול כהה":"img/PS-76-white.jpg"},
@@ -891,7 +904,7 @@ const PRODUCTS = [
   desc:"קערה גדולה ורחבה. ללישה ולהתפחה של בצק, לסלט גדול לאירוח או להשריית ירקות.",
   img:"img/PS-29-yellow.jpg", colorImgs:{"צהוב בננה":"img/PS-29-yellow.jpg","לבן תכלת":"img/PS-29-lightblue.jpg"},
   skus:{"צהוב בננה":"PS-29-01","לבן תכלת":"PS-29-02"}},
-{sku:"PS-30", name:"קערה ענקית שחורה", cat:"קערות", price:250, dia:"כ-50 ס\"מ", colors:[["שחור מנוקד",C.black]],
+{sku:"PS-30", name:"קערה ענקית", cat:"קערות", price:250, dia:"כ-50 ס\"מ", colors:[["שחור מנוקד",C.black]],
   desc:"פריט ייחודי עם נוכחות מרשימה: קערת אמייל ענקית להתפחת בצקים, להשריית ירקות, לקרח עם בקבוקים או להגשה מרכזית. אפשר גם להפוך אותה לאדנית לעציץ גדול בגינה.", use:{outdoor:true},
   img:"img/PS-30-black.jpg", colorImgs:{"שחור מנוקד":"img/PS-30-black.jpg"}},
 {sku:"PS-92", name:"קערה פרחונית", cat:"קערות", price:120, dia:"30 ס\"מ", h:"10 ס\"מ",
@@ -1002,7 +1015,7 @@ const PRODUCTS = [
   img:"img/PS-48-white.jpg", colorImgs:{"לבן":"img/PS-48-white.jpg","שמנת":"img/PS-48-cream.jpg","פיסטוק":"img/PS-48-pistachio.jpg","תכלת":"img/PS-48-lightblue.jpg","חרדל":"img/PS-48-mustard.jpg"}, colorAlts:{"לבן":"img/PS-48-white-alt.jpg","שמנת":"img/PS-48-cream-alt.jpg","פיסטוק":"img/PS-48-pistachio-alt.jpg","תכלת":"img/PS-48-lightblue-alt.jpg","חרדל":"img/PS-48-mustard-alt.jpg"}, h:"7.5 ס\"מ",
   skus:{"לבן":"PS-48-01","שמנת":"PS-48-02","פיסטוק":"PS-48-03","תכלת":"PS-48-04","חרדל":"PS-48-05"},
   real:"img/real-tins.jpg", realNote:"התבניות זו על זו — ככה רואים את ההבדל בין הגוונים ובין הגבהים"},
-{sku:"PS-96", name:"תבנית עגולה, גוונים עזים", cat:"תבניות אפייה", price:90, use:bakeware,
+{sku:"PS-96", name:"תבנית עגולה", cat:"תבניות אפייה", price:90, use:bakeware,
   dia:"26 ס\"מ", stock:"out",
   colors:[["אדום",C.red],["כחול כהה",C.blue],["שחור",C.black]],
   skus:{"אדום":"PS-96-01","כחול כהה":"PS-96-02","שחור":"PS-96-03"},
@@ -1071,35 +1084,43 @@ const PRODUCTS = [
 {sku:"PS-59", name:"מרית עץ שטוחה", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"מרית עץ עם קצה ישר ורחב. לבחישה ולגירוד תחתית הסיר, ועדינה לזיגוג האמייל.",
   img:"img/PS-59-wood.jpg", colorImgs:{"עץ":"img/PS-59-wood.jpg"},
-  real:"img/real-PS-59.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-59.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-59-wood-alt.jpg"}},
 {sku:"PS-85", name:"מרית עץ עם חריצים", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"מרית עץ עם שלושה חריצים. להפיכה ולניקוז באותה תנועה: לדגים, לחביתות ולירקות מטוגנים.",
   img:"img/PS-85-wood.jpg", colorImgs:{"עץ":"img/PS-85-wood.jpg"},
-  real:"img/real-PS-85.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-85.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-85-wood-alt.jpg"}},
 {sku:"PS-82", name:"מרית עץ משופעת", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"מרית עץ עם קצה משופע, שנכנס בקלות מתחת למה שמטגנים. לחביתות, לביצים ולבחישה.",
   img:"img/PS-82-wood.jpg", colorImgs:{"עץ":"img/PS-82-wood.jpg"},
-  real:"img/real-PS-82.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-82.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-82-wood-alt.jpg"}},
 {sku:"PS-83", name:"כף עץ", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"כף עץ קלאסית לבחישה ולטעימה מהסיר.",
   img:"img/PS-83-wood.jpg", colorImgs:{"עץ":"img/PS-83-wood.jpg"},
-  real:"img/real-PS-83.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-83.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-83-wood-alt.jpg"}},
 {sku:"PS-84", name:"כף עץ עגולה", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"כף עץ עם ראש עגול ורחב. לערבוב תבשילים סמיכים ולמזיגת רוטב.",
   img:"img/PS-84-wood.jpg", colorImgs:{"עץ":"img/PS-84-wood.jpg"},
-  real:"img/real-PS-84.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-84.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-84-wood-alt.jpg"}},
 {sku:"PS-81", name:"כף עץ עם שיניים", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"כף עץ עם שיניים בקצה. להרמת פסטה ולערבוב.",
   img:"img/PS-81-wood.jpg", colorImgs:{"עץ":"img/PS-81-wood.jpg"},
-  real:"img/real-PS-81.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-81.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-81-wood-alt.jpg"}},
 {sku:"PS-80", name:"כף פסטה עם חורים", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"כף פסטה מעץ עם שיניים וחור במרכז. להרמת ספגטי ולמדידת מנה אחת.",
   img:"img/PS-80-wood.jpg", colorImgs:{"עץ":"img/PS-80-wood.jpg"},
-  real:"img/real-PS-80.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-80.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-80-wood-alt.jpg"}},
 {sku:"PS-86", name:"כף מסננת מעץ", cat:"כלי מטבח והגשה", price:15, colors:[["עץ",C.brown]],
   desc:"כף מחוררת מעץ. להוצאת כופתאות וירקות מתוך המים.",
   img:"img/PS-86-wood.jpg", colorImgs:{"עץ":"img/PS-86-wood.jpg"},
-  real:"img/real-PS-86.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-86.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר",
+  colorAlts:{"עץ":"img/PS-86-wood-alt.jpg"}},
 {sku:"PS-60", name:"כפית אמייל להגשה", cat:"כלי מטבח והגשה", price:20, note:"להגשה בלבד",
   h:"13 ס\"מ",
   colors:[["לבן",C.white],["כחול",C.blue],["צהוב",C.yellow],["ירוק",C.green]],
@@ -1135,14 +1156,14 @@ const PRODUCTS = [
   colorAlts:{"לבן":"img/PS-66-white-alt.jpg","שמנת":"img/PS-66-cream-alt.jpg","כחול כהה":"img/PS-66-navy-alt.jpg"}},
 
 /* --- לבית ולחצר --- */
-{sku:"PS-67", name:"דלי לבן כולל מכסה", cat:"לבית ולחצר", price:450, colors:[["לבן",C.white]],
+{sku:"PS-67", name:"דלי עם מכסה", cat:"לבית ולחצר", price:450, colors:[["לבן",C.white]],
   desc:"דלי אמייל לבן עם מכסה. לאחסון, לכביסה או כעציץ גדול במרפסת.", use:{outdoor:true},
   img:"img/PS-67-white.jpg", colorImgs:{"לבן":"img/PS-67-white.jpg"},
   real:"img/real-PS-67.jpg", realNote:"הדלי עם המכסה, בגודל האמיתי שלו"},
-{sku:"PS-68", name:"דלי שחור גדול עם תלייה", cat:"לבית ולחצר", price:90, colors:[["שחור",C.black]],
+{sku:"PS-68", name:"דלי גדול עם תלייה", cat:"לבית ולחצר", price:90, colors:[["שחור",C.black]],
   desc:"דלי שחור גדול עם ידית לתלייה. לבית ולחצר: לאחסון, להשקיה או כאדנית.", use:{outdoor:true},
   img:"img/PS-68-black.jpg", colorImgs:{"שחור":"img/PS-68-black.jpg"}},
-{sku:"PS-69", name:"דלי אדום קטן עם תלייה", cat:"לבית ולחצר", price:30, colors:[["אדום",C.red]],
+{sku:"PS-69", name:"דלי קטן עם תלייה", cat:"לבית ולחצר", price:30, colors:[["אדום",C.red]],
   desc:"דלי אדום קטן עם ידית לתלייה. כעציץ קטן, לכפות מטבח או לממתקים, ומתנה קטנה ויפה.", use:{outdoor:true},
   img:"img/PS-69-red.jpg", colorImgs:{"אדום":"img/PS-69-red.jpg"}},
 {sku:"PS-70", name:"סבונייה", cat:"לבית ולחצר", price:60,
@@ -1441,7 +1462,7 @@ function buildPages(){
     '<p style="margin:10px 0 4px"><a class="btn ghost" style="display:inline-flex;padding:9px 16px" href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט בוויז</a></p>'+
 
     '<h4>מתי אפשר להגיע</h4>'+
-    '<p>אנחנו לא פתוחים בשעות קבועות, אלא מקיימים ימי מכירה מרוכזים. כדי לדעת מתי הדלת פתוחה, '+
+    '<p>אנו עורכים ימי מכירה מרוכזים. כדי לדעת מתי הדלת פתוחה, '+
       'הצטרפו לקבוצת הוואטסאפ שלנו — שם מתפרסמים המועדים ראשונים — או פשוט התקשרו ל'+SHOP.phone+' ונתאם.</p>'+
     '<p>בשבת אנחנו לא זמינים. הודעות שיגיעו בשבת ייענו במוצאי שבת.</p>'+
     (SHOP.group ? '<p style="margin:10px 0 4px"><a class="btn primary" style="display:inline-flex;padding:10px 18px" href="'+SHOP.group+'" target="_blank" rel="noopener">לקבוצת העדכונים</a></p>' : '')+
@@ -1678,10 +1699,8 @@ document.getElementById("prev2").onclick = ()=>go(idx-1);
 document.getElementById("next2").onclick = ()=>go(idx+1);
 document.addEventListener("keydown", e=>{
   const open = [...document.querySelectorAll(".overlay")].some(o=>o.classList.contains("open"));
-  if(open){
-    if(e.key==="Escape") closeSheet();
-    return;
-  }
+  /* Escape בזמן שחלון פתוח מטופל במאזין הכללי למטה, שכבה אחת בכל פעם */
+  if(open) return;
   if(e.key==="ArrowLeft")  go(idx+1);   /* בעברית: שמאלה = קדימה */
   if(e.key==="ArrowRight") go(idx-1);
 });
@@ -1783,8 +1802,7 @@ function openSheet(p){
     p.vol  ? [L.volume,   p.vol ] : null,
     /* כלי בגוון יחיד לא מקבל שורת עיגולים, ובלי השורה הזאת שם הגוון
        ("צהוב בשילוב פס ירוק כהה") לא היה מופיע בשום מקום בדף */
-    (!p.colorName && p.colors && p.colors.length===1 && p.colors[0][0]!=="מגוון")
-      ? ["צבע", p.colors[0][2] || p.colors[0][0]] : null
+    null
   ].filter(Boolean);
   document.getElementById("sheet").innerHTML =
     '<button class="close" aria-label="סגירה" onclick="closeSheet()">×</button>'+
@@ -1793,7 +1811,9 @@ function openSheet(p){
     '<p class="realcap" id="realCap" hidden></p>'+
     '<div class="gallery" id="sheetGallery"'+(gal.length>1?'':' hidden')+'>'+galleryHTML(gal,main)+'</div>'+
     badgeHTML(p)+
-    '<h3>'+esc(p.name + (p.colorName ? " · "+p.colorName : (sel && p.colors.length>1 ? " · "+sel : "")))+'</h3>'+
+    '<h3>'+esc(p.name)+'</h3>'+
+    ((p.colorName || sel || (p.colors.length===1 && p.colors[0][0]!=="מגוון"))
+      ? '<p class="csub">'+esc(p.colorName || sel || p.colors[0][2] || p.colors[0][0])+'</p>' : '')+
     '<p class="cat">'+esc(p.cat)+' · '+p.sku+'</p>'+
     ((p.desc||p.note)?'<p class="desc">'+esc(p.desc||p.note)+'</p>':'')+
     '<div class="bigprice">'+priceHTML(p)+'</div>'+
@@ -2678,7 +2698,7 @@ document.addEventListener("keydown", e=>{
   const sheet = document.getElementById("overlay");
   if(sheet.classList.contains("open")) return closeSheet();
   [checkoutOverlay,verifyOverlay,waitOverlay,contactOverlay,jumpOverlay,
-   cartOverlay,favOverlay,searchOverlay]
+   cartOverlay,favOverlay,collOverlay,searchOverlay]
     .forEach(o=>o&&o.classList.remove("open"));
 });
 
@@ -2877,11 +2897,25 @@ track.addEventListener("click", e=>{
 /* =========================== מארזים =========================== */
 track.addEventListener("click", e=>{
   const c = e.target.closest(".coll"); if(!c) return;
-  const coll = COLLECTIONS[Number(c.dataset.coll)];
-  qCat="*"; qPrice="*"; qIds=coll.ids; qInput.value="";
-  renderChips(); runSearch();
-  document.getElementById("qtitle").textContent = coll.name;
-  searchOverlay.classList.add("open");
+  openCollection(COLLECTIONS[Number(c.dataset.coll)]);
+});
+/* מארז נפתח בחלון משלו: שם, משפט, והכרטיסים. בלי שדה חיפוש ובלי סינון,
+   כדי שייראה כמו מארז שנבחר בשבילכם ולא כמו תוצאות חיפוש. */
+const collOverlay = document.getElementById("collOverlay");
+function openCollection(coll){
+  document.getElementById("collName").textContent = coll.name;
+  document.getElementById("collDesc").textContent = coll.desc || "";
+  document.getElementById("collGrid").innerHTML =
+    coll.ids.map(id=>byId(id)).filter(Boolean).map(cardHTML).join("");
+  collOverlay.classList.add("open");
+}
+document.getElementById("collClose").onclick = ()=>collOverlay.classList.remove("open");
+collOverlay.addEventListener("click", e=>{ if(e.target===collOverlay) collOverlay.classList.remove("open"); });
+document.getElementById("collGrid").addEventListener("click", e=>{
+  const qa = e.target.closest(".quickadd");
+  if(qa){ e.stopPropagation(); quickAdd(qa); return; }
+  const card = e.target.closest(".card"); if(!card) return;
+  openCard(PRODUCTS.find(p=>p.id===card.dataset.id), card.dataset.color);
 });
 
 /* =========================== מחירון להדפסה =========================== */
