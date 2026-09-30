@@ -71,9 +71,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 .booknav .pg:hover{background:rgba(92,107,76,.1)}
 
 /* ---------- אפקט דפדוף ---------- */
-.turner{position:absolute;inset:0;z-index:5;transform-origin:100% 50%;
-  backface-visibility:hidden;pointer-events:none;
-  box-shadow:-14px 0 26px rgba(46,51,39,.22)}
+.turner{position:absolute;inset:0;z-index:5;pointer-events:none}
 .track{display:flex;height:100%;will-change:transform;
   transition:transform .42s cubic-bezier(.25,.6,.3,1)}
 .slide{min-width:100%;height:100%;display:flex;gap:0;padding:12px;direction:rtl}
@@ -170,8 +168,9 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 #pricelist tr.h td{font-weight:600;background:#f2ece2;border-bottom:1px solid #bbb}
 
 /* ---------- קולקציות ---------- */
-.colls{display:grid;gap:11px}
-.coll{display:block;text-align:start;width:100%;background:var(--paper);padding:13px 14px;
+/* תשעה מארזים בשני טורים, כדי שייכנסו לעמוד אחד בלי גלילה */
+.colls{display:grid;gap:9px;grid-template-columns:1fr 1fr}
+.coll{display:block;text-align:start;width:100%;background:var(--paper);padding:10px 12px;
   border:1px solid rgba(92,107,76,.32);border-radius:4px;transition:border-color .15s ease}
 .coll:hover{border-color:var(--olive)}
 .coll .ct{display:block;font-family:var(--serif);font-size:17px;color:var(--olive-deep)}
@@ -191,6 +190,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 /* טופס הפרטים נפתח מעל העגלה ולא מאחוריה: שתי החלוניות חולקות את אותו
    z-index, וללא ההגבהה הזו קובע סדר הופעתן ב-HTML והעגלה מכסה את הטופס.
    העגלה נשארת פתוחה מתחת, כך שסגירת הטופס מחזירה אליה. */
+#policyOverlay{z-index:75}
 #checkoutOverlay{z-index:70;background:rgba(46,51,39,.62)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 textarea{width:100%;font:inherit;font-size:15px;line-height:1.6;padding:10px 12px;
@@ -403,6 +403,9 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
    משלנו גובר עליו. בלי השורה הזאת כפתור עם hidden פשוט ממשיך להופיע —
    כך קרה ל"לפרטי המוצר" בטופס רשימת הדיוור. */
 [hidden]{display:none !important}
+/* כפתור המעבר לפרטי מוצר שאזל — בגודל של כפתור אמיתי ולא קישור קטן */
+#waitDetails{display:flex;width:100%;justify-content:center;padding:12px 16px;font-size:15.5px;margin:0 0 16px}
+#waitDetails[hidden]{display:none}
 .linkbtn{display:block;width:100%;margin-top:12px;padding:6px;text-align:center;
   font-size:13.5px;color:var(--enamel);text-decoration:underline}
 
@@ -542,6 +545,16 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
   </div>
 </div>
 
+<div class="overlay" id="policyOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head"><h4>ביטול, החזרה ופרטיות</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="policyClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body info" id="policyBody"></div>
+  </div>
+</div>
+
 <div id="pricelist"></div>
 
 <div id="zoom" role="dialog" aria-modal="true"><button class="x" aria-label="סגירה">×</button><div class="zwrap"><img alt=""></div></div>
@@ -581,7 +594,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     </div>
     <div class="body">
       <p class="label" id="waitProduct"></p>
-      <button class="linkbtn" id="waitDetails" style="margin:0 0 12px" hidden>לפרטי המוצר</button>
+      <button class="btn ghost" id="waitDetails" hidden>לפרטי המוצר ←</button>
       <div class="field"><label for="waitName">שם</label>
         <input id="waitName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
       <div class="field"><label for="waitPhone">טלפון</label>
@@ -598,7 +611,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     </div>
     <div class="foot">
       <button class="btn primary" id="waitSend">שמרו לי מקום</button>
-      <p class="label" style="margin:9px 0 0;text-align:center">נשתמש בפרטים רק כדי להודיע לכם על הפריט הזה.</p>
+      <p class="label" style="margin:9px 0 0;text-align:center">נשתמש בפרטים רק כדי להודיע לכם על הפריט הזה · <a href="#" class="policyLink">פרטיות</a></p>
     </div>
   </div>
 </div>
@@ -688,7 +701,8 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     <div class="foot">
       <button class="btn primary" id="coSend"></button>
       <p class="label" style="margin:9px 0 0;text-align:center">
-        ההודעה נפתחת בוואטסאפ שלכם — אפשר לעבור עליה לפני השליחה.</p>
+        ההודעה נפתחת בוואטסאפ שלכם — אפשר לעבור עליה לפני השליחה.<br>
+        הפרטים משמשים רק לטיפול בהזמנה · <a href="#" class="policyLink">ביטול, החזרה ופרטיות</a></p>
     </div>
   </div>
 </div>
@@ -711,6 +725,10 @@ const SHOP = {
   whatsapp:"972584009868", phone:"058-4009868", currency:"₪",
   instagram:"https://www.instagram.com/pastel_enamelhouse",
   place:"מושב כפר בן נון",
+  /* פרטי העסק לעמוד המדיניות. שדה ריק לא מוצג. */
+  owner:"ענבר ריבק",
+  bizId:"",                      /* מספר עוסק — להשלים */
+  email:"",
   address:"הגפן 25, כפר בן נון",
   maps:"https://waze.com/ul?q=" + encodeURIComponent("הגפן 25 כפר בן נון"),
   group:"https://chat.whatsapp.com/EaFHnrsxf0pLfuvp78Bcaw",
@@ -749,7 +767,7 @@ const PRODUCTS = [
   colors:[["חום",C.brown]], use:cookware,
   desc:"סיר גדול לבישולים של כל המשפחה: חמין לשבת, מרק לכולם ובישולי חג.",
   img:"img/PS-01-brown.jpg", colorImgs:{"חום":"img/PS-01-brown.jpg"},
-  real:"img/real-storage2.jpg", realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  real:"img/real-storage2.jpg", realNote:"הסיר הגדול, לצד קופסאות האחסון"},
 {sku:"PS-02", name:"סירים", cat:"סירים", priceText:"50–100 ₪", note:"במגוון גדלים וצבעים", use:cookware, colors:[["מגוון",C.red]],
   desc:"סירים במגוון גדלים וגוונים, לפי מה שיש כרגע במלאי. כתבו לנו מה אתם מחפשים ונשלח תמונות של מה שיש."},
 {sku:"PS-03", name:"קערה אישית", cat:"קערות אישיות", price:30,
@@ -790,7 +808,7 @@ const PRODUCTS = [
   desc:"קומקום גדול, אדום עם נקודות לבנות. לתה לכל השולחן, לאירוח ולישיבה בחוץ.",
   img:"img/PS-07-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-07-red-dots.jpg"},
   real:"img/real-kettles-wall.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הקומקום האדום המנוקד, לצד כלים אחרים"},
 {sku:"PS-08", name:"קומקום", cat:"קומקומים", price:90, isNew:true,
   colors:[["תכלת",C.lblue]], use:stovetop,
   desc:"קומקום בתכלת בהיר. לחימום מים לתה ולקפה, ומוסיף צבע למטבח גם כשהוא עומד על הכיריים.",
@@ -800,7 +818,7 @@ const PRODUCTS = [
   h:"20 ס\"מ",
   img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots-alt.jpg"},
   real:"img/real-kettles-wall.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הקומקום הכחול המנוקד, לצד כלים אחרים"},
 {sku:"PS-10", name:"קומקום", cat:"קומקומים", price:90, vol:"1.5 ליטר", colors:[["כחול עם נקודות תכלת בהיר","#2C5E9E"]], use:stovetop,
   desc:"קומקום כחול עם נקודות בתכלת בהיר, בגודל שמספיק לכמה כוסות. לתה, לקפה ולאירוח.",
   img:"img/PS-10-blue-dots.jpg", colorImgs:{"כחול עם נקודות תכלת בהיר":"img/PS-10-blue-dots.jpg"}},
@@ -810,18 +828,18 @@ const PRODUCTS = [
   skus:{"אדום":"PS-11-01","תכלת":"PS-11-02","ירוק כהה":"PS-11-03","לבן עם נקודות אדומות":"PS-11-04","אדום מנוקד":"PS-19"},
   colorStock:{"לבן עם נקודות אדומות":"out"},
   real:"img/real-kettles-wall.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הקומקומים בירוק, בתכלת ובאדום, לצד כלים אחרים"},
 {sku:"PS-12", name:"פינג'ן קטן", cat:"פינג'נים", price:85, use:stovetop, colors:[["פיסטוק",C.pist],["תכלת",C.lblue]],
   desc:"פינג'ן קטן לקפה טורקי לאחד או לשניים. הפייה הצרה מוזגת בצורה נקייה.",
   img:"img/PS-12-pistachio.jpg", colorImgs:{"פיסטוק":"img/PS-12-pistachio.jpg","תכלת":"img/PS-12-lightblue.jpg"}, dia:"8.5 ס\"מ",
   skus:{"פיסטוק":"PS-12-01","תכלת":"PS-12-02"},
-  real:"img/real-colanders2.jpg", realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  real:"img/real-colanders2.jpg", realNote:"הפינג'נים לצד המסננות"},
 {sku:"PS-13", name:"פינג'ן גדול", cat:"פינג'נים", price:95, use:stovetop, colors:[["ירוק כהה",C.dgreen],["תכלת",C.lblue],["פיסטוק",C.pist]],
   desc:"פינג'ן גדול לקפה טורקי לכמה אנשים בבת אחת. הפיסטוק והתכלת קיימים גם בגודל הקטן.",
   img:"img/PS-13-darkgreen.jpg", colorImgs:{"ירוק כהה":"img/PS-13-darkgreen.jpg","תכלת":"img/PS-13-lightblue.jpg","פיסטוק":"img/PS-13-pistachio.jpg"},
   skus:{"ירוק כהה":"PS-13-01","תכלת":"PS-13-02","פיסטוק":"PS-13-03"},
   real:"img/real-colanders2.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הפינג'נים לצד המסננות"},
 {sku:"PS-14", name:"פינג'ן — סט 3 יחידות", cat:"פינג'נים", price:99, colors:[["אדום בשילוב נקודות לבנות",C.red],["לבן בשילוב נקודות שחורות",C.white]], use:stovetop,
   desc:"סט של שלושה פינג'נים בגדלים עולים: קטן לאחד, בינוני לשניים וגדול לאורחים. מתנה יפה, וגם פינה יפה על המדף. נמכרים כסט בלבד.",
   img:"img/PS-14-red-dots.jpg", colorImgs:{"אדום בשילוב נקודות לבנות":"img/PS-14-red-dots.jpg","לבן בשילוב נקודות שחורות":"img/PS-14-white-dots.jpg"},
@@ -843,7 +861,7 @@ const PRODUCTS = [
   tag:"כולל מסננת",
   sortAs:18.5,
   real:"img/real-kettles-wall.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הקומקום הפרחוני, לצד כלים אחרים"},
 
 /* --- קנקנים וכדים --- */
 {sku:"PS-16", name:"קומקום", cat:"קומקומים", price:140, vol:"1.5 ליטר", colors:[["ירוק",C.dgreen],["טורקיז","#1C7FBF"],["שמנת",C.cream]],
@@ -852,7 +870,7 @@ const PRODUCTS = [
   skus:{"ירוק":"PS-16-01","טורקיז":"PS-16-02","שמנת":"PS-16-03"},
   stock:"low",
   real:"img/real-teakettles.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"קומקומי התה על גזע עץ בחצר"},
 {sku:"PS-17", name:"קומקום", cat:"קומקומים", price:160, vol:"2.5 ליטר", colors:[["שחור עם נקודות קטנות לבנות",C.black]],
   desc:"קומקום גדול, שחור עם נקודות לבנות קטנות וידית תיל. לתה לכל השולחן, לאירוח ולישיבה בחוץ.",
   img:"img/PS-17-black.jpg", colorImgs:{"שחור עם נקודות קטנות לבנות":"img/PS-17-black.jpg"},
@@ -871,12 +889,12 @@ const PRODUCTS = [
 {sku:"PS-22", name:"קומקום ג'מבו", cat:"קומקומים", price:180, vol:"4 ליטר", colors:[["כחול",C.blue]],
   desc:"קומקום כחול גדול במיוחד. לקפה או לתה לכל השולחן, לאירוח ולאירועים משפחתיים.",
   img:"img/PS-22-blue.jpg", colorImgs:{"כחול":"img/PS-22-blue.jpg"},
-  real:"img/real-PS-22.jpg", realNote:"בחוץ, על משטח העץ — ארבעה ליטר"},
+  real:"img/real-PS-22.jpg", realNote:"הקומקום הכחול בחצר, על משטח העץ"},
 {sku:"PS-23", name:"כד חלב", cat:"כדים", price:150, colors:[["לבן",C.white]],
   desc:"כד רחב לחלב, למיץ או לזר פרחים. יפה על שולחן האוכל ועל המדף.",
   img:"img/PS-23-white.jpg", colorImgs:{"לבן":"img/PS-23-white.jpg"},
   real:"img/real-bucket-jug.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"כד החלב לצד הדלי הלבן"},
 {sku:"PS-24", name:"כד", cat:"כדים", price:90,
   colors:[["פיסטוק פרחוני",C.pist],["כחול",C.blue]],
   desc:"כד רחב לפרחים, למים או למיץ. נמכר במחיר מופחת בגלל פגמי זיגוג קלים, שנותנים לו אופי.",
@@ -918,7 +936,9 @@ const PRODUCTS = [
   desc:"קערה גדולה ורחבה. ללישה ולהתפחה של בצק, לסלט גדול לאירוח או להשריית ירקות.",
   img:"img/PS-29-yellow.jpg", colorImgs:{"צהוב בננה":"img/PS-29-yellow.jpg","לבן תכלת":"img/PS-29-lightblue.jpg"},
   skus:{"צהוב בננה":"PS-29-01","לבן תכלת":"PS-29-02"},
-  stock:"low"},
+  stock:"low",
+  real:"img/real-bowls-strainers.jpg",
+  realNote:"הקערות לצד המסננות עם הידית"},
 {sku:"PS-30", name:"קערה ענקית", cat:"קערות", price:250, dia:"כ-50 ס\"מ", colors:[["שחור בשילוב נקודות לבנות קטנות",C.black]],
   desc:"פריט ייחודי עם נוכחות מרשימה: קערת אמייל ענקית להתפחת בצקים, להשריית ירקות, לקרח עם בקבוקים או להגשה מרכזית. אפשר גם להפוך אותה לאדנית לעציץ גדול בגינה.", use:{outdoor:true},
   img:"img/PS-30-black.jpg", colorImgs:{"שחור בשילוב נקודות לבנות קטנות":"img/PS-30-black.jpg"},
@@ -927,7 +947,7 @@ const PRODUCTS = [
   colors:[["שמנת פרחוני עם שפה ירוקה",C.cream]],
   desc:"קערה עם הדפס פרחים ופס ירוק על השפה. לסלט לשולחן שבת, לפירות על השיש או להגשה לאורחים.",
   img:"img/PS-92-cream-floral.jpg", colorImgs:{"שמנת פרחוני עם שפה ירוקה":"img/PS-92-cream-floral.jpg"},
-  real:"img/real-PS-92.jpg", realNote:"ביד, בלי עריכה — קוטר שלושים, וזה בדיוק הגודל"},
+  real:"img/real-PS-92.jpg", realNote:"הקערה ביד, כדי לראות את הגודל"},
 {sku:"PS-94", name:"קערת לימונים", cat:"קערות אישיות", price:50, dia:"16 ס\"מ", vol:"0.6 ליטר",
   colors:[["שמנת עם ציור לימונים",C.cream]],
   desc:"קערה אישית עם ענף לימונים מצויר על הדופן. לדגני בוקר, ליוגורט או למנה אישית.",
@@ -937,13 +957,13 @@ const PRODUCTS = [
   colors:[["ורוד · תכלת · צהוב",C.lblue]],
   desc:"שלוש קערות בשלושה גדלים שונים, שנכנסות זו בזו: ורודה, תכלת וצהובה, עם פנים שמנת. לסלט, לפירות, לבצק ולהגשה. נמכרות כסט בלבד.",
   img:"img/PS-93-mixed.jpg", colorImgs:{"ורוד · תכלת · צהוב":"img/PS-93-mixed.jpg"},
-  real:"img/real-PS-93.jpg", realNote:"שלושת הקערות ביד, מהקטנה לגדולה: קוטר 24, 28 ו-32"},
+  real:"img/real-PS-93.jpg", realNote:"שלוש הקערות ביד, מהקטנה לגדולה"},
 {sku:"PS-31", name:"סט 3 קערות פרחוני", cat:"קערות", price:319, note:"מחיר לסט · פנים שמנת",
   size:"קוטר 24 · 28 · 32 ס\"מ",
   colors:[["שמנת פרחוני",C.cream]],
   desc:"שלוש קערות בשלושה גדלים שונים, שנכנסות זו בזו, בהדפס פרחים עם שפה בתכלת. לסלט, לפירות ולהגשה, ומתנה יפה. נמכרות כסט בלבד.",
   img:"img/PS-31-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-31-floral.jpg"},
-  real:"img/real-kettles-wall.jpg", realNote:"ככה זה נראה אצלנו, בלי עריכה",
+  real:"img/real-kettles-wall.jpg", realNote:"סט הקערות הפרחוני, לצד קומקומים",
   sortAs:93.5},
 {sku:"PS-32", name:"קערה עבה", cat:"קערות", price:95, dia:"28 ס\"מ", note:"אחרונה במלאי", colors:[["כחול",C.blue]],
   desc:"קערה עבה וחזקה בכחול. לסלט, לפירות או להגשה על השולחן.",
@@ -957,16 +977,12 @@ const PRODUCTS = [
   desc:"קערה באמייל דק בקו נקי. לסלט, לפסטה, לפירות או לכל שימוש יומיומי.",
   img:"img/PS-34-cream.jpg", colorImgs:{"שמנת":"img/PS-34-cream.jpg","פיסטוק":"img/PS-34-pistachio.jpg"},
   skus:{"שמנת":"PS-34-01","פיסטוק":"PS-34-02"},
-  thin:true,
-  real:"img/real-bowls-strainers.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  thin:true},
 {sku:"PS-35", name:"קערה", cat:"קערות", price:65, dia:"30 ס\"מ", colors:[["שמנת",C.cream]],
   desc:"קערה באמייל דק, בגודל גדול. לסלט לארוחת ערב, לפירות על השיש או להגשה לאורחים.",
   img:"img/PS-35-cream.jpg", colorImgs:{"שמנת":"img/PS-35-cream.jpg"},
   thin:true,
-  sortAs:34.5,
-  real:"img/real-bowls-strainers.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  sortAs:34.5},
 {sku:"PS-36", name:"קערה מלבנית קטנה", cat:"קערות", price:45, colors:[["לבן",C.white]],
   desc:"קערה מלבנית קטנה עם פס כחול כהה על השפה. למטבלים, לתוספות ולהגשה מסודרת, ונכנסת יפה למקרר.",
   img:"img/PS-36-white.jpg", colorImgs:{"לבן":"img/PS-36-white.jpg"}, dia:"20 ס\"מ"},
@@ -1027,14 +1043,14 @@ const PRODUCTS = [
   img:"img/PS-46-white.jpg",
   colorImgs:{"לבן":"img/PS-46-white.jpg","שמנת עם פס חום כהה":"img/PS-46-cream.jpg","תכלת":"img/PS-46-lightblue.jpg","פיסטוק":"img/PS-46-pistachio.jpg"},
   skus:{"לבן":"PS-46-01","שמנת עם פס חום כהה":"PS-46-02","תכלת":"PS-46-03","פיסטוק":"PS-46-04"},
-  realImgs:{"פיסטוק":"img/real-PS-46-04.jpg"}, realNotes:{"פיסטוק":"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  realImgs:{"פיסטוק":"img/real-PS-46-04.jpg"}, realNotes:{"פיסטוק":"ביד, כדי לראות את הגודל"},
   sortAs:74.5},
 {sku:"PS-48", name:"תבנית עגולה", cat:"תבניות אפייה", price:110, dia:"26 ס\"מ", use:bakeware, colors:[["לבן",C.white],["שמנת",C.cream],["פיסטוק",C.pist],["תכלת",C.lblue],["חרדל",C.mustard]],
   desc:"תבנית עגולה בגודל של רוב מתכוני העוגות. לעוגות, לפשטידות ולקישים, ומגישים בה ישר לשולחן.",
   img:"img/PS-48-white.jpg", colorImgs:{"לבן":"img/PS-48-white.jpg","שמנת":"img/PS-48-cream.jpg","פיסטוק":"img/PS-48-pistachio.jpg","תכלת":"img/PS-48-lightblue.jpg","חרדל":"img/PS-48-mustard.jpg"}, colorAlts:{"לבן":"img/PS-48-white-alt.jpg","שמנת":"img/PS-48-cream-alt.jpg","פיסטוק":"img/PS-48-pistachio-alt.jpg","תכלת":"img/PS-48-lightblue-alt.jpg","חרדל":"img/PS-48-mustard-alt.jpg"}, h:"7.5 ס\"מ",
   skus:{"לבן":"PS-48-01","שמנת":"PS-48-02","פיסטוק":"PS-48-03","תכלת":"PS-48-04","חרדל":"PS-48-05"},
   real:"img/real-tins2.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"התבניות זו על זו, בכמה גוונים וגדלים"},
 {sku:"PS-96", name:"תבנית עגולה", cat:"תבניות אפייה", price:90, use:bakeware,
   dia:"22 ס\"מ", stock:"out",
   colors:[["אדום",C.red],["כחול כהה",C.blue],["שחור",C.black]],
@@ -1044,7 +1060,7 @@ const PRODUCTS = [
   img:"img/PS-96-red.png",
   colorImgs:{"אדום":"img/PS-96-red.png","כחול כהה":"img/PS-96-navy.png","שחור":"img/PS-96-black.png"},
   real:"img/real-tins2.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},,
+  realNote:"התבניות זו על זו, בכמה גוונים וגדלים"},,
 {sku:"PS-95", name:"תבנית עגולה", cat:"תבניות אפייה", price:110, use:bakeware,
   dia:"26 ס\"מ", h:"8 ס\"מ", colors:[["פיסטוק בשילוב שמנת",C.pist]],
   desc:"תבנית עגולה עם שפה מגולגלת לבנה, פנים שמנת ותחתית שחורה. לעוגות, לפשטידות ולקישים.",
@@ -1055,7 +1071,7 @@ const PRODUCTS = [
   img:"img/PS-49-white.jpg", colorImgs:{"לבן":"img/PS-49-white.jpg","שמנת":"img/PS-49-cream.jpg","פיסטוק":"img/PS-49-pistachio.jpg","תכלת":"img/PS-49-lightblue.jpg"}, colorAlts:{"לבן":"img/PS-49-white-alt.jpg","שמנת":"img/PS-49-cream-alt.jpg","פיסטוק":"img/PS-49-pistachio-alt.jpg","תכלת":"img/PS-49-lightblue-alt.jpg"}, h:"6 ס\"מ",
   skus:{"לבן":"PS-49-01","שמנת":"PS-49-02","פיסטוק":"PS-49-03","תכלת":"PS-49-04"},
   real:"img/real-tins2.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"התבניות זו על זו, בכמה גוונים וגדלים"},
 {sku:"PS-75", name:"תבנית אינגליש קייק", cat:"תבניות אפייה", price:100, use:bakeware,
   size:"30 × 13 × 7 ס\"מ",
   colors:[["כחול כהה",C.blue],["שמנת",C.cream],["תכלת",C.lblue],["לבן",C.white]],
@@ -1063,7 +1079,7 @@ const PRODUCTS = [
   img:"img/PS-75-navy.jpg", colorImgs:{"כחול כהה":"img/PS-75-navy.jpg","שמנת":"img/PS-75-cream.jpg","תכלת":"img/PS-75-lightblue.jpg","לבן":"img/PS-75-white.jpg"},
   skus:{"כחול כהה":"PS-75-01","שמנת":"PS-75-02","תכלת":"PS-75-03","לבן":"PS-75-04"},
   real:"img/real-tins2.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"התבניות זו על זו, בכמה גוונים וגדלים"},
 
 /* --- מסטינגים --- */
 {sku:"PS-50", name:"מסטינג 3 קומות, קטן", cat:"מסטינגים", price:120,
@@ -1094,12 +1110,12 @@ const PRODUCTS = [
   img:"img/PS-55-white.jpg", colorImgs:{"לבן":"img/PS-55-white.jpg","תכלת":"img/PS-55-lightblue.jpg","שמנת":"img/PS-55-cream.jpg"},
   skus:{"לבן":"PS-55-01","תכלת":"PS-55-02","שמנת":"PS-55-03"},
   real:"img/real-colanders2.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"המסננות לצד הפינג'נים"},
 {sku:"PS-56", name:"מסננת עם ידית", cat:"כלי מטבח והגשה", price:70, colors:[["לבן",C.white]],
   img:"img/PS-56-white.jpg", colorImgs:{"לבן":"img/PS-56-white.jpg"},
   desc:"מסננת עם ידית להחזקה מעל הסיר. לסינון כמויות קטנות, לשטיפת פירות ולאורז.",
   real:"img/real-bowls-strainers.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"המסננות עם הידית, לצד קערות"},
 {sku:"PS-57", name:"סכומון", cat:"כלי מטבח והגשה", price:70, colors:[["תכלת",C.lblue],["אדום",C.red]],
   desc:"מעמד לסכום על השולחן או ליד הכיריים. מתאים גם לכפות עץ, לעטים או כעציץ קטן.",
   img:"img/PS-57-lightblue.jpg", colorImgs:{"תכלת":"img/PS-57-lightblue.jpg","אדום":"img/PS-57-red.jpg"}, dia:"13 ס\"מ", h:"13 ס\"מ",
@@ -1151,7 +1167,7 @@ const PRODUCTS = [
   img:"img/PS-60-white.jpg",
   colorImgs:{"לבן":"img/PS-60-white.jpg","כחול":"img/PS-60-blue.jpg","צהוב":"img/PS-60-yellow.jpg","ירוק":"img/PS-60-green.jpg"},
   colorAlts:{"לבן":"img/PS-60-set.jpg","כחול":"img/PS-60-set.jpg","צהוב":"img/PS-60-set.jpg","ירוק":"img/PS-60-set.jpg"},
-  real:"img/real-PS-60.jpg", realNote:"על שולחן עץ, בלי עריכה — כדי שיהיה ברור שמדובר בכפית קטנה ולא בכף הגשה",
+  real:"img/real-PS-60.jpg", realNote:"על שולחן עץ לצד כפות רגילות, כדי לראות את הגודל",
   skus:{"לבן":"PS-60-01","כחול":"PS-60-02","צהוב":"PS-60-03","ירוק":"PS-60-04"},
   promo:"1 ב-20 ₪ · 4 ב-60 ₪",
   warn:"להגשה ולמזיגה בלבד, לא לאכילה"},
@@ -1171,16 +1187,16 @@ const PRODUCTS = [
 {sku:"PS-64", name:"ארגז לחם וינטג'", cat:"אחסון", price:300, stock:"low", colors:[["מגוון",C.cream]],
   desc:"ארגז לחם וינטג' מקורי. לשמירה על הלחם והמאפים, ויפה על השיש.",
   real:"img/real-kettles-wall.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"ארגז הלחם, עם קומקומים עליו"},
 {sku:"PS-65", name:"סט קופסאות אחסון, 5 יחידות", cat:"אחסון", price:150, note:"כולל מכסה", colors:[["אדום מנוקד",C.red]],
   desc:"חמש קופסאות אחסון בגדלים עולים, כולן עם מכסה. לאורז, לקטניות, לקמח, לסוכר ולתבלינים.",
   img:"img/PS-65-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-65-red-dots.jpg"},
-  real:"img/real-PS-65.jpg", realNote:"סט חמש הקופסאות זו בתוך זו"},
+  real:"img/real-PS-65.jpg", realNote:"חמש הקופסאות זו על זו"},
 {sku:"PS-66", name:"קופסת אחסון עם מכסה", cat:"אחסון", price:85, vol:"1 ליטר", colors:[["לבן",C.white],["שמנת",C.cream],["כחול כהה",C.blue]],
   desc:"קופסת אחסון עם מכסה. לקפה, לסוכר, לעוגיות או לשאריות במקרר.",
   img:"img/PS-66-white.jpg", colorImgs:{"לבן":"img/PS-66-white.jpg","שמנת":"img/PS-66-cream.jpg","כחול כהה":"img/PS-66-navy.jpg"}, size:"21 × 13 × 5 ס\"מ",
   skus:{"לבן":"PS-66-01","שמנת":"PS-66-02","כחול כהה":"PS-66-03"},
-  real:"img/real-storage2.jpg", realNote:"ככה זה נראה אצלנו, בלי עריכה",
+  real:"img/real-storage2.jpg", realNote:"קופסאות האחסון לצד הסיר הגדול",
   colorAlts:{"לבן":"img/PS-66-white-alt.jpg","שמנת":"img/PS-66-cream-alt.jpg","כחול כהה":"img/PS-66-navy-alt.jpg"}},
 
 /* --- לבית ולחצר --- */
@@ -1188,7 +1204,7 @@ const PRODUCTS = [
   desc:"דלי אמייל לבן עם מכסה. לאחסון, לכביסה או כעציץ גדול במרפסת.", use:{outdoor:true},
   img:"img/PS-67-white.jpg", colorImgs:{"לבן":"img/PS-67-white.jpg"},
   real:"img/real-bucket-jug.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הדלי הלבן לצד כד החלב"},
 {sku:"PS-68", name:"דלי גדול עם תלייה", cat:"לבית ולחצר", price:90, colors:[["שחור בשילוב נקודות לבנות קטנות",C.black]],
   desc:"דלי שחור גדול עם ידית לתלייה. לבית ולחצר: לאחסון, להשקיה או כאדנית.", use:{outdoor:true},
   img:"img/PS-68-black.jpg", colorImgs:{"שחור בשילוב נקודות לבנות קטנות":"img/PS-68-black.jpg"}},
@@ -1202,14 +1218,14 @@ const PRODUCTS = [
   skus:{"לבן":"PS-70-01","שמנת":"PS-70-02"},
   colorAlts:{"לבן":"img/PS-70-white-alt.jpg","שמנת":"img/PS-70-cream-alt.jpg"},
   real:"img/real-kettles-wall.jpg",
-  realNote:"ככה זה נראה אצלנו, בלי עריכה"},
+  realNote:"הסבוניות בחזית, לצד קומקומים"},
 {sku:"PS-71", name:"סיר לילה", cat:"לבית ולחצר", price:85, colors:[["מגוון",C.white]],
   desc:"סיר לילה מאמייל, כמו שהיה בבית של סבתא. היום משמש כעציץ, כאדנית או כפריט נוסטלגיה על המדף.", use:{outdoor:true}}
 ,
 {sku:"PS-79", name:"מתקן למברשות שיניים", cat:"לבית ולחצר", stock:"out", colors:[["לבן",C.white]],
   desc:"גליל אמייל לבן עם שפה שחורה ומכסה מחורר, שמחזיק את מברשות השיניים זקופות ומאווררות.",
   img:"img/PS-79-white.jpg", colorImgs:{"לבן":"img/PS-79-white.jpg"},
-  real:"img/real-PS-79.jpg", realNote:"ביד, בלי עריכה — כדי שיהיה ברור באיזה גודל מדובר"},
+  real:"img/real-PS-79.jpg", realNote:"ביד, כדי לראות את הגודל"},
 {sku:"PS-97", name:"מתקן לסבון ולספוג", cat:"לבית ולחצר", price:150, stock:"out",
   colors:[["לבן",C.white]],
   desc:"מתקן תלייה מאמייל לבן עם גב מעוטר: סל עליון לספוג ומגש מחורר לסבון. לכיור במטבח או באמבטיה.",
@@ -1224,11 +1240,21 @@ const COLLECTIONS = [
   { name:"מארז פיקניק", desc:"כל מה שנוסע לדשא ולא נשבר בדרך",
     ids:["PS-63","PS-28","PS-45","PS-40","PS-50","PS-59"] },
   { name:"פינת הקפה של הבוקר", desc:"פינג׳ן, אספרסו וכד חלב",
-    ids:["PS-12","PS-26","PS-23","PS-28","PS-08"] },
+    ids:["PS-12","PS-26","PS-27","PS-23","PS-28","PS-08"] },
+  { name:"פינת התה", desc:"קומקום, מסננת וספלים לשולחן אחד",
+    ids:["PS-16","PS-89","PS-74","PS-18","PS-25"] },
+  { name:"שולחן אירוח", desc:"מה שיוצא לשולחן כשיש אורחים",
+    ids:["PS-43","PS-92","PS-23","PS-88","PS-60","PS-61"] },
+  { name:"לבן וכחול כהה", desc:"כלים בלבן עם פס כחול כהה, שמשתלבים זה עם זה",
+    ids:["PS-38","PS-39","PS-40","PS-77","PS-76","PS-36","PS-37"] },
   { name:"מטבח של אופים", desc:"קערת בצק, תבניות וקופסאות",
-    ids:["PS-29","PS-46","PS-47","PS-59","PS-65"] },
+    ids:["PS-29","PS-48","PS-46","PS-75","PS-59","PS-65"] },
+  { name:"לגינה ולמרפסת", desc:"דליים, קערות וכלים שהופכים לעציצים",
+    ids:["PS-30","PS-68","PS-69","PS-67","PS-71"] },
   { name:"מתנה עד 100 ₪", desc:"פריטים קטנים שנעים לקבל ולתת",
-    ids:["PS-11","PS-19","PS-12","PS-25","PS-69"] }
+    ids:["PS-11","PS-12","PS-94","PS-25","PS-69","PS-60"] },
+  { name:"מתנה עד 200 ₪", desc:"מתנה שנראית מלאה",
+    ids:["PS-14","PS-21","PS-65","PS-43","PS-07","PS-23"] }
 ];
 
 /* =========================== תשתית =========================== */
@@ -1509,9 +1535,9 @@ function buildPages(){
     '<h4>תשלום</h4>'+
     '<p>ביט או מזומן.</p>'+
 
-    '<h4>אם משהו לא בסדר</h4>'+
-    '<p>פריט שהגיע פגום או שאינו מה שהזמנתם — כתבו לנו ונסדר את זה. אנחנו עסק קטן ומעדיפים '+
-      'לדבר על כל מקרה לגופו במקום להחביא תנאים באותיות קטנות.</p>'+
+    '<h4>ביטול והחזרה</h4>'+
+    '<p>אפשר לבטל תוך 14 יום מהקבלה. פריט שהגיע פגום או שאינו מה שהזמנתם — נחליף או נחזיר את הכסף, בלי דמי ביטול.</p>'+
+    '<p style="margin:10px 0 4px"><button class="btn ghost policyLink" style="display:inline-flex;padding:9px 16px">ביטול, החזרה ופרטיות</button></p>'+
     '</div>'});
 
   /* עמוד הידעת? — מה מיוחד בחומר. רק עובדות שלא מופיעות בעמוד הבא:
@@ -1695,21 +1721,27 @@ function go(n, instant){
   const flip = !instant && !reduce && from!==target && track.children.length;
 
   if(flip){
-    /* דפדוף: הדף מסתובב סביב שדרת הספר בצד ימין, כמו בספר עברי */
-    const src = track.children[fwd ? from : target];
-    const clone = src.cloneNode(true);
-    clone.classList.add("turner");
-    clone.style.transform = fwd ? "rotateY(0deg)" : "rotateY(82deg)";
-    clone.style.opacity = fwd ? "1" : ".3";
-    stage.appendChild(clone);
+    /* מעבר עמוד: הישן מחליק מעט ודוהה, והחדש נכנס מהצד השני ומתחדד.
+       ניסינו סיבוב תלת־ממדי סביב השדרה, אבל בפריסה של שני עמודים כל
+       הפריסה הסתובבה כמקשה אחת ונמתחה בפרספקטיבה. תנועה קצרה של 30
+       פיקסלים ודהייה מרגישה חלקה, ונגמרת בפחות משליש שנייה.
+       בספר עברי העמוד הבא מגיע משמאל — ולכן קדימה החדש נכנס משמאל. */
+    const DUR = 300, D = 34, ease = "cubic-bezier(.22,.61,.36,1)";
+    const old = track.children[from].cloneNode(true);
+    old.classList.add("turner");
+    stage.appendChild(old);
     track.style.transition = "none";
     track.style.transform = "translateX("+(idx*100)+"%)";
-    requestAnimationFrame(()=>{
-      clone.style.transition = "transform .5s cubic-bezier(.3,.55,.3,1), opacity .5s ease";
-      clone.style.transform = fwd ? "rotateY(82deg)" : "rotateY(0deg)";
-      clone.style.opacity = fwd ? ".3" : "1";
-    });
-    setTimeout(()=>clone.remove(), 540);
+    const inc = track.children[idx];
+    if(old.animate && inc.animate){
+      old.animate([{opacity:1, transform:"none"},
+                   {opacity:0, transform:"translateX("+(fwd?D:-D)+"px)"}],
+                  {duration:DUR, easing:ease, fill:"forwards"});
+      inc.animate([{opacity:0, transform:"translateX("+(fwd?-D:D)+"px)"},
+                   {opacity:1, transform:"none"}],
+                  {duration:DUR, easing:ease});
+    }
+    setTimeout(()=>old.remove(), DUR + 20);
   } else {
     track.style.transition = instant ? "none" : "";
     track.style.transform = "translateX("+(idx*100)+"%)";
@@ -1722,6 +1754,11 @@ function go(n, instant){
   [["prev2",idx===0],["next2",idx===slides.length-1]]
     .forEach(([id,off])=>{ document.getElementById(id).disabled = off; });
   track.querySelectorAll(".page").forEach(el=>el.scrollTop=0);
+  /* התמונות נטענות בעצלות; בלי זה העמוד הבא נפתח ריק לרגע ואז "קופץ" */
+  for(let k=idx-1;k<=idx+2;k++){
+    const sl = track.children[k];
+    if(sl) sl.querySelectorAll('img[loading="lazy"]').forEach(im=>im.loading="eager");
+  }
 }
 function goToPage(p){
   const s = slides.findIndex(sl=>sl.includes(p));
@@ -1789,8 +1826,8 @@ function realCaption(p, src){
   if(!el) return;
   const on = !!((p.real && src === p.real) || (p.realMore && src === p.realMore));
   el.hidden = !on;
-  el.textContent = !on ? "" : (src === p.realMore ? "ככה זה נראה אצלנו, בלי עריכה"
-                                                  : (p.realNote || "ככה זה נראה אצלנו, בלי עריכה"));
+  el.textContent = !on ? "" : (src === p.realMore ? "ככה זה נראה אצלנו"
+                                                  : (p.realNote || "ככה זה נראה אצלנו"));
 }
 /* פריט מפוצל לגוונים: כל אח הוא מוצר עם מק"ט משלו, ולכן שורת הגוונים
    כאן היא ניווט ולא בחירה — לחיצה פותחת את המק"ט של אותו גוון. פריט
@@ -2732,6 +2769,7 @@ document.addEventListener("keydown", e=>{
   if(zoom.classList.contains("open")) return zoom.classList.remove("open");
   const sheet = document.getElementById("overlay");
   if(sheet.classList.contains("open")) return closeSheet();
+  if(policyOverlay.classList.contains("open")) return policyOverlay.classList.remove("open");
   [checkoutOverlay,verifyOverlay,waitOverlay,contactOverlay,jumpOverlay,
    cartOverlay,favOverlay,collOverlay,searchOverlay]
     .forEach(o=>o&&o.classList.remove("open"));
@@ -2952,6 +2990,47 @@ document.getElementById("collGrid").addEventListener("click", e=>{
   const card = e.target.closest(".card"); if(!card) return;
   openCard(PRODUCTS.find(p=>p.id===card.dataset.id), card.dataset.color);
 });
+
+
+/* =========================== ביטול, החזרה ופרטיות =========================== */
+/* לפי חוק הגנת הצרכן: בהזמנה מרחוק (גם בוואטסאפ) אפשר לבטל תוך 14 יום,
+   ודמי הביטול מוגבלים ל-5% או 100 ₪, הנמוך מביניהם. ללקוחות בני 65 ומעלה,
+   עם מוגבלות או עולים חדשים — עד 4 חודשים, אם העסקה כללה שיחה. */
+const CANCEL_MSG = "היי, אני רוצה לבטל הזמנה.\nשם:\nטלפון:\nמה הוזמן ומתי:";
+function policyHTML(){
+  const biz = [SHOP.owner ? "העסק מנוהל על ידי "+SHOP.owner : "",
+               SHOP.bizId ? "עוסק מס׳ "+SHOP.bizId : "",
+               SHOP.address, SHOP.phone, SHOP.email].filter(Boolean).join(" · ");
+  return ''+
+  '<h4>ביטול עסקה</h4>'+
+  '<p>אפשר לבטל הזמנה תוך <b>14 יום</b> מהיום שקיבלתם את הפריט. מחזירים את הפריט כמו שקיבלתם אותו, '+
+    'ואנחנו מחזירים את הכסף תוך 14 יום מההודעה, באותו אמצעי תשלום.</p>'+
+  '<p>דמי ביטול: 5% מהמחיר או 100 ₪, הנמוך מביניהם.</p>'+
+  '<p>את הפריט מחזירים אלינו ל'+SHOP.place+', או שמתאמים איסוף באחד מימי המשלוח.</p>'+
+  '<p>לקוחות בני 65 ומעלה, אנשים עם מוגבלות ועולים חדשים יכולים לבטל עד 4 חודשים מהקבלה, '+
+    'כשההזמנה כללה שיחה איתנו.</p>'+
+  '<h4>פריט פגום או לא מה שהזמנתם</h4>'+
+  '<p>כתבו לנו ונחליף או נחזיר את הכסף — בלי דמי ביטול.</p>'+
+  '<h4>איך מבטלים</h4>'+
+  '<p>בהודעת וואטסאפ, בטלפון '+SHOP.phone+(SHOP.email?', או במייל '+SHOP.email:'')+'.</p>'+
+  '<p style="margin:10px 0 18px"><a class="btn ghost" style="display:inline-flex;padding:10px 18px" '+
+    'href="https://wa.me/'+SHOP.whatsapp+'?text='+encodeURIComponent(CANCEL_MSG)+'" target="_blank" rel="noopener">לביטול עסקה בוואטסאפ</a></p>'+
+  '<h4>פרטיות</h4>'+
+  '<p>שם, טלפון וכתובת אנחנו מבקשים רק כדי לטפל בהזמנה, או כדי לעדכן אתכם כשפריט חוזר למלאי. '+
+    'הם לא מועברים לאף אחד אחר, ואפשר לבקש שנמחק אותם בכל רגע.</p>'+
+  '<p>אם נרשמתם לעדכונים, אפשר להסיר את עצמכם בכל רגע בהודעה אחת.</p>'+
+  '<p>הקטלוג משתמש ב-Google Analytics ובספירה פנימית כדי לדעת אילו פריטים מעניינים. '+
+    'הנתונים האלה לא כוללים שם, טלפון או כתובת.</p>'+
+  (biz ? '<p class="label" style="margin-top:18px">'+esc(biz)+'</p>' : '');
+}
+const policyOverlay = document.getElementById("policyOverlay");
+function openPolicy(){
+  document.getElementById("policyBody").innerHTML = policyHTML();
+  policyOverlay.classList.add("open");
+}
+document.getElementById("policyClose").onclick = ()=>policyOverlay.classList.remove("open");
+policyOverlay.addEventListener("click", e=>{ if(e.target===policyOverlay) policyOverlay.classList.remove("open"); });
+document.addEventListener("click", e=>{ if(e.target.closest(".policyLink")){ e.preventDefault(); openPolicy(); } });
 
 /* =========================== מחירון להדפסה =========================== */
 function buildPriceList(){
