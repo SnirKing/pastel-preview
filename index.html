@@ -441,6 +441,8 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .chip[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--paper)}
 .empty{text-align:center;color:var(--muted);padding:26px 10px;font-size:14.5px}
 .cartrow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(92,107,76,.2)}
+.cartrow .thumb{width:52px;height:52px;flex:0 0 auto;object-fit:contain;background:var(--paper-2);
+  border:1px solid rgba(46,51,39,.2);border-radius:4px}
 .cartrow .nm{flex:1;min-width:0;font-size:14.5px;line-height:1.35}
 .cartrow .nm small{display:block;color:var(--muted);font-size:12px}
 .qty{display:flex;align-items:center;gap:8px}
@@ -492,7 +494,10 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .booknav{display:none}
 .stage{overflow-y:auto;overflow-x:hidden;perspective:none;touch-action:auto;background:var(--page)}
 .track{display:block;height:auto;transform:none!important;transition:none;will-change:auto}
-.view{max-width:1180px;margin:0 auto;padding:18px 16px 48px;animation:viewIn .22s ease-out}
+.view{max-width:1180px;margin:0 auto;padding:0 16px 48px}
+.view[hidden]{display:none}
+.view > :first-child:not(.catstrip):not(.hhero){margin-top:18px}
+.view .hhero{margin-top:18px}
 .view.text{max-width:760px}
 .view[data-key="moshav"],.view[data-key="colls"]{max-width:960px}
 .view.cover{max-width:620px;padding:0 0 30px}
@@ -528,6 +533,36 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .cattile .cn{font-family:var(--serif);font-size:16px;color:var(--olive-deep);text-align:center;line-height:1.25}
 .cattile .cc{font-size:12px;color:var(--muted)}
 .view .colls{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+/* פס קטגוריות קבוע */
+.catstrip{position:sticky;top:0;z-index:4;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  margin:0 -16px 14px;padding:9px 16px;background:var(--page);border-bottom:1px solid rgba(92,107,76,.2)}
+.catstrip::-webkit-scrollbar{display:none}
+.cchip{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:6px 12px 6px 10px;border-radius:18px;
+  border:1px solid rgba(92,107,76,.3);background:var(--paper);font-size:14px;color:var(--olive-deep);white-space:nowrap}
+.cchip .cicon{width:18px;height:18px}
+.cchip:hover{border-color:var(--olive)}
+.cchip.on{background:var(--olive-deep);border-color:var(--olive-deep);color:#F4F1EA}
+.cchip.on .cicon{stroke:#F4F1EA}
+/* כרטיסי מידע בבית */
+.infocards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.icard{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:12px 8px;
+  background:var(--paper);border:1px solid rgba(92,107,76,.3);border-radius:8px;font-size:12.5px;color:var(--muted);line-height:1.35}
+.icard b{display:block;font-family:var(--serif);font-weight:400;font-size:15.5px;color:var(--olive-deep);margin-bottom:2px}
+.icard .cicon{width:30px;height:30px}
+.icard.photo{padding:0 0 10px;overflow:hidden}
+.icard.photo img{width:100%;height:64px;object-fit:cover;margin-bottom:4px}
+.icard:hover{border-color:var(--olive)}
+@media(max-width:430px){ .icard{font-size:11.5px;padding:10px 5px} .icard b{font-size:14px} }
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin:0 0 6px;padding:10px 12px;
+  background:var(--paper-2);border-radius:8px;font-size:13.5px;color:var(--olive-deep)}
+.trust span::before{content:"·";margin-inline-end:8px;color:var(--clay)}
+.trust span:first-child::before{content:none}
+.whyen{margin:30px 0 0;padding:16px 18px;background:var(--paper);border:1px solid rgba(92,107,76,.25);border-radius:8px}
+.whyen h3{font-family:var(--serif);font-weight:400;font-size:20px;margin:0 0 8px;color:var(--olive-deep)}
+.whyen ul{margin:0 0 8px;padding-inline-start:20px}
+.whyen li{margin:3px 0}
+.whyen .more{font-size:14px;color:var(--enamel)}
+.hsec .cnt{font-size:13px;color:var(--muted);white-space:nowrap}
 /* תפריט */
 .menupanel{max-width:420px}
 .mlabel{font-size:12.5px;color:var(--muted);margin:14px 4px 6px}
@@ -1582,7 +1617,7 @@ function buildPages(){
                      .sort((a,b)=>typeKey(a)-typeKey(b) || varKey(a)-varKey(b));
     /* עמוד אחד לכל קטגוריה, בלי קשר למספר הפריטים — גוללים, לא מדפדפים */
     tocMap[cat] = pages.length;
-    pages.push({key:cat, title:cat, html:
+    pages.push({key:cat, title:cat, html: catStripHTML(cat)+
       '<div class="pagehead">'+catIcon(cat)+'<h2>'+esc(cat)+'</h2>'+
         '<span class="cnt">'+items.length+' פריטים</span><span class="ln"></span></div>'+
       '<div class="grid">'+items.map(cardHTML).join("")+'</div>'});
@@ -1724,6 +1759,11 @@ const CAT_ICONS = {
   "אחסון":'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 6h18v3H3z"/><path d="M10 13h4"/>',
   "לבית ולחצר":'<path d="M5 9h14l-2 11H7z"/><path d="M5 9c0-6.5 14-6.5 14 0"/>'
 };
+function catStripHTML(active){
+  return '<nav class="catstrip" aria-label="קטגוריות">'+catOrder().map(c=>
+    '<button class="cchip'+(c===active?' on':'')+'" data-go="'+esc(c)+'">'+catIcon(c)+'<span>'+esc(c)+'</span></button>').join("")+
+  '</nav>';
+}
 function catIcon(cat){
   const p = CAT_ICONS[cat] || '<circle cx="12" cy="12" r="8"/>';
   return '<svg class="cicon" viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>';
@@ -1734,14 +1774,12 @@ function catIcon(cat){
    תמונה, לסירוגין בין הקטגוריות. */
 function homeHTML(){
   const cats = catOrder();
-  const perCat = cats.map(cat=>{
-    const seen = {};
-    return PRODUCTS.filter(p=>p.cat===cat && p.img && p.stock!=="out").filter(p=>{
-      const k = p.base||p.sku; if(seen[k]) return false; seen[k]=1; return true; });
-  });
+  /* כל הפריטים, לסירוגין בין הקטגוריות. מה שאזל או בלי תמונה — בסוף */
+  const shown = p => p.img && p.stock!=="out";
+  const perCat = cats.map(cat=>PRODUCTS.filter(p=>p.cat===cat && shown(p)));
   const mix = [];
-  for(let r=0; mix.length<36 && perCat.some(a=>a.length>r); r++)
-    perCat.forEach(a=>{ if(a[r] && mix.length<36) mix.push(a[r]); });
+  for(let r=0; perCat.some(a=>a.length>r); r++) perCat.forEach(a=>{ if(a[r]) mix.push(a[r]); });
+  cats.forEach(cat=>PRODUCTS.filter(p=>p.cat===cat && !shown(p)).forEach(p=>mix.push(p)));
   const colls = activeCollections().slice(0,4);
   return ''+
   '<div class="hhero">'+
@@ -1751,8 +1789,21 @@ function homeHTML(){
       '<p>קומקומים, פינג׳נים, קערות, סירים ותבניות בעשרות גוונים — כלים שעולים על הגז, יוצאים לשולחן ומחזיקים שנים.</p>'+
       '<p class="hhbtns"><a class="btn primary" href="#cats" data-scroll="cats">לכל הקטגוריות</a>'+
         '<button class="btn ghost" data-go="colls">מארזים</button></p>'+
+      /* שלושה כרטיסים בולטים: איך זה נראה במציאות, איפה ומתי, ומה זה אמייל */
+      '<div class="infocards">'+
+        '<button class="icard photo" data-go="moshav"><img src="img/moshav4.jpg" alt="" loading="lazy">'+
+          '<span><b>אצלנו במושב</b>הכלים על השולחנות ועל המדפים</span></button>'+
+        '<button class="icard" data-go="ship"><svg class="cicon" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>'+
+          '<span><b>איפה, מתי ואיך</b>ימי מכירה, משלוחים ותשלום</span></button>'+
+        '<button class="icard" data-go="enamel"><svg class="cicon" viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>'+
+          '<span><b>מה זה אמייל</b>למה הכלים האלה מחזיקים שנים</span></button>'+
+      '</div>'+
     '</div>'+
   '</div>'+
+  /* שורה אחת של תנאים — מה שלקוח שואל לפני שהוא מוסיף לעגלה */
+  '<div class="trust"><span>משלוח לכל הארץ '+SHOP.shipCost+' '+SHOP.currency+'</span>'+
+    '<span>חינם מעל '+SHOP.freeShipping+' '+SHOP.currency+'</span>'+
+    '<span>איסוף עצמי מ'+esc(SHOP.place)+'</span><span>הזמנה בוואטסאפ · ביט או מזומן</span></div>'+
   '<div class="hsec" id="cats"><h2>קטגוריות</h2><span class="ln"></span></div>'+
   '<div class="cattiles">'+cats.map(cat=>
     '<button class="cattile" data-go="'+esc(cat)+'">'+catIcon(cat)+
@@ -1766,7 +1817,12 @@ function homeHTML(){
         '<span class="ct">'+esc(c.name)+'</span><span class="cd">'+esc(c.desc)+'</span>'+
         '<span class="cn">'+b.price+' '+SHOP.currency+(b.full>b.price?' · חוסכים '+(b.full-b.price)+' '+SHOP.currency:'')+'</span></button>'; }).join("")+
     '</div>' : '')+
-  '<div class="hsec"><h2>מבחר מהקטלוג</h2><span class="ln"></span></div>'+
+  '<div class="whyen"><h3>למה אמייל?</h3>'+
+    '<ul><li><b>זכוכית שנצרבה על פלדה</b> — לא מתקלפת ולא סופגת ריחות</li>'+
+    '<li><b>לגז, לאינדוקציה, לתנור ולמדיח</b></li>'+
+    '<li><b>הצבע לא דוהה בשמש</b> — גם בגינה ובמרפסת</li></ul>'+
+    '<button class="more" data-go="enamel">לקרוא עוד</button></div>'+
+  '<div class="hsec"><h2>כל הכלים</h2><span class="cnt">'+mix.length+' פריטים</span><span class="ln"></span></div>'+
   '<div class="grid">'+mix.map(cardHTML).join("")+'</div>';
 }
 function badgeHTML(p){
@@ -1860,23 +1916,27 @@ let spread = false;
 function layout(){
   spread = window.innerWidth >= 900;
   slides = pages.map((_,i)=>[i]);
-  go(Math.min(idx, pages.length-1), true, true);
+  /* כל העמודים נבנים פעם אחת ונשארים בדף; מעבר רק מחליף איזה מהם מוצג.
+     קודם כל מעבר בנה את העמוד מחדש, והתמונות נטענו שוב — זה ה"רינדור"
+     שנראה בכל לחיצה. */
+  track.innerHTML = pages.map((pg,i)=>
+    '<div class="view '+(pg.cls||'')+'" data-key="'+esc(pg.key||'')+'" data-i="'+i+'" hidden>'+pg.html+'</div>').join("");
+  idx = Math.min(idx, pages.length-1);
+  go(idx, true, true);
 }
-/* מעבר בין עמודים: מחליפים את התוכן, חוזרים לראש העמוד, ומעדכנים את
-   הכתובת (‎#/קומקומים) כדי שכפתור "אחורה" בטלפון יחזיר לעמוד הקודם
-   באתר ולא יוציא ממנו. */
+/* מעבר בין עמודים: מציגים את העמוד, חוזרים לראש, ומעדכנים את הכתובת
+   (‎#/קומקומים) כדי שכפתור "אחורה" בטלפון יחזיר לעמוד הקודם באתר. */
 function go(n, instant, fromHistory){
   if(typeof n!=="number" || !pages.length) return;
   const target = Math.max(0, Math.min(n, pages.length-1));
   if(target>STATS.page) STATS.page = target;
-  const changed = target!==idx || !track.firstChild;
   idx = target;
   const pg = pages[idx];
-  if(changed || instant){
-    track.innerHTML = '<div class="view '+(pg.cls||'')+'" data-key="'+esc(pg.key||'')+'">'+pg.html+'</div>';
-    stage.scrollTop = 0;
-  }
-  document.querySelectorAll("[data-nav]").forEach(el=>el.classList.toggle("on", el.dataset.nav===pg.key));
+  [...track.children].forEach((v,i)=>{ v.hidden = i!==idx; });
+  stage.scrollTop = 0;
+  /* בפס הקטגוריות: הקטגוריה הנוכחית גלויה גם כשהפס ארוך מהמסך */
+  const cur = track.children[idx] && track.children[idx].querySelector(".catstrip .on");
+  if(cur && cur.scrollIntoView) cur.scrollIntoView({block:"nearest", inline:"center"});
   if(routeReady && !fromHistory && pg.key){
     const h = "#/"+encodeURIComponent(pg.key);
     try{
@@ -2003,6 +2063,7 @@ function openSheet(p){
        ("צהוב בשילוב פס ירוק כהה") לא היה מופיע בשום מקום בדף */
     null
   ].filter(Boolean);
+  document.getElementById("sheet").scrollTop = 0;
   document.getElementById("sheet").innerHTML =
     '<button class="close" aria-label="סגירה" onclick="closeSheet()">×</button>'+
 
@@ -2079,8 +2140,6 @@ function openSheet(p){
       const np = byId(sw.dataset.sku);
       if(!np) return;
       statBump(STATS.colors, np.sku);
-      const i = pages.findIndex((pg,k)=>k>0 && pg.html.indexOf('data-id="'+np.id+'"')>-1);
-      if(i>=0) goToPage(i);
       openSheet(np);
     };
   });
@@ -2594,6 +2653,11 @@ function updateBadge(){
 function addToCart(id){ cart[id]=(cart[id]||0)+1; updateBadge(); saveStore(); }
 function setQty(id,n){ if(n<=0) delete cart[id]; else cart[id]=n; updateBadge(); saveStore(); renderCart(); }
 
+/* תמונה קטנה לשורה בעגלה ובמועדפים; למארז — הפריט הראשון שבו */
+function thumbOf(p){
+  const src = p.img || (p.isBundle && p.items.map(byId).filter(Boolean).map(x=>x.img).find(Boolean)) || "";
+  return src ? '<img class="thumb" src="'+src+'" alt="" loading="lazy">' : '<span class="thumb"></span>';
+}
 function renderCart(){
   const ids = Object.keys(cart);
   const body = document.getElementById("cartBody"), foot = document.getElementById("cartFoot");
@@ -2603,7 +2667,7 @@ function renderCart(){
   }
   body.innerHTML = ids.map(id=>{
     const p = byId(id);
-    return '<div class="cartrow" data-id="'+id+'">'+
+    return '<div class="cartrow" data-id="'+id+'">'+thumbOf(p)+
       '<div class="nm">'+esc(p.name)+
         '<small>'+esc(priceOf(p))+(p.isBundle ? '' : (lineColor(p,id)?' · '+esc(lineColor(p,id)):''))+'</small></div>'+
       '<div class="qty"><button data-d="-1" aria-label="פחות">–</button>'+
@@ -2910,8 +2974,8 @@ function renderFavs(){
   }
   body.innerHTML = ids.map(id=>{
     const p = byId(id);
-    return '<div class="cartrow" data-id="'+id+'">'+
-      '<div class="nm">'+esc(p.name)+'<small>'+esc(priceOf(p))+'</small></div>'+
+    return '<div class="cartrow" data-id="'+id+'">'+thumbOf(p)+
+      '<div class="nm">'+esc(p.name)+'<small>'+esc(priceOf(p))+(p.colorName?' · '+esc(p.colorName):'')+'</small></div>'+
       '<button class="btn ghost" data-add="1" style="flex:0 0 auto;padding:7px 12px;font-size:13.5px">להזמנה</button>'+
       '<button class="rm" data-unfav="1" aria-label="הסרה">×</button></div>';
   }).join("");
