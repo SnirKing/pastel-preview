@@ -527,7 +527,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 <div class="overlay" id="searchOverlay" role="dialog" aria-modal="true">
   <div class="panel">
     <div class="head">
-      <input id="q" type="search" placeholder="חיפוש מוצר…" autocomplete="off">
+      <input id="q" type="search" placeholder="חיפוש לפי שם, צבע או מק״ט…" autocomplete="off">
       <span id="qtitle" style="font-family:var(--serif);color:var(--olive-deep);white-space:nowrap"></span>
       <button class="iconbtn" id="searchClose" aria-label="סגירה">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -806,7 +806,8 @@ const PRODUCTS = [
   dia:"18 ס\"מ", h:"9 ס\"מ",
   colors:[["שמנת פרחוני",C.cream]],
   desc:"סיר פרחוני מקסים עם מכסה תואם, שעושה חשק לבשל. מושלם לתבשיל קטן, לאורז או להגשה ישר לשולחן; ידית המכסה מפלסטיק, ולכן הוא מיועד לכיריים בלבד.",
-  img:"img/PS-91-cream-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-91-cream-floral.jpg"}},
+  img:"img/PS-91-cream-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-91-cream-floral.jpg"},
+  noUse:["oven"]},
 
 /* --- קומקומים ופינג'נים --- */
 {sku:"PS-06", name:"קומקום בסגנון הודי", cat:"קומקומים", price:120, vol:"1.1 ליטר", use:stovetop,
@@ -829,7 +830,7 @@ const PRODUCTS = [
 {sku:"PS-09", name:"קומקום", cat:"קומקומים", price:90, vol:"0.8 ליטר", colors:[["כחול עם נקודות לבנות",C.blue]], use:stovetop,
   desc:"קומקום קטן בכחול עם נקודות לבנות. מושלם לזוג, לכוס התה של הבוקר או למטבח קטן.",
   h:"20 ס\"מ",
-  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots.jpg"}, colorAlts:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots-alt.jpg"},
+  img:"img/PS-09-blue-dots.jpg", colorImgs:{"כחול עם נקודות לבנות":"img/PS-09-blue-dots.jpg"},
   real:"img/real-kettles-wall.jpg",
   realNote:"הקומקום הכחול המנוקד, לצד כלים אחרים"},
 {sku:"PS-10", name:"קומקום", cat:"קומקומים", price:90, vol:"1.5 ליטר", colors:[["כחול עם נקודות תכלת בהיר","#2C5E9E"]], use:stovetop,
@@ -874,7 +875,8 @@ const PRODUCTS = [
   desc:"קומקום מהמם עם הדפס פרחי בר על רקע שמנת, ומסננת נירוסטה בפנים. שמים עלי תה ישר בקומקום ומוזגים תה נקי — מושלם לשולחן תה עם אורחים.",
   img:"img/PS-89-cream-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-89-cream-floral.jpg"},
   colorAlts:{"שמנת פרחוני":"img/PS-89-cream-floral-alt.jpg"},
-  sortAs:18.5},
+  sortAs:18.5,
+  tag:"כולל מסננת"},
 
 /* --- קנקנים וכדים --- */
 {sku:"PS-16", name:"קומקום", cat:"קומקומים", price:140, vol:"1.5 ליטר", colors:[["ירוק",C.dgreen],["טורקיז","#1C7FBF"],["שמנת",C.cream]],
@@ -891,10 +893,12 @@ const PRODUCTS = [
   stock:"low"},
 {sku:"PS-18", name:"קומקום כולל מסננת", cat:"קומקומים", price:90, vol:"1 ליטר", colors:[["אדום מנוקד",C.red]],
   desc:"קומקום באדום עם נקודות לבנות, ומסננת בפנים. שמים עלי תה ישר בקומקום ומוזגים תה נקי.",
-  img:"img/PS-18-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-18-red-dots.jpg"}, colorAlts:{"אדום מנוקד":["img/PS-18-red-dots-alt.jpg","img/PS-18-strainer.jpg"]}},
+  img:"img/PS-18-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-18-red-dots.jpg"}, colorAlts:{"אדום מנוקד":["img/PS-18-red-dots-alt.jpg","img/PS-18-strainer.jpg"]},
+  tag:"כולל מסננת"},
 {sku:"PS-20", name:"קומקום עם ידית עץ", cat:"קומקומים", price:90, vol:"1.3 ליטר", colors:[["לבן",C.white]],
   desc:"קומקום לבן עם ידית עץ, שמשתלב בכל מטבח. בגלל ידית העץ הוא מיועד לכיריים בלבד.",
-  img:"img/PS-20-white.jpg", colorImgs:{"לבן":"img/PS-20-white.jpg"}},
+  img:"img/PS-20-white.jpg", colorImgs:{"לבן":"img/PS-20-white.jpg"},
+  noUse:["oven"]},
 {sku:"PS-21", name:"קומקומים — סט 3 יחידות", cat:"קומקומים", price:99, colors:[["מגוון",C.red]],
   desc:"סט של שלושה קומקומים בגדלים עולים ובגוונים שונים. מתנה מקסימה, ופינה צבעונית ומהממת על המדף.",
   img:"img/PS-21-mixed.jpg", colorImgs:{"מגוון":"img/PS-21-mixed.jpg"},
@@ -1431,7 +1435,8 @@ function passesFilter(p){
   if(catFilter.flag === "new"  && !p.isNew)    return false;
   if(catFilter.flag === "sale" && !p.priceOld) return false;
   if(catFilter.flag === "best" && !p.isBest)   return false;
-  if(catFilter.text && normalize(p.name+" "+p.cat+" "+(p.note||"")+" "+(p.colorName||"")+" "+
+  if(catFilter.text && !skuMatch(p, catFilter.text) &&
+     normalize(p.name+" "+p.cat+" "+(p.note||"")+" "+(p.colorName||"")+" "+
        p.colors.map(c=>c[0]).join(" ")).indexOf(normalize(catFilter.text))<0) return false;
   if(catFilter.color){
     const ok = p.colorName ? colorFamily(p.colorName) === catFilter.color
@@ -1671,11 +1676,22 @@ function tocListHTML(){
    קיבל שורה מעורבת של עיגול שטוח לצד תצלום זעיר, וזה נראה כמו תקלה.
    ממילא פריט שצולם בכמה גוונים מתפצל לכרטיס נפרד לכל גוון (expandColors),
    אז שורת העיגולים נשארת רק לפריטים שבהם אין מה להציג ממילא. */
+/* רקע לעיגול צבע: גוון מנוקד מקבל נקודות, כדי שהעיגול ייראה כמו הכלי.
+   צבע הנקודות לפי השם; ברירת המחדל לבן ("אדום מנוקד", "נקודות לבנות"). */
+function swatchBg(name, hex){
+  name = String(name||"");
+  if(!/מנוקד|נקוד/.test(name)) return "background:"+hex;
+  const dot = /נקודות שחורות/.test(name) ? "#2A2A2A"
+            : /נקודות אדומות/.test(name) ? "#C8322B"
+            : /נקודות תכלת/.test(name)   ? "#9FD3F0" : "#FFFFFF";
+  return "background-color:"+hex+";background-image:radial-gradient(circle,"+dot+" 30%,transparent 36%);"+
+         "background-size:8px 8px;background-position:center";
+}
 function colorDots(p){
   if(!p.colors || p.colors.length < 2) return "";
   const show = p.colors.slice(0,5);
   return '<div class="cdots">'+
-    show.map(c=>'<i style="background:'+c[1]+'" title="'+esc(c[0])+'"></i>').join("")+
+    show.map(c=>'<i style="'+swatchBg(c[0],c[1])+'" title="'+esc(c[0])+'"></i>').join("")+
     (p.colors.length > show.length ? '<span>+'+(p.colors.length-show.length)+'</span>' : '')+
     '</div>';
 }
@@ -1878,13 +1894,13 @@ function swatchHTML(p, selI){
     if(sibs.length < 2) return "";
     return '<p class="label">'+L.colors+'</p><div class="swatches">'+
       sibs.map(x=>'<button class="sw" data-sku="'+esc(x.id)+'" aria-current="'+(x.id===p.id)+'">'+
-        '<i style="background:'+x.colors[0][1]+'"></i>'+esc(x.colorName||"")+'</button>').join("")+
+        '<i style="'+swatchBg(x.colors[0][0],x.colors[0][1])+'"></i>'+esc(x.colorName||"")+'</button>').join("")+
       '</div>';
   }
   if(!p.colors || p.colors.length < 2) return "";
   return '<p class="label">'+L.colors+'</p><div class="swatches">'+
     p.colors.map((x,i)=>'<button class="sw" data-color="'+esc(x[0])+'" aria-current="'+(i===selI)+'">'+
-      '<i style="background:'+x[1]+'"></i>'+esc(x[0])+'</button>').join("")+
+      '<i style="'+swatchBg(x[0],x[1])+'"></i>'+esc(x[2]||x[0])+'</button>').join("")+
     '</div>';
 }
 /* התמונה מהמציאות. מופיעה אחרי המידות ואייקוני השימוש, כלומר אחרי
@@ -1920,6 +1936,7 @@ function openSheet(p){
 
     '<div class="frame'+(gal.length?' zoomable':'')+'" id="sheetFrame">'+art+'</div>'+
     '<p class="realcap" id="realCap" hidden></p>'+
+    '<p class="label" style="margin:-10px 0 14px;font-size:12px;text-align:center">התמונות להמחשה בלבד; ייתכנו הפרשי גוון בין מסכים</p>'+
     '<div class="gallery" id="sheetGallery"'+(gal.length>1?'':' hidden')+'>'+galleryHTML(gal,main)+'</div>'+
     badgeHTML(p)+
     '<h3>'+esc(p.name)+'</h3>'+
@@ -1950,15 +1967,17 @@ function openSheet(p){
     '</div>'+
     (p.cat!=="כלי עץ" && !p.isBundle
       ? '<p class="label">'+L.uses+'</p><div class="uses">'+
-          ["gas","induction","oven","dishwasher","outdoor"].map(k=>
-            '<div class="use" title="'+L[k]+'">'+ICONS[k]+'<span>'+L[k]+'</span></div>').join("")+
-        '</div>'
+          ["gas","induction","oven","dishwasher","outdoor"].map(k=>{
+            const off = p.noUse && p.noUse.indexOf(k)>-1;
+            return '<div class="use'+(off?' off':'')+'" title="'+L[k]+(off?' — לא מתאים':'')+'">'+ICONS[k]+'<span>'+L[k]+'</span></div>';
+          }).join("")+
+        '</div>'+
+        (p.noUse && p.noUse.length ? '<p class="label" style="margin:-12px 0 20px;font-size:12.5px">אייקון דהוי = לא מתאים לכלי הזה</p>' : '')
       : '')+
     relatedHTML(p)+
     (SHOP.waitlist && p.stock!=="out"
       ? '<button class="linkbtn" id="colorBtn">לא מצאתם את הצבע שחיפשתם? ספרו לנו</button>'
-      : '')+
-    '<p class="label" style="margin:14px 0 0;font-size:12px;text-align:center">התמונות להמחשה בלבד; ייתכנו הפרשי גוון בין מסכים</p>';
+      : '');
   const wb = document.getElementById("waitBtn");
   if(wb) wb.onclick = ()=>openWaitlist(p, "out");
   const cb = document.getElementById("colorBtn");
@@ -2314,6 +2333,13 @@ let qCat = "*", qPrice = "*", qIds = null, qSort = "*", qFlag = "*", qColor = "*
 const BANDS = { "*":null, "עד 50 ₪":[0,50], "50–100 ₪":[50,100], "100–200 ₪":[100,200], "מעל 200 ₪":[200,1e9] };
 
 function normalize(s){ return String(s).replace(/["'׳״]/g,"").toLowerCase(); }
+/* מק"ט בלי מקפים ורווחים, כדי ש-"ps2506", "PS-25-06" ו-"25 06" ימצאו אותו פריט */
+const skuKey = s => String(s||"").toLowerCase().replace(/[\s\-_]/g,"");
+function skuMatch(p, q){
+  const k = skuKey(q);
+  if(k.length < 2 || !/\d/.test(k)) return false;
+  return skuKey(p.sku).indexOf(k) > -1 || (p.base && skuKey(p.base).indexOf(k) > -1);
+}
 
 /* משפחות צבע. שמות הגוונים בקטלוג מפורטים מדי לסינון — "אדום עם אוזניים",
    "פס כחול כהה", "ירוק מנוקד" — ולכן הסינון עובד לפי הכלה: כל גוון שמכיל
@@ -2372,7 +2398,8 @@ function runSearch(){
       if(p.price<band[0] || p.price>band[1]) return false;
     }
     if(!q) return true;
-    return normalize(p.name+" "+p.cat+" "+(p.note||"")+" "+p.colors.map(c=>c[0]).join(" ")).indexOf(q)>-1;
+    return skuMatch(p, q) ||
+      normalize(p.name+" "+p.cat+" "+(p.note||"")+" "+p.colors.map(c=>c[0]).join(" ")).indexOf(q)>-1;
   });
   statSearch(q, hits.length);
   if(qSort!=="*"){
