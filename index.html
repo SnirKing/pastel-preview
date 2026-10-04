@@ -521,6 +521,8 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .hhero img{width:100%;border-radius:6px;box-shadow:0 2px 14px rgba(46,51,39,.09)}
 .hhtext h1{font-family:var(--serif);font-weight:400;font-size:clamp(24px,4vw,34px);line-height:1.25;margin:0 0 10px;color:var(--olive-deep)}
 .hhtext p{margin:0 0 14px;color:var(--ink)}
+.huses{display:flex;gap:6px;justify-content:space-between;max-width:420px;margin:2px 0 16px}
+.huses .use{width:auto;flex:1}
 .hhbtns{display:flex;gap:10px;flex-wrap:wrap}
 .hhbtns .btn{display:inline-flex;padding:11px 20px;text-decoration:none}
 @media(min-width:800px){ .hhero{grid-template-columns:minmax(0,430px) 1fr;gap:40px} .hhero img{max-height:78dvh;object-fit:cover} }
@@ -962,10 +964,7 @@ const PRODUCTS = [
   desc:"סט מקסים של שלושה פינג'נים בגדלים עולים: קטן לאחד, בינוני לשניים וגדול לאורחים. מתנה מושלמת, שנראית נהדר גם תלויה במטבח; נמכרים כסט בלבד.",
   img:"img/PS-14-red-dots.jpg", colorImgs:{"אדום בשילוב נקודות לבנות":"img/PS-14-red-dots.jpg","לבן בשילוב נקודות שחורות":"img/PS-14-white-dots.jpg"},
   skus:{"אדום בשילוב נקודות לבנות":"PS-14-01","לבן בשילוב נקודות שחורות":"PS-14-02"},
-  tag:"נמכר כסט בלבד",
-  real:"img/real-PS-14.jpg",
-  realNote:"שלושת הפינג׳נים של הסט, בגדלים העולים",
-  realImgs:{"לבן בשילוב נקודות שחורות":"img/real-PS-14-02.jpg"}},
+  tag:"נמכר כסט בלבד"},
 {sku:"PS-74", name:"קומקום תה אנגלי", cat:"קומקומים", price:120, colors:[["לבן",C.white]],
   desc:"קומקום מעוצב בלבן עם מכסה שחור, ידית פליז וכיתוב TEA. פריט מהמם לשולחן התה ולמדף — מתנה שלא שוכחים.",
   img:"img/PS-74-white.jpg", colorImgs:{"לבן":"img/PS-74-white.jpg"}},
@@ -1068,8 +1067,7 @@ const PRODUCTS = [
 {sku:"PS-92", name:"קערה פרחונית", cat:"קערות", price:120, dia:"30 ס\"מ", h:"10 ס\"מ",
   colors:[["שמנת פרחוני עם שפה ירוקה",C.cream]],
   desc:"קערה מהממת עם הדפס פרחים עשיר ופס ירוק על השפה. מושלמת לסלט בשולחן שבת, לפירות על השיש או כקערת הגשה שכולם שואלים עליה.",
-  img:"img/PS-92-cream-floral.jpg", colorImgs:{"שמנת פרחוני עם שפה ירוקה":"img/PS-92-cream-floral.jpg"},
-  real:"img/real-PS-92.jpg", realNote:"הקערה ביד, כדי לראות את הגודל"},
+  img:"img/PS-92-cream-floral.jpg", colorImgs:{"שמנת פרחוני עם שפה ירוקה":"img/PS-92-cream-floral.jpg"}},
 {sku:"PS-94", name:"קערת לימונים", cat:"קערות אישיות", price:50, dia:"16 ס\"מ", vol:"0.6 ליטר",
   colors:[["שמנת עם ציור לימונים",C.cream]],
   desc:"קערה אישית מקסימה עם ענף לימונים מצויר על הדופן. מושלמת לדגני בוקר, ליוגורט או למנה אישית — ומכניסה קיץ לשולחן.",
@@ -1080,18 +1078,19 @@ const PRODUCTS = [
   colors:[["ורוד · תכלת · צהוב",C.lblue]],
   desc:"שלוש קערות בשלושה גדלים שנכנסות זו בזו — ורודה, תכלת וצהובה, עם פנים שמנת. סט צבעוני ומהמם לסלט, לפירות ולבצק; נמכרות כסט בלבד.",
   img:"img/PS-93-mixed.jpg", colorImgs:{"ורוד · תכלת · צהוב":"img/PS-93-mixed.jpg"},
-  real:"img/real-PS-93.jpg", realNote:"שלוש הקערות ביד, מהקטנה לגדולה"},
+  real:"img/real-PS-93.jpg", realNote:"שלוש הקערות ביד, מהקטנה לגדולה",
+  realNoCap:true},
 {sku:"PS-31", name:"סט 3 קערות פרחוני", cat:"קערות", price:319, note:"מחיר לסט · פנים שמנת",
   size:"קוטר 24 · 28 · 32 ס\"מ",
   colors:[["שמנת פרחוני",C.cream]],
   desc:"שלוש קערות פרחוניות בשלושה גדלים שנכנסות זו בזו, עם שפה בתכלת. סט מהמם לסלט, לפירות ולהגשה, ומתנה מושלמת; נמכרות כסט בלבד.",
   img:"img/PS-31-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-31-floral.jpg"},
-  real:"img/real-kettles-wall.jpg", realNote:"סט הקערות הפרחוני, לצד קומקומים",
   sortAs:93.5},
 {sku:"PS-32", name:"קערה עבה", cat:"קערות", price:95, dia:"28 ס\"מ", note:"אחרונה במלאי", colors:[["כחול",C.blue]],
   desc:"קערה עבה וחזקה בכחול. לסלט, לפירות או להגשה על השולחן.",
   img:"img/PS-33-blue.jpg",
-  colorImgs:{"כחול":"img/PS-33-blue.jpg"}},
+  colorImgs:{"כחול":"img/PS-33-blue.jpg"},
+  stock:"out"},
 {sku:"PS-33", name:"קערה עבה", cat:"קערות", price:110, dia:"32 ס\"מ", colors:[["כחול",C.blue],["שמנת",C.cream],["לבן",C.white]],
   desc:"קערה עבה וחזקה בגודל גדול. לסלט משפחתי, לפירות או ללישת בצק.",
   img:"img/PS-33-blue.jpg", colorImgs:{"כחול":"img/PS-33-blue.jpg","שמנת":"img/PS-33-cream.jpg","לבן":"img/PS-33-white.jpg"},
@@ -1794,7 +1793,9 @@ function homeHTML(){
     '<div class="hhtext">'+
       '<h1>כלי אמייל לבית, למטבח ולגינה</h1>'+
       '<p>קומקומים, פינג׳נים, קערות, סירים ותבניות בעשרות גוונים — כלים שעולים על הגז, יוצאים לשולחן ומחזיקים שנים.</p>'+
-      '<p class="hhbtns"><a class="btn primary" href="#cats" data-scroll="cats">לכל הקטגוריות</a>'+
+      '<div class="huses">'+["gas","induction","oven","dishwasher","outdoor"].map(k=>
+        '<div class="use">'+ICONS[k]+'<span>'+L[k]+'</span></div>').join("")+'</div>'+
+      '<p class="hhbtns"><a class="btn primary" href="#allitems" data-scroll="allitems">לכלים שלנו</a>'+
         '<button class="btn ghost" data-go="colls">מארזים</button></p>'+
       /* שלושה כרטיסים בולטים: איך זה נראה במציאות, איפה ומתי, ומה זה אמייל */
       '<div class="infocards">'+
@@ -1830,7 +1831,7 @@ function homeHTML(){
     '<li><b>לגז, לאינדוקציה, לתנור ולמדיח</b></li>'+
     '<li><b>הצבע לא דוהה בשמש</b> — גם בגינה ובמרפסת</li></ul>'+
     '<button class="more" data-go="enamel">לקרוא עוד</button></div>'+
-  '<div class="hsec"><h2>כל הכלים</h2><span class="cnt">'+mix.length+' פריטים</span><span class="ln"></span></div>'+
+  '<div class="hsec" id="allitems"><h2>כל הכלים</h2><span class="cnt">'+mix.length+' פריטים</span><span class="ln"></span></div>'+
   '<div class="grid">'+mix.map(cardHTML).join("")+'</div>';
 }
 function badgeHTML(p){
@@ -2022,7 +2023,7 @@ function galleryOf(p, sel){
 function realCaption(p, src){
   const el = document.getElementById("realCap");
   if(!el) return;
-  const on = !!((p.real && src === p.real) || (p.realMore && src === p.realMore));
+  const on = !p.realNoCap && !!((p.real && src === p.real) || (p.realMore && src === p.realMore));
   el.hidden = !on;
   el.textContent = !on ? "" : (src === p.realMore ? "ככה זה נראה אצלנו"
                                                   : (p.realNote || "ככה זה נראה אצלנו"));
