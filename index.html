@@ -569,6 +569,13 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .csarr.prev{right:0;justify-content:flex-end;background:linear-gradient(to left,var(--page) 45%,transparent)}
 .csarr[hidden]{display:none}
 .csarr:hover svg{border-color:var(--olive)}
+/* במחשב: כל הקטגוריות פרוסות בשורות, בלי חצים (החצים רק בטלפון) */
+@media(min-width:700px){ .catstrip{flex-wrap:wrap;overflow:visible;padding:10px 16px} .csarr{display:none!important} }
+.ordcard{border:1px solid rgba(92,107,76,.3);border-radius:8px;padding:10px 12px;margin:0 0 12px;background:var(--paper)}
+.ordhead{display:flex;flex-direction:column;margin-bottom:6px}.ordhead span{font-size:13px;color:var(--muted)}
+.ordcard .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.ordcard .btnrow .btn{flex:1 1 auto;justify-content:center;font-size:14px;padding:9px 12px}
+.ordlink{display:block;margin:12px auto 0;text-align:center}
+#coCashOpt[hidden]{display:none}
 /* בחירה מרובה */
 .selhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 14px}
 .selhead h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0;color:var(--olive-deep)}
@@ -820,18 +827,21 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
           <input id="coStreet" type="text" autocomplete="street-address" placeholder="למשל: האלה 12"></div>
         <div class="field"><label for="coApt">כניסה, קומה ודירה</label>
           <input id="coApt" type="text" placeholder="לא חובה"></div>
+        <div class="field"><label for="coZip">מיקוד</label>
+          <input id="coZip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="7" placeholder="7 ספרות">
+          <p class="label" style="margin:5px 0 0"><a href="https://doar.israelpost.co.il/locatezip" target="_blank" rel="noopener">לא יודעים את המיקוד? איתור מיקוד באתר דואר ישראל</a></p></div>
+        <div class="field"><label for="coCourier">הערות לשליח</label>
+          <input id="coCourier" type="text" placeholder="קוד לבניין, איך להגיע — לא חובה"></div>
         <div class="field"><label class="check"><input id="coLeave" type="checkbox">
           <span>אפשר להשאיר ליד הדלת אם אני לא בבית</span></label></div>
       </div>
 
-      <div class="field"><label for="coWhen">מתי נוח לקבל</label>
-        <input id="coWhen" type="text" placeholder="למשל: אחרי 17:00 / בימי שישי בבוקר"></div>
-
       <div class="field"><label>תשלום</label>
         <div class="choice">
           <label><input type="radio" name="coPay" value="ביט" checked><span>ביט</span></label>
-          <label><input type="radio" name="coPay" value="מזומן"><span>מזומן</span></label>
-        </div></div>
+          <label id="coCashOpt"><input type="radio" name="coPay" value="מזומן"><span>מזומן</span></label>
+        </div>
+        <p class="label" id="coPayNote" style="margin:7px 0 0"></p></div>
 
       <div class="field"><label for="coNote">הערה להזמנה</label>
         <input id="coNote" type="text" placeholder="מתנה, אריזה, בקשה מיוחדת — לא חובה"></div>
@@ -864,6 +874,18 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     <div class="foot" id="cartFoot"></div>
   </div>
 </div>
+
+<div class="overlay" id="ordersOverlay" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="head">
+      <h4>הזמנות שנשלחו</h4><span style="flex:1"></span>
+      <button class="iconbtn" id="ordersClose" aria-label="סגירה">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="body" id="ordersBody"></div>
+  </div>
+</div>
+
 
 <script>
 /* =========================== פרטי העסק =========================== */
@@ -1721,7 +1743,7 @@ function buildPages(){
       (isFinite(SHOP.freeShipping) ? ', וחינם בהזמנה מעל '+SHOP.freeShipping+' '+SHOP.currency : '')+'.</b></p>'+
 
     '<h4>תשלום</h4>'+
-    '<p>ביט או מזומן.</p>'+
+    '<p>במשלוח — ביט. באיסוף עצמי — ביט או מזומן.</p>'+
 
     '<h4>ביטול והחזרה</h4>'+
     '<p>אפשר לבטל תוך 14 יום מהקבלה, בדמי ביטול של 5% או 100 ₪ (הנמוך מביניהם), ומשלוח ההחזרה על הלקוח. '+
@@ -1870,7 +1892,7 @@ function homeHTML(){
   '</div>'+
   '<div class="trust"><span>משלוח לכל הארץ '+SHOP.shipCost+' '+SHOP.currency+'</span>'+
     (isFinite(SHOP.freeShipping) ? '<span>משלוח חינם מעל '+SHOP.freeShipping+' '+SHOP.currency+'</span>' : '')+
-    '<span>איסוף עצמי מ'+esc(SHOP.place)+' ללא תשלום נוסף</span><span>הזמנה בוואטסאפ · ביט או מזומן</span></div>'+
+    '<span>איסוף עצמי מ'+esc(SHOP.place)+' ללא תשלום נוסף</span><span>הזמנה בוואטסאפ · תשלום בביט (מזומן באיסוף עצמי)</span></div>'+
   (colls.length ?
     '<div class="hsec"><h2>מארזים</h2><span class="ln"></span><button class="more" data-go="colls">לכל המארזים</button></div>'+
     '<div class="colls hcolls">'+colls.map(({c,i})=>{ const b = BUNDLES[i];
@@ -2053,7 +2075,11 @@ function showCats(list, fromHistory){
   if(!selCats.length){
     const h = pageByKey("home");
     if(idx===h){ syncChips(); scrollToAll(); return; }
-    go(h, false, fromHistory); requestAnimationFrame(()=>requestAnimationFrame(scrollToAll));
+    /* go() מאפס לראש העמוד בפריים הבא; הקפיצה באה אחריו, ובינתיים העמוד
+       מוסתר כדי שלא יבהב הראש לרגע */
+    track.style.visibility = "hidden";
+    go(h, false, fromHistory);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ scrollToAll(); track.style.visibility = ""; }));
     return;
   }
   if(selCats.length===1){ go(pageByKey(selCats[0]), false, fromHistory); return; }
@@ -2072,7 +2098,7 @@ function toggleCat(c){
 }
 function scrollToAll(){
   const t = document.getElementById("allitems");
-  if(t) stage.scrollTo({top:t.offsetTop-10, behavior:"smooth"});
+  if(t) stage.scrollTo({top:t.offsetTop-10, behavior:"instant"});
 }
 /* חצים בפס: מוצגים רק כשיש עוד מה לגלול לאותו כיוון.
    ב-RTL scrollLeft הוא 0 בהתחלה (ימין) ושלילי כשמתקדמים שמאלה. */
@@ -2826,11 +2852,15 @@ function openRowItem(id){
   if(p.isBundle){ openCollection(COLLECTIONS.find(c=>c.code===p.id)); return; }
   openSheet(p);
 }
+function ordersLink(){
+  const n = loadOrders().length;
+  return n ? '<button class="linkbtn ordlink" data-orders>הזמנות שנשלחו ('+n+') — לראות ולשלוח שוב את התמונה</button>' : '';
+}
 function renderCart(){
   const ids = Object.keys(cart);
   const body = document.getElementById("cartBody"), foot = document.getElementById("cartFoot");
   if(!ids.length){
-    body.innerHTML = '<div class="empty">עדיין לא נבחרו פריטים.<br>אפשר להוסיף מכל עמוד מוצר.</div>';
+    body.innerHTML = '<div class="empty">עדיין לא נבחרו פריטים.<br>אפשר להוסיף מכל עמוד מוצר.</div>'+ordersLink();
     foot.innerHTML = ""; return;
   }
   body.innerHTML = ids.map(id=>{
@@ -2860,7 +2890,7 @@ function renderCart(){
     (special?'<p class="label">'+(special===1?'פריט אחד':special+' פריטים')+
       ' מתומחר לפי גודל — נסגור אותו בשיחה</p>':'')+
     (SHOP.waitlist ? '<button class="linkbtn" id="newsFromCart" style="margin:0 0 10px">רוצים לשמוע על פריטים חדשים וימי מכירה? הצטרפו לרשימת הדיוור</button>' : '')+
-    '<button class="btn primary" id="sendCart">'+WA_ICON+'מילוי פרטים ושליחת ההזמנה</button>';
+    '<button class="btn primary" id="sendCart">'+WA_ICON+'מילוי פרטים ושליחת ההזמנה</button>'+ordersLink();
 
   document.getElementById("sendCart").onclick = openCheckout;
 }
@@ -2870,7 +2900,7 @@ function renderCart(){
    נשמרים בדפדפן, כך שלקוח חוזר לא ממלא אותם שוב.                        */
 const checkoutOverlay = document.getElementById("checkoutOverlay");
 const coEl = id => document.getElementById(id);
-const CO_TEXT = ["coName","coPhone","coCity","coStreet","coApt","coWhen","coNote"];
+const CO_TEXT = ["coName","coPhone","coCity","coStreet","coApt","coZip","coCourier","coNote"];
 const coWay = () => document.querySelector('input[name="coWay"]:checked').value;
 const coPay = () => document.querySelector('input[name="coPay"]:checked').value;
 const coVal = id => coEl(id).value.trim();
@@ -2893,6 +2923,10 @@ function coSave(){
 function coSyncWay(){
   const pickup = coWay()==="pickup";
   coEl("coShipFields").hidden = pickup;
+  /* מזומן אפשר רק כשנפגשים — באיסוף עצמי. במשלוח: ביט בלבד */
+  coEl("coCashOpt").hidden = !pickup;
+  if(!pickup) document.querySelector('input[name="coPay"][value="ביט"]').checked = true;
+  coEl("coPayNote").textContent = pickup ? "באיסוף עצמי אפשר לשלם בביט או במזומן." : "במשלוח התשלום בביט. מזומן — רק באיסוף עצמי.";
   coEl("coWayNote").innerHTML = pickup
     ? "איסוף עצמי מ"+esc(SHOP.place)+" — בתיאום מראש, ללא תשלום נוסף."
     : "משלוח לכל הארץ — "+SHOP.shipCost+" "+SHOP.currency+
@@ -2907,9 +2941,11 @@ function coCheck(){
   if(coWay()==="delivery"){
     if(!coVal("coCity"))   miss.push("coCity");
     if(!coVal("coStreet")) miss.push("coStreet");
+    if(coVal("coZip").replace(/\D/g,"").length !== 7) miss.push("coZip");
   }
   CO_TEXT.forEach(k=>coEl(k).parentElement.classList.toggle("err", miss.includes(k)));
-  coEl("coErr").textContent = miss.length ? "חסרים פרטים כדי שנוכל להשלים את ההזמנה" : "";
+  coEl("coErr").textContent = miss.length
+    ? (miss.length===1 && miss[0]==="coZip" ? "המיקוד צריך להיות 7 ספרות" : "חסרים פרטים כדי שנוכל להשלים את ההזמנה") : "";
   return !miss.length;
 }
 
@@ -2951,10 +2987,11 @@ function logOrder(oid){
     kind:"order", id:oid,
     name:coVal("coName"), phone:coVal("coPhone").replace(/\D/g,""),
     way: delivery ? "משלוח" : "איסוף עצמי",
-    address: delivery ? [coVal("coStreet"), coVal("coCity"), coVal("coApt")].filter(Boolean).join(", ") : "",
+    address: delivery ? [coVal("coStreet"), coVal("coCity"), coVal("coApt"), coVal("coZip")].filter(Boolean).join(", ") : "",
     leave: delivery && coEl("coLeave").checked ? "כן" : "",
     items:r.list, sum:String(r.sum), ship:String(ship), total:String(r.sum+ship),
-    special:String(r.special), pay:coPay(), when:coVal("coWhen"), note:coVal("coNote"),
+    special:String(r.special), pay:coPay(), when:"",
+    note:[coVal("coNote"), delivery && coVal("coCourier") ? "לשליח: "+coVal("coCourier") : ""].filter(Boolean).join(" · "),
     src:src
   }).toString();
 
@@ -3002,11 +3039,12 @@ function orderMessage(oid){
   if(delivery){
     out.push("משלוח אל: "+[coVal("coStreet"), coVal("coCity")].filter(Boolean).join(", "));
     if(coVal("coApt")) out.push("כניסה/קומה/דירה: "+coVal("coApt"));
+    out.push("מיקוד: "+coVal("coZip").replace(/\D/g,""));
     if(coEl("coLeave").checked) out.push("אפשר להשאיר ליד הדלת");
+    if(coVal("coCourier")) out.push("הערות לשליח: "+coVal("coCourier"));
   } else {
     out.push("איסוף עצמי מ"+SHOP.place);
   }
-  if(coVal("coWhen")) out.push("זמן נוח: "+coVal("coWhen"));
   out.push("תשלום: "+coPay());
   if(coVal("coNote")) out.push("הערה: "+coVal("coNote"));
 
@@ -3132,19 +3170,19 @@ function coJoinNews(){
 function loadImg(src){
   return new Promise(r=>{ const im = new Image(); im.onload=()=>r(im); im.onerror=()=>r(null); im.src = src; });
 }
-function orderLines(){
-  const out = [];
-  Object.keys(cart).forEach(id=>{
-    const p = byId(id); if(!p) return;
+function orderLines(src){
+  const out = [], c = src || cart;
+  Object.keys(c).forEach(id=>{
+    const p = byId(id); if(!p) return; const cartQ = c[id];
     if(p.isBundle){
       const n = {}; p.items.forEach(i=>n[i]=(n[i]||0)+1);
-      Object.keys(n).forEach(i=>{ const x = byId(i); if(x) out.push({p:x, q:n[i]*cart[id], tag:p.name}); });
-    } else out.push({p:p, q:cart[id]});
+      Object.keys(n).forEach(i=>{ const x = byId(i); if(x) out.push({p:x, q:n[i]*cartQ, tag:p.name}); });
+    } else out.push({p:p, q:cartQ});
   });
   return out;
 }
-async function orderCollage(oid){
-  const lines = orderLines(); if(!lines.length) return null;
+async function orderCollage(oid, items){
+  const lines = orderLines(items); if(!lines.length) return null;
   const cols = lines.length<=2 ? lines.length : (lines.length<=4 ? 2 : 3);
   const T = 340, G = 18, PAD = 28, LAB = 96, TOP = 96;
   const rows = Math.ceil(lines.length/cols);
@@ -3181,10 +3219,15 @@ async function showCollageStep(oid){
   const box = coEl("coAfter"); if(!box) return;
   box.hidden = false;
   box.innerHTML = '<p class="label" style="margin:0 0 8px">ההודעה נפתחה בוואטסאפ ✓<br>רוצים לצרף גם תמונה אחת עם כל הפריטים? כך נראה בדיוק למה התכוונתם.</p>'+
-    '<button class="btn ghost" id="coPic" disabled>מכין את התמונה…</button>';
-  const blob = await orderCollage(oid);
-  const b = coEl("coPic");
-  if(!blob){ box.hidden = true; return; }
+    '<button class="btn ghost" id="coPic" disabled>מכין את התמונה…</button>'+
+    '<p class="label" style="margin:8px 0 0">ההזמנה נשמרה גם ב"הזמנות שנשלחו", בחלון ההזמנה — אפשר לחזור לתמונה משם.</p>';
+  const ok = await armPicButton(coEl("coPic"), oid);
+  if(!ok) box.hidden = true;
+}
+/* מכין את התמונה ומחבר אותה לכפתור. כשאין תמונה — מחזיר false */
+async function armPicButton(b, oid, items){
+  const blob = await orderCollage(oid, items);
+  if(!blob){ return false; }
   const file = new File([blob], "pastel-order-"+oid+".jpg", {type:"image/jpeg"});
   const canShare = navigator.canShare && navigator.canShare({files:[file]});
   b.disabled = false;
@@ -3194,7 +3237,53 @@ async function showCollageStep(oid){
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = file.name;
     document.body.appendChild(a); a.click(); a.remove();
   };
+  return true;
 }
+
+/* =========================== הזמנות שנשלחו ===========================
+   כל הזמנה שנשלחת נשמרת בדפדפן של הלקוח: מספר, תאריך, הפריטים וההודעה.
+   כך אפשר לחזור אליה — לראות מה הוזמן, לשלוח שוב את התמונה או את ההודעה —
+   גם אחרי שסגרו את החלון. נשמרות 10 האחרונות. בדפדפן אחר או במכשיר
+   אחר הן לא יופיעו: אין כאן חשבון לקוח, רק זיכרון מקומי. */
+function loadOrders(){
+  try{ return JSON.parse(localStorage.getItem("pastel_orders")) || []; }catch(e){ return []; }
+}
+function saveOrder(oid, msg){
+  const list = loadOrders();
+  list.unshift({ id:oid, at:Date.now(), items:Object.assign({}, cart), msg:msg,
+                 way:coWay(), total:orderRows().sum });
+  try{ localStorage.setItem("pastel_orders", JSON.stringify(list.slice(0,10))); }catch(e){}
+}
+function renderOrders(){
+  const list = loadOrders(), body = document.getElementById("ordersBody");
+  if(!list.length){ body.innerHTML = '<div class="empty">עדיין לא נשלחו הזמנות מהדפדפן הזה.</div>'; return; }
+  body.innerHTML = list.map((o,k)=>{
+    const d = new Date(o.at);
+    const ids = Object.keys(o.items).filter(id=>byId(id));
+    const n = ids.reduce((a,id)=>a+o.items[id],0);
+    return '<div class="ordcard">'+
+      '<div class="ordhead"><b>הזמנה '+esc(o.id)+'</b><span>'+d.toLocaleDateString("he-IL")+' · '+n+' פריטים'+
+        (o.total ? ' · '+o.total+' '+SHOP.currency : '')+' · '+(o.way==="pickup"?"איסוף עצמי":"משלוח")+'</span></div>'+
+      ids.map(id=>{ const p = byId(id);
+        return '<div class="cartrow" data-id="'+id+'">'+thumbOf(p)+
+          '<div class="nm">'+esc(p.name)+'<small>'+(p.isBundle?'מארז':esc(lineColor(p,id)||p.sku))+' · ×'+o.items[id]+'</small></div></div>'; }).join("")+
+      '<div class="btnrow">'+
+        '<button class="btn ghost" data-pic="'+k+'">מכין את התמונה…</button>'+
+        '<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/'+SHOP.whatsapp+'?text='+encodeURIComponent(o.msg||"")+'">'+WA_ICON+'שליחת ההודעה שוב</a>'+
+      '</div></div>';
+  }).join("")+'<p class="label" style="margin:6px 0 0">ההזמנות שמורות רק בדפדפן הזה.</p>';
+  body.querySelectorAll("[data-pic]").forEach(b=>{
+    const o = list[Number(b.dataset.pic)]; b.disabled = true;
+    armPicButton(b, o.id, o.items).then(ok=>{ if(!ok) b.remove(); else b.disabled = false; });
+  });
+}
+const ordersOverlay = document.getElementById("ordersOverlay");
+function openOrders(){ renderOrders(); ordersOverlay.classList.add("open"); }
+document.getElementById("ordersClose").onclick = ()=>ordersOverlay.classList.remove("open");
+ordersOverlay.addEventListener("click", e=>{
+  if(e.target===ordersOverlay){ ordersOverlay.classList.remove("open"); return; }
+  const row = e.target.closest(".cartrow"); if(row) openRowItem(row.dataset.id);
+});
 coEl("coSend").addEventListener("click", ()=>{
   if(!coCheck()) return;
   coSave();
@@ -3203,7 +3292,9 @@ coEl("coSend").addEventListener("click", ()=>{
   logOrder(oid);
   STATS.sent++; statsSend();   /* ההזמנה היא סוף הביקור — שולחים לפני היציאה */
   /* הניווט קורה בתוך אירוע הלחיצה, אחרת הדפדפן חוסם אותו כחלון קופץ */
-  const wa = "https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(orderMessage(oid));
+  const msg = orderMessage(oid);
+  saveOrder(oid, msg);
+  const wa = "https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(msg);
   /* במחשב — חלון חדש, כדי שהקטלוג יישאר פתוח לשלב התמונה; בטלפון הקישור
      פותח את האפליקציה והדף נשאר מתחתיה */
   const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -3248,6 +3339,9 @@ document.getElementById("favBody").addEventListener("click", e=>{
 document.getElementById("cartBtn").onclick = ()=>{ renderCart(); cartOverlay.classList.add("open"); };
 document.getElementById("cartClose").onclick = ()=>cartOverlay.classList.remove("open");
 cartOverlay.onclick = e=>{ if(e.target===cartOverlay) cartOverlay.classList.remove("open"); };
+document.getElementById("cartOverlay").addEventListener("click", e=>{
+  if(e.target.closest("[data-orders]")) openOrders();
+});
 document.getElementById("cartFoot").addEventListener("click", e=>{
   if(e.target.closest("#newsFromCart")){
     cartOverlay.classList.remove("open");
@@ -3489,13 +3583,15 @@ function openMenu(){
     '<p class="mlabel">קטגוריות</p>'+
     tocEntries.map(([c])=>'<button class="mitem'+(cur===c?' on':'')+'" data-k="'+esc(c)+'">'+catIcon(c)+esc(c)+'</button>').join("")+
     '<p class="mlabel">מידע</p>'+
-    infoEntries.map(([t,i])=>'<button class="mitem plain'+(cur===pages[i].key?' on':'')+'" data-k="'+esc(pages[i].key)+'">'+esc(t)+'</button>').join("");
+    infoEntries.map(([t,i])=>'<button class="mitem plain'+(cur===pages[i].key?' on':'')+'" data-k="'+esc(pages[i].key)+'">'+esc(t)+'</button>').join("")+
+    (loadOrders().length ? '<button class="mitem plain" data-orders>הזמנות שנשלחו</button>' : '');
   menuOverlay.classList.add("open");
 }
 document.getElementById("menuBtn").onclick = openMenu;
 document.getElementById("menuClose").onclick = ()=>menuOverlay.classList.remove("open");
 menuOverlay.addEventListener("click", e=>{
   if(e.target===menuOverlay){ menuOverlay.classList.remove("open"); return; }
+  if(e.target.closest("[data-orders]")){ menuOverlay.classList.remove("open"); openOrders(); return; }
   const m = e.target.closest(".mitem"); if(m) navTo(m.dataset.k);
 });
 document.getElementById("homeBtn").onclick = ()=>navTo("home");
