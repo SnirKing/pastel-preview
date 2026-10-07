@@ -570,10 +570,22 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .csarr[hidden]{display:none}
 .csarr:hover svg{border-color:var(--olive)}
 /* במחשב: כל הקטגוריות פרוסות בשורות, בלי חצים (החצים רק בטלפון) */
-@media(min-width:700px){ .catstrip{flex-wrap:wrap;overflow:visible;padding:10px 16px} .csarr{display:none!important} }
+.csmini{display:none}
+@media(min-width:700px){
+  .cswrap{position:static}
+  .catstrip{flex-wrap:wrap;overflow:visible;padding:10px 16px} .csarr{display:none!important}
+  .csmini{display:block;position:sticky;top:0;height:0;z-index:5;margin:0 -16px}
+  .csmini .cswrap{position:relative;margin:0;opacity:0;visibility:hidden;transition:opacity .15s ease;box-shadow:0 3px 10px rgba(46,51,39,.08)}
+  .csmini.show .cswrap{opacity:1;visibility:visible}
+  .csmini .catstrip{flex-wrap:nowrap;overflow-x:auto;padding:7px 16px;gap:6px}
+  .csmini .cchip{font-size:14px;padding:6px 12px 6px 10px}
+  .csmini .cchip .cicon{width:18px;height:18px}
+  .csmini .csarr:not([hidden]){display:flex!important}
+}
 .ordcard{border:1px solid rgba(92,107,76,.3);border-radius:8px;padding:10px 12px;margin:0 0 12px;background:var(--paper)}
 .ordhead{display:flex;flex-direction:column;margin-bottom:6px}.ordhead span{font-size:13px;color:var(--muted)}
 .ordcard .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.ordcard .btnrow .btn{flex:1 1 auto;justify-content:center;font-size:14px;padding:9px 12px}
+.mcount{margin-inline-start:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--olive-deep);color:#F4F1EA;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center}
 .ordlink{display:block;margin:12px auto 0;text-align:center}
 #coCashOpt[hidden]{display:none}
 /* בחירה מרובה */
@@ -806,7 +818,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="body">
-      <p class="label">הפרטים נכנסים להודעה בוואטסאפ, כדי שלא נצטרך לברר אותם בשיחה.</p>
+      <p class="label">הפרטים נכנסים להודעה בוואטסאפ.</p>
       <p class="conote">התשלום נסגר בוואטסאפ. רק אחרי התשלום ההזמנה נארזת למשלוח או לאיסוף.</p>
       <div class="field"><label for="coName">שם מלא</label>
         <input id="coName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
@@ -878,7 +890,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 <div class="overlay" id="ordersOverlay" role="dialog" aria-modal="true">
   <div class="panel">
     <div class="head">
-      <h4>הזמנות שנשלחו</h4><span style="flex:1"></span>
+      <h4>ההזמנות שלי</h4><span style="flex:1"></span>
       <button class="iconbtn" id="ordersClose" aria-label="סגירה">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
@@ -1837,7 +1849,14 @@ var NAV_ICON = '<svg class="navic" viewBox="0 0 24 24" aria-hidden="true"><path 
 /* פס הקטגוריות: שורה אחת שגוללים הצידה, דבוק למעלה בטלפון ובמחשב.
    חצים בקצוות מראים שיש עוד קטגוריות, ובמחשב גם גוללים בלחיצה.
    הכפתורים עובדים כבחירה מרובה: לחיצה מוסיפה או מורידה קטגוריה. */
+/* במחשב: הפס המלא (כל הקטגוריות, בשורות) נשאר במקומו ולא נדבק.
+   מיד אחריו יושב פס מקוצר בגובה אפס שנדבק למעלה — והוא מופיע רק כשהפס
+   המלא כבר יצא מהמסך. כך בראש העמוד רואים הכול, ובגלילה נשארת שורה
+   אחת דקה עם חצים. בטלפון יש פס אחד בלבד, דבוק. */
 function catStripHTML(active, id){
+  return stripRow(active, id) + '<div class="csmini" aria-hidden="true">'+stripRow(active)+'</div>';
+}
+function stripRow(active, id){
   return '<div class="cswrap"'+(id?' id="'+id+'"':'')+'>'+
     '<button class="csarr prev" aria-label="קטגוריות קודמות" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>'+
     '<nav class="catstrip" aria-label="קטגוריות">'+catOrder().map(c=>
@@ -2030,9 +2049,10 @@ function go(n, instant, fromHistory){
   stage.scrollTop = 0;
   /* בפס הקטגוריות: הקטגוריה הנוכחית גלויה גם כשהפס ארוך מהמסך */
   /* גלילת הפס עצמו בלבד — scrollIntoView היה גולל גם את העמוד */
-  const cur = track.children[idx] && track.children[idx].querySelector(".catstrip .on");
-  if(cur){ const st = cur.parentNode;
-    st.scrollLeft = cur.offsetLeft - (st.clientWidth - cur.offsetWidth)/2; }
+  if(track.children[idx]) track.children[idx].querySelectorAll(".catstrip").forEach(st=>{
+    const cur = st.querySelector(".on"); if(!cur) return;
+    st.scrollLeft = cur.offsetLeft - (st.clientWidth - cur.offsetWidth)/2; });
+  syncMini();
   requestAnimationFrame(updArrows);
   if(routeReady && !fromHistory && pg.key){
     const h = "#/"+encodeURIComponent(pg.key==="sel" ? "sel:"+selCats.join(",") : pg.key);
@@ -2107,10 +2127,18 @@ function updArrows(){
     const n = w.querySelector(".catstrip"); if(!n) return;
     const max = n.scrollWidth - n.clientWidth, pos = Math.abs(n.scrollLeft);
     w.querySelector(".csarr.prev").hidden = pos < 4;
-    w.querySelector(".csarr.next").hidden = max - pos < 4;
+    w.querySelector(".csarr.next").hidden = max - pos < 4 || n.clientWidth===0;
   });
 }
 document.addEventListener("scroll", e=>{ if(e.target.classList && e.target.classList.contains("catstrip")) updArrows(); }, true);
+/* הפס המקוצר מופיע כשהוא נדבק — כלומר כשהפס המלא כבר מעליו, מחוץ למסך */
+function syncMini(){
+  const m = document.querySelector(".view:not([hidden]) .csmini"); if(!m) return;
+  const show = m.offsetParent!==null && innerWidth>=700 &&
+               m.getBoundingClientRect().top <= stage.getBoundingClientRect().top + 1;
+  if(show!==m.classList.contains("show")){ m.classList.toggle("show", show); m.setAttribute("aria-hidden", !show); updArrows(); }
+}
+stage.addEventListener("scroll", syncMini, {passive:true});
 addEventListener("resize", ()=>requestAnimationFrame(updArrows));
 function goToPage(p){ if(p>=0) go(p); }
 /* מעבר לעמוד מתוך התפריט או הבית. בקטלוג מסונן — קודם מבטלים את הסינון */
@@ -2854,7 +2882,7 @@ function openRowItem(id){
 }
 function ordersLink(){
   const n = loadOrders().length;
-  return n ? '<button class="linkbtn ordlink" data-orders>הזמנות שנשלחו ('+n+') — לראות ולשלוח שוב את התמונה</button>' : '';
+  return n ? '<button class="linkbtn ordlink" data-orders>ההזמנות שלי ('+n+') — לראות ולשלוח שוב את התמונה</button>' : '';
 }
 function renderCart(){
   const ids = Object.keys(cart);
@@ -3220,7 +3248,7 @@ async function showCollageStep(oid){
   box.hidden = false;
   box.innerHTML = '<p class="label" style="margin:0 0 8px">ההודעה נפתחה בוואטסאפ ✓<br>רוצים לצרף גם תמונה אחת עם כל הפריטים? כך נראה בדיוק למה התכוונתם.</p>'+
     '<button class="btn ghost" id="coPic" disabled>מכין את התמונה…</button>'+
-    '<p class="label" style="margin:8px 0 0">ההזמנה נשמרה גם ב"הזמנות שנשלחו", בחלון ההזמנה — אפשר לחזור לתמונה משם.</p>';
+    '<p class="label" style="margin:8px 0 0">ההזמנה נשמרה ב"ההזמנות שלי" בתפריט — אפשר לחזור לתמונה משם.</p>';
   const ok = await armPicButton(coEl("coPic"), oid);
   if(!ok) box.hidden = true;
 }
@@ -3580,11 +3608,14 @@ function openMenu(){
   document.getElementById("menuBody").innerHTML =
     '<button class="mitem home'+(cur==="home"?' on':'')+'" data-k="home">'+
       '<svg class="cicon" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>בית</button>'+
+    '<button class="mitem" data-orders>'+
+      '<svg class="cicon" viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.5L14 21l-2-1.5L10 21l-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>'+
+      'ההזמנות שלי'+(loadOrders().length ? '<span class="mcount">'+loadOrders().length+'</span>' : '')+'</button>'+
     '<p class="mlabel">קטגוריות</p>'+
     tocEntries.map(([c])=>'<button class="mitem'+(cur===c?' on':'')+'" data-k="'+esc(c)+'">'+catIcon(c)+esc(c)+'</button>').join("")+
     '<p class="mlabel">מידע</p>'+
     infoEntries.map(([t,i])=>'<button class="mitem plain'+(cur===pages[i].key?' on':'')+'" data-k="'+esc(pages[i].key)+'">'+esc(t)+'</button>').join("")+
-    (loadOrders().length ? '<button class="mitem plain" data-orders>הזמנות שנשלחו</button>' : '');
+'';
   menuOverlay.classList.add("open");
 }
 document.getElementById("menuBtn").onclick = openMenu;
