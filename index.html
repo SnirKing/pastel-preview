@@ -238,6 +238,7 @@ h2.pt{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 10px;co
 .shots img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:3px;
   border:1px solid rgba(92,107,76,.28);cursor:zoom-in}
 .shots img.wide{grid-column:1 / -1;aspect-ratio:3/2}
+.shots img.pano{aspect-ratio:auto}
 .imgrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 20px}
 .slot{border:1px dashed rgba(92,107,76,.55);border-radius:5px;background:var(--paper-2);
   display:flex;align-items:center;justify-content:center;text-align:center;
@@ -505,7 +506,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .track{display:block;height:auto;transform:none!important;transition:none;will-change:auto}
 .view{max-width:1180px;margin:0 auto;padding:0 16px 48px}
 .view[hidden]{display:none}
-.view > :first-child:not(.catstrip):not(.hhero){margin-top:18px}
+.view > :first-child:not(.cswrap):not(.hhero){margin-top:18px}
 .view .hhero{margin-top:18px}
 .view.text{max-width:760px}
 .view[data-key="moshav"],.view[data-key="colls"]{max-width:960px}
@@ -519,6 +520,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .pagehead .cnt{font-size:13px;color:var(--muted);white-space:nowrap}
 .cicon{stroke:var(--olive-deep);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 /* סרגל עליון */
+.navic{width:17px;height:17px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;vertical-align:-3px;margin-inline-end:6px}
 .homebtn{display:flex;align-items:center;gap:8px;padding:2px 4px;border-radius:20px}
 .homebtn:hover{background:rgba(92,107,76,.08)}
 @media(max-width:430px){ .bar .homebtn .name{display:none} }
@@ -535,7 +537,6 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
   .hcolls::-webkit-scrollbar{display:none} .hcolls .coll{flex:0 0 240px} }
 .hstrip{margin-top:0}
 .hhbtns .btn{flex:1 1 auto;justify-content:center}
-.catstrip.hstrip{margin-bottom:0}
 .huses .use{width:auto;flex:1}
 .hhbtns{display:flex;gap:10px;flex-wrap:wrap}
 .hhbtns .btn{display:inline-flex;padding:11px 20px;text-decoration:none}
@@ -553,14 +554,26 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .cattile .cc{font-size:12px;color:var(--muted)}
 .view .colls{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
 /* פס קטגוריות קבוע */
-.catstrip{position:sticky;top:0;z-index:4;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
-  margin:0 -16px 14px;padding:9px 16px;background:var(--page);border-bottom:1px solid rgba(92,107,76,.2)}
-/* במחשב כל הקטגוריות גלויות, בשורות — בלי גלילה צידית שעכבר לא יכול לעשות */
-@media(min-width:700px){ .catstrip{flex-wrap:wrap;overflow:visible;position:static} }
+.cswrap{position:sticky;top:0;z-index:4;margin:0 -16px 14px;background:var(--page);border-bottom:1px solid rgba(92,107,76,.2)}
+.catstrip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 16px;scroll-padding:0 44px}
 .catstrip::-webkit-scrollbar{display:none}
-.cchip{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:6px 12px 6px 10px;border-radius:18px;
-  border:1px solid rgba(92,107,76,.3);background:var(--paper);font-size:14px;color:var(--olive-deep);white-space:nowrap}
-.cchip .cicon{width:18px;height:18px}
+.cchip{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 13px;border-radius:22px;
+  border:1px solid rgba(92,107,76,.3);background:var(--paper);font-size:15.5px;color:var(--olive-deep);white-space:nowrap}
+.cchip .cicon{width:22px;height:22px}
+@media(min-width:700px){ .cchip{font-size:16px;padding:10px 18px 10px 14px} .cchip .cicon{width:24px;height:24px} }
+/* חצים: דהייה מהרקע + עיגול עם חץ. ב-RTL "הבא" הוא שמאלה */
+.csarr{position:absolute;top:0;bottom:0;width:58px;display:flex;align-items:center;border:0;padding:0 8px;z-index:2;cursor:pointer}
+.csarr svg{width:30px;height:30px;padding:6px;border-radius:50%;background:var(--paper);border:1px solid rgba(92,107,76,.35);
+  stroke:var(--olive-deep);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;box-shadow:0 1px 4px rgba(46,51,39,.12)}
+.csarr.next{left:0;justify-content:flex-start;background:linear-gradient(to right,var(--page) 45%,transparent)}
+.csarr.prev{right:0;justify-content:flex-end;background:linear-gradient(to left,var(--page) 45%,transparent)}
+.csarr[hidden]{display:none}
+.csarr:hover svg{border-color:var(--olive)}
+/* בחירה מרובה */
+.selhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 14px}
+.selhead h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0;color:var(--olive-deep)}
+.selhead .cnt{font-size:13px;color:var(--muted)}
+.selhead .clr{font-size:14px;color:var(--enamel);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
 .cchip:hover{border-color:var(--olive)}
 .cchip.on{background:var(--olive-deep);border-color:var(--olive-deep);color:#F4F1EA}
 .cchip.on .cicon{stroke:#F4F1EA}
@@ -787,7 +800,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     </div>
     <div class="body">
       <p class="label">הפרטים נכנסים להודעה בוואטסאפ, כדי שלא נצטרך לברר אותם בשיחה.</p>
-      <p class="conote">התשלום נסגר בוואטסאפ מול ענבר. רק אחרי התשלום ההזמנה נארזת למשלוח או לאיסוף.</p>
+      <p class="conote">התשלום נסגר בוואטסאפ. רק אחרי התשלום ההזמנה נארזת למשלוח או לאיסוף.</p>
       <div class="field"><label for="coName">שם מלא</label>
         <input id="coName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
       <div class="field"><label for="coPhone">טלפון</label>
@@ -835,7 +848,6 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
       <button class="btn primary" id="coSend"></button>
       <div id="coAfter" class="coafter" hidden></div>
       <p class="label" style="margin:9px 0 0;text-align:center">
-        ההודעה נפתחת בוואטסאפ שלכם — אפשר לעבור עליה לפני השליחה.<br>
         הפרטים משמשים רק לטיפול בהזמנה · <a href="#" class="policyLink">ביטול, החזרה ופרטיות</a></p>
     </div>
   </div>
@@ -1599,7 +1611,7 @@ function buildPages(){
     '<p>הכלים האלה לא נשארים בארון: הם עולים על השולחן, יוצאים לגינה ומלווים את היום־יום. אתם מוזמנים לבוא לראות, לגעת ולבחור — או פשוט לדפדף כאן בנחת.</p>'+
     '<p style="margin:18px 0 4px;text-align:center"><button class="btn primary" id="toCatalog" style="display:inline-flex;padding:11px 22px">לקטלוג המוצרים</button></p>'+
     '<div class="imgrow">'+
-      '<img class="figure wide" src="img/atmo1.jpg" alt="הפינה של פסטל בכפר בן נון">'+
+      '<img class="figure wide" style="aspect-ratio:auto" src="img/moshav4.jpg" alt="הפינה של פסטל בכפר בן נון">'+
     '</div>'});
 
   /* מה זה אמייל */
@@ -1645,6 +1657,9 @@ function buildPages(){
       '<div class="grid">'+items.map(cardHTML).join("")+'</div>'});
   });
 
+  /* כמה קטגוריות יחד — התוכן נבנה בכל בחירה */
+  pages.push({key:"sel", title:"קטגוריות נבחרות", html: catStripHTML(null)+'<div id="selBody"></div>'});
+
   /* עמוד כל הקטגוריות — אריח לכל קטגוריה */
   const catsPage = pages.length;
   pages.push({key:"cats", title:"קטגוריות", html:
@@ -1678,8 +1693,9 @@ function buildPages(){
       'צילומי המוצרים מצולמים על רקע לבן כדי שיהיה אפשר לראות בדיוק את הצורה ואת הגוון. '+
       'כאן הם נראים כמו שהם באמת — על השולחנות ועל המדפים אצלנו בכפר בן נון.</p>'+
     '<div class="shots">'+
-      ['moshav4','moshav1','moshav10','moshav3','moshav9','moshav2','moshav7','moshav8']
-        .map((n,i)=>'<img class="'+(i===0||n==='moshav7'||n==='moshav2'||n==='moshav10'?'wide':'')+'" src="img/'+n+'.jpg" '+
+      /* רחבות על כל השורה; הרגילות בזוגות — אחרת נשאר חור בשורה */
+      ['moshav4','moshav1','moshav3','moshav10','moshav9','moshav8','moshav2','moshav7','atmo1']
+        .map((n,i)=>'<img class="'+(n==='atmo1'?'wide pano':i===0||n==='moshav7'||n==='moshav2'||n==='moshav10'?'wide':'')+'" src="img/'+n+'.jpg" '+
              'alt="כלי אמייל של פסטל במושב כפר בן נון" loading="lazy" decoding="async">').join("")+
     '</div>'});
 
@@ -1690,7 +1706,7 @@ function buildPages(){
     '<div class="info">'+
     '<h4>איפה אנחנו</h4>'+
     '<p>'+SHOP.address+'.</p>'+
-    '<p style="margin:10px 0 4px"><a class="btn ghost" style="display:inline-flex;padding:9px 16px" href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט בוויז</a></p>'+
+    '<p style="margin:10px 0 4px"><a class="btn ghost" style="display:inline-flex;padding:9px 16px" href="'+SHOP.maps+'" target="_blank" rel="noopener">'+NAV_ICON+'ניווט בוויז</a></p>'+
 
     '<h4>מתי אפשר להגיע</h4>'+
     '<p>אנו עורכים ימי מכירה מרוכזים. כדי לדעת מתי הדלת פתוחה, '+
@@ -1765,7 +1781,7 @@ function buildPages(){
       '<p><a href="https://wa.me/'+SHOP.whatsapp+'" target="_blank" rel="noopener">שליחת הודעה בוואטסאפ</a></p>'+
       (SHOP.facebook ? '<p><a href="'+SHOP.facebook+'" target="_blank" rel="noopener">הודעה בפייסבוק</a></p>' : '')+
       '<p><a class="iglink" href="'+SHOP.instagram+'" target="_blank" rel="noopener">'+IG_ICON+'@pastel_enamelhouse</a></p>'+
-      '<p><a href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט בוויז</a></p>'+
+      '<p><a class="iglink" href="'+SHOP.maps+'" target="_blank" rel="noopener">'+NAV_ICON+'ניווט בוויז</a></p>'+
       '<p style="margin-top:12px;font-size:13.5px">בשבת אנחנו לא זמינים · נחזור אליכם במוצאי שבת</p>'+
       (SHOP.group ? '<p style="margin-top:14px"><a class="btn primary" style="display:inline-flex;padding:11px 20px" href="'+SHOP.group+'" target="_blank" rel="noopener">הצטרפות לקבוצת העדכונים</a></p>' : '')+
       (SHOP.waitlist ? '<p style="margin-top:10px"><button class="btn ghost" id="newsBtn" style="display:inline-flex;padding:10px 18px">הצטרפו לרשימת הדיוור</button></p>' : '')+
@@ -1795,10 +1811,18 @@ const CAT_ICONS = {
   "אחסון":'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 6h18v3H3z"/><path d="M10 13h4"/>',
   "לבית ולחצר":'<path d="M5 9h14l-2 11H7z"/><path d="M5 9c0-6.5 14-6.5 14 0"/>'
 };
-function catStripHTML(active){
-  return '<nav class="catstrip" aria-label="קטגוריות">'+catOrder().map(c=>
-    '<button class="cchip'+(c===active?' on':'')+'" data-go="'+esc(c)+'">'+catIcon(c)+'<span>'+esc(c)+'</span></button>').join("")+
-  '</nav>';
+var NAV_ICON = '<svg class="navic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5 3.5 10.6l7.1 2.3 2.3 7.1z"/></svg>';
+/* פס הקטגוריות: שורה אחת שגוללים הצידה, דבוק למעלה בטלפון ובמחשב.
+   חצים בקצוות מראים שיש עוד קטגוריות, ובמחשב גם גוללים בלחיצה.
+   הכפתורים עובדים כבחירה מרובה: לחיצה מוסיפה או מורידה קטגוריה. */
+function catStripHTML(active, id){
+  return '<div class="cswrap"'+(id?' id="'+id+'"':'')+'>'+
+    '<button class="csarr prev" aria-label="קטגוריות קודמות" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>'+
+    '<nav class="catstrip" aria-label="קטגוריות">'+catOrder().map(c=>
+    '<button class="cchip'+(c===active?' on':'')+'" data-cat="'+esc(c)+'" aria-pressed="'+(c===active)+'">'+catIcon(c)+'<span>'+esc(c)+'</span></button>').join("")+
+    '</nav>'+
+    '<button class="csarr next" aria-label="עוד קטגוריות" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>'+
+  '</div>';
 }
 function catIcon(cat){
   const p = CAT_ICONS[cat] || '<circle cx="12" cy="12" r="8"/>';
@@ -1831,8 +1855,8 @@ function homeHTML(){
       '<p class="hulabel">מלבד כלי אמייל עם ידית עץ או פלסטיק, כל הכלים שלנו מתאימים ל:</p>'+
       '<div class="huses">'+["gas","induction","oven","dishwasher","outdoor"].map(k=>
         '<div class="use">'+ICONS[k]+'<span>'+L[k]+'</span></div>').join("")+'</div>'+
-      '<p class="hhbtns"><a class="btn primary" href="#allitems" data-scroll="allitems">לכלים שלנו</a>'+
-        '<button class="btn ghost" data-go="cats">לקטגוריות שלנו</button>'+
+      '<p class="hhbtns"><button class="btn ghost" data-go="cats">לקטגוריות שלנו</button>'+
+        '<a class="btn primary" href="#allitems" data-scroll="allitems">לכלים שלנו</a>'+
         '<button class="btn ghost" data-go="colls">מארזים</button></p>'+
       '<div class="infocards">'+
         '<button class="icard photo" data-go="moshav"><img src="img/moshav4.jpg" alt="" loading="lazy">'+
@@ -1857,7 +1881,7 @@ function homeHTML(){
     '</div>' : '')+
   '<div class="hsec"><h2>קטגוריות</h2><span class="ln"></span><button class="more" data-go="cats">לכל הקטגוריות</button></div>'+
   /* הפס נשאר דבוק למעלה גם בגלילה בבית */
-  catStripHTML(null).replace('<nav class="catstrip"','<nav id="allitems" class="catstrip hstrip"')+
+  catStripHTML(null, "allitems")+
   '<div class="hsec"><h2>כל הכלים</h2><span class="cnt">'+mix.length+' פריטים</span><span class="ln"></span></div>'+
   '<div class="grid">'+mix.map(cardHTML).join("")+'</div>';
 }
@@ -1976,6 +2000,9 @@ function go(n, instant, fromHistory){
   [...track.children].forEach((v,i)=>{ v.hidden = i!==idx; });
   void track.offsetHeight;
   requestAnimationFrame(()=>{ stage.style.overflowY = ""; stage.scrollTop = 0; });
+  /* הבחירה בפס: עמוד קטגוריה = הקטגוריה שלו; עמוד אחר (חוץ מהבחירה) = כלום */
+  if(pg.key!=="sel") selCats = catOrder().includes(pg.key) ? [pg.key] : [];
+  syncChips();
   /* חץ החזרה מוצג בכל עמוד חוץ מהבית */
   document.getElementById("backBtn").hidden = pg.key==="home";
   stage.scrollTop = 0;
@@ -1984,8 +2011,9 @@ function go(n, instant, fromHistory){
   const cur = track.children[idx] && track.children[idx].querySelector(".catstrip .on");
   if(cur){ const st = cur.parentNode;
     st.scrollLeft = cur.offsetLeft - (st.clientWidth - cur.offsetWidth)/2; }
+  requestAnimationFrame(updArrows);
   if(routeReady && !fromHistory && pg.key){
-    const h = "#/"+encodeURIComponent(pg.key);
+    const h = "#/"+encodeURIComponent(pg.key==="sel" ? "sel:"+selCats.join(",") : pg.key);
     try{
       if(instant) history.replaceState(null,"",h);
       else if(location.hash!==h){ history.pushState(null,"",h); navDepth++; }
@@ -1993,6 +2021,71 @@ function go(n, instant, fromHistory){
   }
 }
 const pageByKey = k => pages.findIndex(p=>p.key===k);
+/* =========================== בחירת קטגוריות ===========================
+   לחיצה על קטגוריה מוסיפה אותה לבחירה, לחיצה נוספת מורידה.
+   אחת נבחרה → עמוד הקטגוריה הרגיל. כמה → עמוד אחד עם כולן, לפי סדר הקטלוג.
+   אף אחת → חזרה ל"כל הכלים" בבית. */
+var selCats = [];
+function syncChips(){
+  document.querySelectorAll(".cchip").forEach(b=>{
+    const on = selCats.includes(b.dataset.cat);
+    b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+  });
+}
+function renderSel(){
+  const body = document.getElementById("selBody"); if(!body) return;
+  const cats = catOrder().filter(c=>selCats.includes(c));
+  const typeKey = p => p.sortAs != null ? p.sortAs : (parseInt(String(p.base||p.sku).replace(/\D/g,""), 10) || 999);
+  const varKey  = p => p.vi != null ? p.vi : parseInt(String(p.sku).split("-")[2]||"0", 10);
+  let total = 0;
+  const secs = cats.map(cat=>{
+    const items = PRODUCTS.filter(p=>p.cat===cat).slice().sort((a,b)=>typeKey(a)-typeKey(b) || varKey(a)-varKey(b));
+    total += items.length;
+    return '<div class="pagehead">'+catIcon(cat)+'<h2>'+esc(cat)+'</h2>'+
+      '<span class="cnt">'+items.length+' פריטים</span><span class="ln"></span></div>'+
+      '<div class="grid">'+items.map(cardHTML).join("")+'</div>';
+  }).join("");
+  body.innerHTML = '<div class="selhead"><h2>'+cats.length+' קטגוריות</h2><span class="cnt">'+total+' פריטים</span>'+
+    '<button class="clr" data-selclear>ניקוי הבחירה</button></div>'+secs;
+}
+function showCats(list, fromHistory){
+  selCats = catOrder().filter(c=>list.includes(c));
+  if(!selCats.length){
+    const h = pageByKey("home");
+    if(idx===h){ syncChips(); scrollToAll(); return; }
+    go(h, false, fromHistory); requestAnimationFrame(()=>requestAnimationFrame(scrollToAll));
+    return;
+  }
+  if(selCats.length===1){ go(pageByKey(selCats[0]), false, fromHistory); return; }
+  renderSel();
+  const i = pageByKey("sel");
+  if(idx===i){
+    /* כבר בעמוד הבחירה: מעדכנים בלי לקפוץ לראש, רק את הכתובת */
+    syncChips();
+    if(!fromHistory) try{ history.replaceState(null,"","#/"+encodeURIComponent("sel:"+selCats.join(","))); }catch(e){}
+    return;
+  }
+  go(i, false, fromHistory);
+}
+function toggleCat(c){
+  showCats(selCats.includes(c) ? selCats.filter(x=>x!==c) : selCats.concat(c));
+}
+function scrollToAll(){
+  const t = document.getElementById("allitems");
+  if(t) stage.scrollTo({top:t.offsetTop-10, behavior:"smooth"});
+}
+/* חצים בפס: מוצגים רק כשיש עוד מה לגלול לאותו כיוון.
+   ב-RTL scrollLeft הוא 0 בהתחלה (ימין) ושלילי כשמתקדמים שמאלה. */
+function updArrows(){
+  document.querySelectorAll(".view:not([hidden]) .cswrap").forEach(w=>{
+    const n = w.querySelector(".catstrip"); if(!n) return;
+    const max = n.scrollWidth - n.clientWidth, pos = Math.abs(n.scrollLeft);
+    w.querySelector(".csarr.prev").hidden = pos < 4;
+    w.querySelector(".csarr.next").hidden = max - pos < 4;
+  });
+}
+document.addEventListener("scroll", e=>{ if(e.target.classList && e.target.classList.contains("catstrip")) updArrows(); }, true);
+addEventListener("resize", ()=>requestAnimationFrame(updArrows));
 function goToPage(p){ if(p>=0) go(p); }
 /* מעבר לעמוד מתוך התפריט או הבית. בקטלוג מסונן — קודם מבטלים את הסינון */
 function navTo(key){
@@ -2280,6 +2373,10 @@ function shareProduct(p){
 function openFromHash(){
   const id = decodeURIComponent(location.hash.replace("#",""));
   if(!id){ if(routeReady){ document.getElementById("overlay").classList.remove("open"); go(pageByKey("home"), false, true); } return; }
+  if(id.indexOf("/sel:")===0){
+    document.getElementById("overlay").classList.remove("open");
+    showCats(id.slice(5).split(","), true); return;
+  }
   if(id.charAt(0)==="/"){
     const i = pageByKey(id.slice(1));
     document.getElementById("overlay").classList.remove("open");
@@ -3195,7 +3292,7 @@ document.getElementById("contactBtn").onclick = ()=>{
     '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.instagram+'" target="_blank" rel="noopener">'+IG_ICON+'הודעה באינסטגרם</a>'+
     (SHOP.facebook ? '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.facebook+'" target="_blank" rel="noopener">הודעה בפייסבוק</a>' : '')+
     (SHOP.group ? '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.group+'" target="_blank" rel="noopener">קבוצת העדכונים</a>' : '')+
-    '<a class="btn ghost" style="margin-bottom:14px" href="'+SHOP.maps+'" target="_blank" rel="noopener">ניווט · '+SHOP.address+'</a>'+
+    '<a class="btn ghost" style="margin-bottom:14px" href="'+SHOP.maps+'" target="_blank" rel="noopener">'+NAV_ICON+'ניווט בוויז · '+SHOP.address+'</a>'+
     '<p class="label" style="text-align:center;margin:0">אנו עורכים ימי מכירה מרוכזים. כתבו לנו ונחזור אליכם.<br>בשבת אנחנו לא זמינים.</p>';
   contactOverlay.classList.add("open");
 };
@@ -3365,6 +3462,12 @@ document.getElementById("jumpToc").addEventListener("click", e=>{
    החלקה מייצרת בחלק מהדפדפנים גם אירוע click, ולכן מתעלמים מלחיצה
    שהגיעה מיד אחרי החלקה. */
 track.addEventListener("click", e=>{
+  const ch = e.target.closest(".cchip");
+  if(ch){ toggleCat(ch.dataset.cat); return; }
+  const ar = e.target.closest(".csarr");
+  if(ar){ const n = ar.parentNode.querySelector(".catstrip");
+          n.scrollBy({left:(ar.classList.contains("next")?-1:1)*n.clientWidth*0.7, behavior:"smooth"}); return; }
+  if(e.target.closest("[data-selclear]")){ showCats([]); return; }
   const g = e.target.closest("[data-go]");
   if(g){ goToPage(pageByKey(g.dataset.go)); return; }
   const sc = e.target.closest("[data-scroll]");
@@ -3447,7 +3550,7 @@ document.getElementById("collGrid").addEventListener("click", e=>{
    עם מוגבלות או עולים חדשים — עד 4 חודשים, אם העסקה כללה שיחה. */
 const CANCEL_MSG = "היי, אני רוצה לבטל הזמנה.\nשם:\nטלפון:\nמה הוזמן ומתי:";
 function policyHTML(){
-  const biz = [SHOP.owner ? "העסק מנוהל על ידי "+SHOP.owner : "",
+  const biz = [SHOP.owner ? "פרטי העוסק: "+SHOP.owner : "",
                SHOP.bizId ? "עוסק פטור "+SHOP.bizId : "",
                SHOP.address, SHOP.email].filter(Boolean).join(" · ");
   return ''+
