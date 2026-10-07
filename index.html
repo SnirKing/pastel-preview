@@ -446,6 +446,11 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .cartrow .thumb{width:52px;height:52px;flex:0 0 auto;object-fit:contain;background:var(--paper-2);
   border:1px solid rgba(46,51,39,.2);border-radius:4px}
 .cartrow .thumb,.cartrow .nm{cursor:pointer}
+.vrow .thumb{width:44px;height:44px;object-fit:contain;vertical-align:middle;margin-inline-end:8px;
+  background:var(--paper-2);border:1px solid rgba(46,51,39,.2);border-radius:4px}
+.coafter{margin-top:12px;padding:12px;border:1px dashed rgba(92,107,76,.45);border-radius:8px;text-align:center}
+.coafter .btn{display:inline-flex;padding:10px 18px}
+.conote{margin:0 0 14px;padding:9px 12px;border-radius:8px;background:var(--paper-2);font-size:14px;color:var(--olive-deep)}
 .cartrow .nm:hover{color:var(--enamel)}
 .cartrow .nm{flex:1;min-width:0;font-size:14.5px;line-height:1.35}
 .cartrow .nm small{display:block;color:var(--muted);font-size:12px}
@@ -534,7 +539,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .huses .use{width:auto;flex:1}
 .hhbtns{display:flex;gap:10px;flex-wrap:wrap}
 .hhbtns .btn{display:inline-flex;padding:11px 20px;text-decoration:none}
-@media(min-width:800px){ .hhero{grid-template-columns:minmax(0,430px) 1fr;gap:40px} .hhero img{max-height:78dvh;object-fit:cover} }
+@media(min-width:800px){ .hhero{grid-template-columns:minmax(0,430px) 1fr;gap:40px} .hhero img{width:auto;max-width:100%;max-height:80dvh;margin:0 auto;object-fit:contain} }
 .hsec{display:flex;align-items:center;gap:12px;margin:30px 0 14px}
 .hsec h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0;color:var(--olive-deep);white-space:nowrap}
 .hsec .ln{flex:1;height:1px;background:rgba(92,107,76,.3)}
@@ -782,6 +787,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     </div>
     <div class="body">
       <p class="label">הפרטים נכנסים להודעה בוואטסאפ, כדי שלא נצטרך לברר אותם בשיחה.</p>
+      <p class="conote">התשלום נסגר בוואטסאפ מול ענבר. רק אחרי התשלום ההזמנה נארזת למשלוח או לאיסוף.</p>
       <div class="field"><label for="coName">שם מלא</label>
         <input id="coName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
       <div class="field"><label for="coPhone">טלפון</label>
@@ -790,7 +796,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
       <div class="field"><label>איך לקבל את ההזמנה</label>
         <div class="choice">
           <label><input type="radio" name="coWay" value="delivery" checked><span>משלוח</span></label>
-          <label><input type="radio" name="coWay" value="pickup"><span>איסוף עצמי</span></label>
+          <label><input type="radio" name="coWay" value="pickup"><span>איסוף עצמי מכפר בן נון</span></label>
         </div>
         <p class="label" id="coWayNote" style="margin:7px 0 0"></p></div>
 
@@ -827,6 +833,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     </div>
     <div class="foot">
       <button class="btn primary" id="coSend"></button>
+      <div id="coAfter" class="coafter" hidden></div>
       <p class="label" style="margin:9px 0 0;text-align:center">
         ההודעה נפתחת בוואטסאפ שלכם — אפשר לעבור עליה לפני השליחה.<br>
         הפרטים משמשים רק לטיפול בהזמנה · <a href="#" class="policyLink">ביטול, החזרה ופרטיות</a></p>
@@ -864,7 +871,7 @@ const SHOP = {
   /* כתובת ה-Web App של Google Apps Script לרשימת ההמתנה.
      כל עוד היא ריקה, כפתור "עדכנו אותי" פותח וואטסאפ במקום טופס. */
   waitlist:"https://script.google.com/macros/s/AKfycbzs6E2eecokE12XY8UThCgqk1Em1keP5dOQsNAQTKwNjUKHoulsKot_6W8zVNfRNVWuEA/exec",
-  freeShipping:500,
+  freeShipping:Infinity,         /* אין משלוח חינם. מספר כאן מחזיר אותו בכל המקומות */
   bundleRate:0.94,               /* מחיר מארז = סכום הפריטים × זה, מעוגל למטה ל-5 ₪ */              /* משלוח חינם מסכום זה ומעלה */
   srcTag:true,                   /* תג מקור בסוף הודעת הוואטסאפ. false מבטל לגמרי */
   /* פריט שיש לו צילום לכמה גוונים מוצג בגריד ככרטיס נפרד לכל גוון.
@@ -954,7 +961,7 @@ const PRODUCTS = [
   img:"img/PS-10-blue-dots.jpg", colorImgs:{"כחול עם נקודות תכלת בהיר":"img/PS-10-blue-dots.jpg"}},
 {sku:"PS-11", name:"קומקום", cat:"קומקומים", price:90, vol:"1.2 ליטר", colors:[["אדום",C.red],["תכלת",C.lblue],["ירוק כהה",C.dgreen],["לבן עם נקודות אדומות",C.white],["אדום מנוקד",C.red]], use:stovetop,
   desc:"קומקום בגודל יומיומי, במבחר גוונים. לחימום מים לתה ולקפה, ונראה יפה גם על המדף.",
-  img:"img/PS-11-red.jpg", colorImgs:{"אדום":"img/PS-11-red.jpg","ירוק כהה":"img/PS-11-darkgreen.jpg","תכלת":"img/PS-11-lightblue.jpg","אדום מנוקד":"img/PS-19-red-dots.jpg"},
+  img:"img/PS-11-red.jpg", colorImgs:{"אדום":"img/PS-11-red.jpg","ירוק כהה":"img/PS-11-darkgreen.jpg","תכלת":"img/PS-11-lightblue.jpg","אדום מנוקד":"img/PS-19-red-dots.jpg","לבן עם נקודות אדומות":"img/PS-11-white-reddots.jpg"},
   skus:{"אדום":"PS-11-01","תכלת":"PS-11-02","ירוק כהה":"PS-11-03","לבן עם נקודות אדומות":"PS-11-04","אדום מנוקד":"PS-19"},
   colorStock:{"לבן עם נקודות אדומות":"out"},
   realImgs:{"אדום":"img/real-kettles-wall.jpg","לבן עם נקודות אדומות":"img/real-kettles-wall.jpg"},
@@ -1015,8 +1022,8 @@ const PRODUCTS = [
 {sku:"PS-21", name:"קומקומים — סט 3 יחידות", cat:"קומקומים", price:99, colors:[["מגוון",C.red]],
   desc:"סט של שלושה קומקומים בגדלים עולים ובגוונים שונים. מתנה מקסימה, ופינה צבעונית ומהממת על המדף.",
   img:"img/PS-21-mixed.jpg", colorImgs:{"מגוון":"img/PS-21-mixed.jpg"},
-  real:"img/real-PS-21.jpg",
-  realNote:"שלושת הקומקומים של הסט, בגדלים העולים"},
+  real:"img/real-PS-21-b.jpg",
+  realNote:"הקומקומים של הסט, אצלנו על השולחן"},
 {sku:"PS-22", name:"קומקום ג'מבו", cat:"קומקומים", price:180, vol:"4 ליטר", colors:[["כחול",C.blue]],
   desc:"קומקום ג'מבו בכחול עמוק, הגדול בקטלוג. מושלם לקפה או לתה לכל השולחן, לאירוח ולאירועים משפחתיים.",
   img:"img/PS-22-blue.jpg", colorImgs:{"כחול":"img/PS-22-blue.jpg"},
@@ -1223,8 +1230,6 @@ const PRODUCTS = [
   desc:"מסטינג של שלוש קומות שמתחברות לכלי אחד עם ידית. לארוחה אישית לעבודה, ללימודים או לטיול.",
   img:"img/PS-50-yellow.jpg", colorImgs:{"צהוב":"img/PS-50-yellow.jpg","כתום עם פסים לבנים":"img/PS-50-orange.jpg","לבן עם פסים כחולים":"img/PS-50-white.jpg"},
   skus:{"צהוב":"PS-50-01","כתום עם פסים לבנים":"PS-50-02","לבן עם פסים כחולים":"PS-50-03"}},
-{sku:"PS-51", name:"מסטינג 3 קומות, גדול", cat:"מסטינגים", price:130, colors:[["מגוון",C.cream]],
-  desc:"מסטינג גדול של שלוש קומות לארוחה מלאה: מנה עיקרית, תוספת וסלט, כל אחד בקומה שלו."},
 {sku:"PS-52", name:"מסטינג 4 קומות", cat:"מסטינגים", price:160,
   colors:[["צהוב",C.yellow]],
   desc:"מסטינג של ארבע קומות. לארוחה שלמה לעבודה, לטיול או לפיקניק.",
@@ -1243,7 +1248,7 @@ const PRODUCTS = [
 {sku:"PS-55", name:"מסננת עם רגליים", cat:"מסננות", price:100, dia:"22 ס\"מ",
   colors:[["לבן",C.white],["תכלת",C.lblue],["שמנת",C.cream]],
   desc:"מסננת עם רגליים שעומדת בעצמה בכיור. לפסטה, לשטיפת ירקות ופירות, וגם כקערת פירות על השיש.",
-  img:"img/PS-55-white.jpg", colorImgs:{"לבן":"img/PS-55-white.jpg","תכלת":"img/PS-55-lightblue.jpg","שמנת":"img/PS-55-cream.jpg"},
+  img:"img/PS-55-white.jpg", colorImgs:{"לבן":"img/PS-55-white.jpg","תכלת":"img/PS-55-lightblue.png","שמנת":"img/PS-55-cream.png"},
   skus:{"לבן":"PS-55-01","תכלת":"PS-55-02","שמנת":"PS-55-03"},
   real:"img/real-colanders2.jpg",
   realNote:"המסננות לצד הפינג'נים"},
@@ -1254,7 +1259,7 @@ const PRODUCTS = [
   realNote:"המסננות עם הידית, לצד קערות"},
 {sku:"PS-57", name:"סכומון", cat:"כלי מטבח והגשה", price:70, colors:[["תכלת",C.lblue],["אדום",C.red]],
   desc:"מעמד לסכום על השולחן או ליד הכיריים. מתאים גם לכפות עץ, לעטים או כעציץ קטן.",
-  img:"img/PS-57-lightblue.jpg", colorImgs:{"תכלת":"img/PS-57-lightblue.jpg","אדום":"img/PS-57-red.jpg"}, dia:"13 ס\"מ", h:"13 ס\"מ",
+  img:"img/PS-57-lightblue.png", colorImgs:{"תכלת":"img/PS-57-lightblue.png","אדום":"img/PS-57-red.jpg"}, dia:"13 ס\"מ", h:"13 ס\"מ",
   skus:{"תכלת":"PS-57-01","אדום":"PS-57-02"}},
 {sku:"PS-58", name:"מצקת", cat:"כלי מטבח והגשה", price:30, colors:[["לבן",C.white]],
   desc:"מצקת אמייל קלאסית עם ידית ארוכה. למרק, לרוטב ולהגשה מסיר עמוק.",
@@ -1268,8 +1273,8 @@ const PRODUCTS = [
   img:"img/PS-59-wood.jpg", colorImgs:{"עץ":"img/PS-59-wood.jpg"},
   colorAlts:{"עץ":"img/PS-59-wood-alt.jpg"},
   sortAs:79.5},
-{sku:"PS-85", name:"מרית מחוררת", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
-  desc:"מרית עם שלושה חריצים, להפיכה ולניקוז באותה תנועה: לדגים, לחביתות ולירקות מטוגנים.",
+{sku:"PS-85", name:"תרווד עץ מחורץ", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
+  desc:"תרווד עם שלושה חריצים, להפיכה ולניקוז באותה תנועה: לדגים, לחביתות ולירקות מטוגנים.",
   img:"img/PS-85-wood.jpg", colorImgs:{"עץ":"img/PS-85-wood.jpg"},
   colorAlts:{"עץ":"img/PS-85-wood-alt.jpg"}},
 {sku:"PS-82", name:"מרית ישרה", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
@@ -1284,7 +1289,7 @@ const PRODUCTS = [
   desc:"כף עץ עם ראש רחב ועגול, להגשה מהסיר ולמזיגת רוטב.",
   img:"img/PS-84-wood.jpg", colorImgs:{"עץ":"img/PS-84-wood.jpg"},
   colorAlts:{"עץ":"img/PS-84-wood-alt.jpg"}},
-{sku:"PS-81", name:"כף מזלג", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
+{sku:"PS-81", name:"כף הגשה מחורצת", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
   desc:"כף עם שלוש שיניים בקצה, להגשת סלט ולהרמת פסטה.",
   img:"img/PS-81-wood.jpg", colorImgs:{"עץ":"img/PS-81-wood.jpg"},
   colorAlts:{"עץ":"img/PS-81-wood-alt.jpg"}},
@@ -1306,7 +1311,8 @@ const PRODUCTS = [
   real:"img/real-PS-60.jpg", realNote:"על שולחן עץ לצד כפות רגילות, כדי לראות את הגודל",
   skus:{"לבן":"PS-60-01","כחול":"PS-60-02","צהוב":"PS-60-03","ירוק":"PS-60-04"},
   promo:"1 ב-20 ₪ · 4 ב-60 ₪",
-  warn:"להגשה ולמזיגה בלבד, לא לאכילה"},
+  warn:"להגשה ולמזיגה בלבד, לא לאכילה",
+  realMore:"img/real-PS-60-b.jpg"},
 {sku:"PS-61", name:"מלחייה ופלפלייה", cat:"כלי מטבח והגשה", price:60, note:"מחיר ליחידה · 2 ב-100 ₪", h:"40 ס\"מ", colors:[["מגוון",C.cream]],
   desc:"מלחייה ופלפלייה גבוהות במיוחד, שעומדות על השולחן כמו פריט עיצוב. מתנה מושלמת לבית חדש ולמי שאוהב לארח.",
   img:"img/PS-61-mixed.jpg", colorImgs:{"מגוון":"img/PS-61-mixed.jpg"},
@@ -1353,7 +1359,7 @@ const PRODUCTS = [
   desc:"סבונייה מקסימה עם מגש מחורר שמנקז את המים, בלבן ובשמנת. פרט קטן ומושלם שמשדרג את הכיור ואת חדר הרחצה.",
   img:"img/PS-70-white.jpg", colorImgs:{"לבן":"img/PS-70-white.jpg","שמנת":"img/PS-70-cream.jpg"},
   skus:{"לבן":"PS-70-01","שמנת":"PS-70-02"},
-  colorAlts:{"לבן":"img/PS-70-white-alt.jpg","שמנת":"img/PS-70-cream-alt.jpg"},
+  colorAlts:{"לבן":"img/PS-70-white-alt.jpg"},
   real:"img/real-kettles-wall.jpg",
   realNote:"הסבוניות בחזית, לצד קומקומים"},
 {sku:"PS-71", name:"סיר לילה", cat:"לבית ולחצר", price:85, colors:[["מגוון",C.white]],
@@ -1672,8 +1678,8 @@ function buildPages(){
       'צילומי המוצרים מצולמים על רקע לבן כדי שיהיה אפשר לראות בדיוק את הצורה ואת הגוון. '+
       'כאן הם נראים כמו שהם באמת — על השולחנות ועל המדפים אצלנו בכפר בן נון.</p>'+
     '<div class="shots">'+
-      ['moshav4','moshav1','moshav3','moshav2','moshav7','moshav8']
-        .map((n,i)=>'<img class="'+(i===0||n==='moshav7'||n==='moshav2'?'wide':'')+'" src="img/'+n+'.jpg" '+
+      ['moshav4','moshav1','moshav10','moshav3','moshav9','moshav2','moshav7','moshav8']
+        .map((n,i)=>'<img class="'+(i===0||n==='moshav7'||n==='moshav2'||n==='moshav10'?'wide':'')+'" src="img/'+n+'.jpg" '+
              'alt="כלי אמייל של פסטל במושב כפר בן נון" loading="lazy" decoding="async">').join("")+
     '</div>'});
 
@@ -1695,8 +1701,8 @@ function buildPages(){
 
     '<h4>משלוחים</h4>'+
     '<p><b>איסוף עצמי מ'+SHOP.place+' — חינם.</b> מתאמים מראש בוואטסאפ.</p>'+
-    '<p><b>משלוח לכל הארץ — '+SHOP.shipCost+' '+SHOP.currency+', וחינם בהזמנה מעל '+
-      SHOP.freeShipping+' '+SHOP.currency+'.</b></p>'+
+    '<p><b>משלוח לכל הארץ — '+SHOP.shipCost+' '+SHOP.currency+
+      (isFinite(SHOP.freeShipping) ? ', וחינם בהזמנה מעל '+SHOP.freeShipping+' '+SHOP.currency : '')+'.</b></p>'+
 
     '<h4>תשלום</h4>'+
     '<p>ביט או מזומן.</p>'+
@@ -1822,7 +1828,7 @@ function homeHTML(){
       '<h1>כלי אמייל לבית, למטבח ולגינה</h1>'+
       '<p>אמייל הוא זכוכית שנצרבת על פלדה — בריא ובטוח למזון, לא מגיב עם האוכל ובלי ציפוי טפלון. '+
         'הוא לא מתקלף, לא סופג ריחות, והצבע שלו לא דוהה גם בשמש.</p>'+
-      '<p class="hulabel">מלבד כלים עם ידית עץ או פלסטיק וכלי העץ, כל הכלים שלנו מתאימים ל:</p>'+
+      '<p class="hulabel">מלבד כלי אמייל עם ידית עץ או פלסטיק, כל הכלים שלנו מתאימים ל:</p>'+
       '<div class="huses">'+["gas","induction","oven","dishwasher","outdoor"].map(k=>
         '<div class="use">'+ICONS[k]+'<span>'+L[k]+'</span></div>').join("")+'</div>'+
       '<p class="hhbtns"><a class="btn primary" href="#allitems" data-scroll="allitems">לכלים שלנו</a>'+
@@ -1839,7 +1845,7 @@ function homeHTML(){
     '</div>'+
   '</div>'+
   '<div class="trust"><span>משלוח לכל הארץ '+SHOP.shipCost+' '+SHOP.currency+'</span>'+
-    '<span>משלוח חינם מעל '+SHOP.freeShipping+' '+SHOP.currency+'</span>'+
+    (isFinite(SHOP.freeShipping) ? '<span>משלוח חינם מעל '+SHOP.freeShipping+' '+SHOP.currency+'</span>' : '')+
     '<span>איסוף עצמי מ'+esc(SHOP.place)+' ללא תשלום נוסף</span><span>הזמנה בוואטסאפ · ביט או מזומן</span></div>'+
   (colls.length ?
     '<div class="hsec"><h2>מארזים</h2><span class="ln"></span><button class="more" data-go="colls">לכל המארזים</button></div>'+
@@ -2746,7 +2752,7 @@ function renderCart(){
   ids.forEach(id=>{ const p=byId(id); p.price!=null && !p.priceText ? sum += p.price*cart[id] : special++; });
   /* כמה חסר למשלוח חינם — מוצג רק כשיש סכום מספרי לחשב ממנו */
   const gap = SHOP.freeShipping - sum;
-  const ship = sum>0
+  const ship = sum>0 && isFinite(SHOP.freeShipping)
     ? (gap>0
         ? '<div class="shipnote">עוד <b>'+gap+' '+SHOP.currency+'</b> ומשלוח ההזמנה עלינו</div>'
         : '<div class="shipnote free">המשלוח עלינו — ההזמנה עברה את '+SHOP.freeShipping+' '+SHOP.currency+'</div>')
@@ -2791,8 +2797,9 @@ function coSyncWay(){
   const pickup = coWay()==="pickup";
   coEl("coShipFields").hidden = pickup;
   coEl("coWayNote").innerHTML = pickup
-    ? "איסוף עצמי מ"+esc(SHOP.place)+" — חינם, בתיאום מראש."
-    : "משלוח לכל הארץ — "+SHOP.shipCost+" "+SHOP.currency+", וחינם מעל "+SHOP.freeShipping+" "+SHOP.currency+".";
+    ? "איסוף עצמי מ"+esc(SHOP.place)+" — בתיאום מראש, ללא תשלום נוסף."
+    : "משלוח לכל הארץ — "+SHOP.shipCost+" "+SHOP.currency+
+      (isFinite(SHOP.freeShipping) ? ", וחינם מעל "+SHOP.freeShipping+" "+SHOP.currency : "")+".";
 }
 
 /* בדיקה רכה: חוסמת רק את מה שבאמת מעכב את ההזמנה */
@@ -2935,7 +2942,7 @@ function verifyOrder(text){
     if(p.price==null || p.priceText){ special++;
       return '<div class="vrow"><span>'+esc(p.name)+' ('+p.sku+') ×'+r.qty+'</span><span>'+esc(priceOf(p))+'</span></div>'; }
     const line = p.price*r.qty; real += line;
-    return '<div class="vrow"><span>'+esc(p.name)+' ('+p.sku+') ×'+r.qty+'</span><span>'+
+    return '<div class="vrow"><span>'+(p.img||p.isBundle ? thumbOf(p) : '')+esc(p.name)+(p.colorName?' · '+esc(p.colorName):'')+' ('+p.sku+') ×'+r.qty+'</span><span>'+
            p.price+' × '+r.qty+' = '+line+' '+SHOP.currency+'</span></div>';
   }).join("");
 
@@ -2994,6 +3001,7 @@ function openCheckout(){
   coEl("coNews").checked = false;
   coEl("coMailField").hidden = true;
   coEl("coSend").innerHTML = WA_ICON+"שליחת ההזמנה בוואטסאפ";
+  coEl("coAfter").hidden = true;
   checkoutOverlay.classList.add("open");
   setTimeout(()=>coEl("coName").focus(), 60);
 }
@@ -3019,6 +3027,77 @@ function coJoinNews(){
     })});
   }catch(e){}
 }
+/* =========================== תמונת ההזמנה ===========================
+   וואטסאפ לא מאפשר לצרף תמונה לקישור wa.me, ולכן ההודעה יוצאת כטקסט,
+   ואחריה מוצע שלב שני: תמונה אחת עם כל הפריטים, המק"ט והכמות. בטלפון
+   היא נשלחת דרך חלון השיתוף (וואטסאפ → הצ'אט שנפתח הרגע, הוא הראשון
+   ברשימה); במחשב היא יורדת, ומצרפים אותה בוואטסאפ ווב. */
+function loadImg(src){
+  return new Promise(r=>{ const im = new Image(); im.onload=()=>r(im); im.onerror=()=>r(null); im.src = src; });
+}
+function orderLines(){
+  const out = [];
+  Object.keys(cart).forEach(id=>{
+    const p = byId(id); if(!p) return;
+    if(p.isBundle){
+      const n = {}; p.items.forEach(i=>n[i]=(n[i]||0)+1);
+      Object.keys(n).forEach(i=>{ const x = byId(i); if(x) out.push({p:x, q:n[i]*cart[id], tag:p.name}); });
+    } else out.push({p:p, q:cart[id]});
+  });
+  return out;
+}
+async function orderCollage(oid){
+  const lines = orderLines(); if(!lines.length) return null;
+  const cols = lines.length<=2 ? lines.length : (lines.length<=4 ? 2 : 3);
+  const T = 340, G = 18, PAD = 28, LAB = 96, TOP = 96;
+  const rows = Math.ceil(lines.length/cols);
+  const W = PAD*2 + cols*T + (cols-1)*G, H = TOP + rows*(T+LAB) + (rows-1)*G + 40;
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const x = cv.getContext("2d");
+  x.fillStyle = "#FCFAF7"; x.fillRect(0,0,W,H);
+  x.direction = "rtl"; x.textAlign = "right"; x.fillStyle = "#3F4A35";
+  x.font = "600 34px Arial, sans-serif"; x.fillText("Pastél · הזמנה "+(oid||""), W-PAD, 58);
+  x.font = "20px Arial, sans-serif"; x.fillStyle = "#8A8878";
+  x.fillText(lines.reduce((a,l)=>a+l.q,0)+" פריטים", W-PAD, 84);
+  const imgs = await Promise.all(lines.map(l=>l.p.img ? loadImg(l.p.img) : Promise.resolve(null)));
+  lines.forEach((l,i)=>{
+    const c = i % cols, r = Math.floor(i/cols);
+    const left = W - PAD - (c+1)*T - c*G, top = TOP + r*(T+LAB+G);
+    x.fillStyle = "#FFFFFF"; x.fillRect(left, top, T, T);
+    x.strokeStyle = "rgba(46,51,39,.35)"; x.lineWidth = 2; x.strokeRect(left+1, top+1, T-2, T-2);
+    const im = imgs[i];
+    if(im){ const s = Math.min((T-20)/im.width, (T-20)/im.height), w = im.width*s, h = im.height*s;
+            x.drawImage(im, left+(T-w)/2, top+(T-h)/2, w, h); }
+    if(l.q>1){ x.fillStyle = "#3F4A35"; x.beginPath(); x.arc(left+34, top+34, 24, 0, 7); x.fill();
+               x.fillStyle = "#FFF"; x.textAlign = "center"; x.font = "600 22px Arial"; x.fillText("×"+l.q, left+34, top+42); x.textAlign = "right"; }
+    x.fillStyle = "#3F4A35"; x.font = "600 22px Arial, sans-serif";
+    x.fillText(l.p.name.slice(0,26), left+T-4, top+T+30);
+    x.fillStyle = "#6E6C5E"; x.font = "19px Arial, sans-serif";
+    x.fillText([l.p.colorName, l.p.sku].filter(Boolean).join(" · ").slice(0,34), left+T-4, top+T+58);
+    if(l.tag){ x.fillStyle = "#B4546F"; x.font = "17px Arial, sans-serif"; x.fillText(l.tag.slice(0,32), left+T-4, top+T+84); }
+  });
+  return await new Promise(r=>{ try{ cv.toBlob(r, "image/jpeg", .88); }catch(e){ r(null); } });
+}
+/* שלב שני אחרי השליחה: הכפתור מוכן עם הקובץ כבר מוכן, כי חלון השיתוף
+   חייב להיפתח ישר מתוך הלחיצה */
+async function showCollageStep(oid){
+  const box = coEl("coAfter"); if(!box) return;
+  box.hidden = false;
+  box.innerHTML = '<p class="label" style="margin:0 0 8px">ההודעה נפתחה בוואטסאפ ✓<br>רוצים לצרף גם תמונה אחת עם כל הפריטים? כך נראה בדיוק למה התכוונתם.</p>'+
+    '<button class="btn ghost" id="coPic" disabled>מכין את התמונה…</button>';
+  const blob = await orderCollage(oid);
+  const b = coEl("coPic");
+  if(!blob){ box.hidden = true; return; }
+  const file = new File([blob], "pastel-order-"+oid+".jpg", {type:"image/jpeg"});
+  const canShare = navigator.canShare && navigator.canShare({files:[file]});
+  b.disabled = false;
+  b.textContent = canShare ? "שליחת תמונת ההזמנה" : "הורדת תמונת ההזמנה";
+  b.onclick = ()=>{
+    if(canShare){ navigator.share({files:[file], title:"הזמנה "+oid}).catch(()=>{}); return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = file.name;
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+}
 coEl("coSend").addEventListener("click", ()=>{
   if(!coCheck()) return;
   coSave();
@@ -3027,7 +3106,12 @@ coEl("coSend").addEventListener("click", ()=>{
   logOrder(oid);
   STATS.sent++; statsSend();   /* ההזמנה היא סוף הביקור — שולחים לפני היציאה */
   /* הניווט קורה בתוך אירוע הלחיצה, אחרת הדפדפן חוסם אותו כחלון קופץ */
-  location.href = "https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(orderMessage(oid));
+  const wa = "https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(orderMessage(oid));
+  /* במחשב — חלון חדש, כדי שהקטלוג יישאר פתוח לשלב התמונה; בטלפון הקישור
+     פותח את האפליקציה והדף נשאר מתחתיה */
+  const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if(mobile || !window.open(wa, "_blank")) location.href = wa;
+  showCollageStep(oid);
 });
 
 function renderFavs(){
