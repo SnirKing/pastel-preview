@@ -206,6 +206,7 @@ textarea{width:100%;font:inherit;font-size:15px;line-height:1.6;padding:10px 12p
 .vbad{color:#B3372F;font-weight:600}
 .vnote{font-size:13px;color:var(--muted);margin:8px 0 0}
 .choice{display:flex;gap:9px}
+.choice.pay{display:grid;grid-template-columns:1fr 1fr}
 .choice label{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
   padding:10px;border:1px solid rgba(92,107,76,.45);border-radius:8px;background:var(--page);
   font-size:15px;cursor:pointer}
@@ -451,6 +452,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
   background:var(--paper-2);border:1px solid rgba(46,51,39,.2);border-radius:4px}
 .coafter{margin-top:12px;padding:12px;border:1px dashed rgba(92,107,76,.45);border-radius:8px;text-align:center}
 .coafter .btn{display:inline-flex;padding:10px 18px}
+.costeps ol{margin:6px 0 0;padding-inline-start:20px}.costeps li{margin:2px 0;line-height:1.45}
 .conote{margin:0 0 14px;padding:9px 12px;border-radius:8px;background:var(--paper-2);font-size:14px;color:var(--olive-deep)}
 .cartrow .nm:hover{color:var(--enamel)}
 .cartrow .nm{flex:1;min-width:0;font-size:14.5px;line-height:1.35}
@@ -588,6 +590,9 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .mcount{margin-inline-start:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--olive-deep);color:#F4F1EA;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center}
 .hnote{display:flex;align-items:center;gap:8px;margin:0 0 20px;padding:9px 12px;border-radius:8px;background:#F7ECDB;border:1px solid #E3C79B;color:#6B4A1F;font-size:14px;line-height:1.4}
 .hnote svg{width:20px;height:20px;flex:0 0 auto;fill:none;stroke:#B07A2E;stroke-width:2;stroke-linecap:round}
+.lastfold{display:block;width:100%;margin:0 0 12px;padding:9px 12px;border:1px dashed rgba(92,107,76,.45);border-radius:8px;background:none;color:var(--olive-deep);font-size:13.5px;text-align:start;cursor:pointer}
+.lastdet{margin-top:10px}.lastdet summary{cursor:pointer;color:var(--enamel);font-size:14px;margin-bottom:6px}
+.lastmsg{white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.5;background:var(--paper);border:1px solid rgba(92,107,76,.2);border-radius:6px;padding:10px;margin:8px 0 0;max-height:280px;overflow:auto}
 .lastord{margin-bottom:14px;background:#F3EFE6}
 .ordlink{display:block;margin:12px auto 0;text-align:center}
 #coCashOpt[hidden]{display:none}
@@ -822,7 +827,15 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
     </div>
     <div class="body">
       <p class="label">הפרטים נכנסים להודעה בוואטסאפ.</p>
-      <p class="conote">התשלום נסגר בוואטסאפ. רק אחרי התשלום ההזמנה נארזת למשלוח או לאיסוף.</p>
+      <div class="conote costeps">
+        <b>איך זה עובד</b>
+        <ol>
+          <li>שולחים את ההזמנה בוואטסאפ — כל הפרטים כבר בהודעה.</li>
+          <li>נחזור אליכם בהקדם לאישור שהכול במלאי. בשבת אנחנו לא זמינים — נחזור במוצאי שבת.</li>
+          <li>תשלום בביט, בפייבוקס או בהעברה בנקאית (את הפרטים נשלח בשיחה), או במזומן באיסוף עצמי.</li>
+          <li>אחרי התשלום אנחנו אורזים, ושולחים או מתאמים איסוף.</li>
+        </ol>
+      </div>
       <div class="field"><label for="coName">שם מלא</label>
         <input id="coName" type="text" autocomplete="name" placeholder="איך לפנות אליכם"></div>
       <div class="field"><label for="coPhone">טלפון</label>
@@ -850,8 +863,10 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
       </div>
 
       <div class="field"><label>תשלום</label>
-        <div class="choice">
+        <div class="choice pay">
           <label><input type="radio" name="coPay" value="ביט" checked><span>ביט</span></label>
+          <label><input type="radio" name="coPay" value="פייבוקס"><span>פייבוקס</span></label>
+          <label><input type="radio" name="coPay" value="העברה בנקאית"><span>העברה בנקאית</span></label>
           <label id="coCashOpt"><input type="radio" name="coPay" value="מזומן"><span>מזומן</span></label>
         </div>
         <p class="label" id="coPayNote" style="margin:7px 0 0"></p></div>
@@ -898,14 +913,14 @@ const SHOP = {
   /* פרטי העסק לעמוד המדיניות. שדה ריק לא מוצג. */
   owner:"ענבר ריבק",
   bizId:"213479058",
-  email:"",
+  email:"pastel.enamelhouse@gmail.com",
   address:"הגפן 25, כפר בן נון",
   maps:"https://waze.com/ul?q=" + encodeURIComponent("הגפן 25 כפר בן נון"),
   group:"https://chat.whatsapp.com/EaFHnrsxf0pLfuvp78Bcaw",
   shipCost:50,                   /* עלות משלוח מתחת לסכום למשלוח חינם */
   /* כתובת ה-Web App של Google Apps Script לרשימת ההמתנה.
      כל עוד היא ריקה, כפתור "עדכנו אותי" פותח וואטסאפ במקום טופס. */
-  waitlist:"https://script.google.com/macros/s/AKfycbzs6E2eecokE12XY8UThCgqk1Em1keP5dOQsNAQTKwNjUKHoulsKot_6W8zVNfRNVWuEA/exec",
+  waitlist:"https://script.google.com/macros/s/AKfycbz30RMvZ32ND9lEIJGXDN_ilx1zMjdW0NOR1epgC4-WXCoMXsKgEe0i2FgBudfu6eOSWQ/exec",
   freeShipping:Infinity,         /* אין משלוח חינם. מספר כאן מחזיר אותו בכל המקומות */
   bundleRate:0.94,               /* מחיר מארז = סכום הפריטים × זה, מעוגל למטה ל-5 ₪ */              /* משלוח חינם מסכום זה ומעלה */
   srcTag:true,                   /* תג מקור בסוף הודעת הוואטסאפ. false מבטל לגמרי */
@@ -942,11 +957,16 @@ const PRODUCTS = [
 {sku:"PS-02", name:"סירים", cat:"סירים", priceText:"50–100 ₪", note:"במגוון גדלים וצבעים", use:cookware, colors:[["מגוון",C.red]],
   desc:"סירים במגוון גדלים וגוונים, לפי המלאי הקיים. כתבו לנו מה אתם מחפשים ונשלח תמונות."},
 {sku:"PS-03", name:"קערה אישית", cat:"קערות אישיות", price:30,
-  colors:[["אדום",C.red],["אדום עם אוזניים",C.red,"אדום"],["ירוק",C.green]],
+  colors:[["אדום עם אוזניים",C.red,"אדום"],["ירוק",C.green]],
   desc:"קערה קטנה עם ידיות, בגודל של מנה אחת. עוברת מהגז ישר לשולחן — לשקשוקה, למרק או לפסטה אישית.",
   use:cookware,
-  img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles-2.jpg","ירוק":"img/PS-03-green-2.jpg"},
-  skus:{"אדום":"PS-03-01","אדום עם אוזניים":"PS-03-02","ירוק":"PS-03-03"}},
+  img:"img/PS-03-red-handles-2.jpg", colorImgs:{"אדום עם אוזניים":"img/PS-03-red-handles-2.jpg","ירוק":"img/PS-03-green-2.jpg"},
+  skus:{"אדום עם אוזניים":"PS-03-02","ירוק":"PS-03-03"}},
+{sku:"PS-100", name:"קערה אישית מעוגלת", cat:"קערות אישיות", price:30, colors:[["אדום",C.red]],
+  desc:"קערה אישית מעוגלת עם ידיות ופס שחור על השפה. בגודל של מנה אחת — לשקשוקה, למרק או לפסטה אישית, ישר מהגז לשולחן.",
+  use:cookware,
+  img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg"},
+  sortAs:3.5},
 {sku:"PS-04", name:"מחבת קטנה", cat:"מחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
   desc:"מחבת קטנה ושימושית לביצה של הבוקר, לחביתה או לשקשוקה אישית. יפה מספיק כדי להגיש בה ישר לשולחן.",
   img:"img/PS-04-main.jpg", colorImgs:{"שחור":"img/PS-04-main.jpg"}, dia:"16.5 ס\"מ", h:"4 ס\"מ"},
@@ -1092,11 +1112,11 @@ const PRODUCTS = [
 /* --- ספלים וכוסות --- */
 {sku:"PS-25", name:"ספל אמייל", cat:"ספלים וכוסות", price:30,
   dia:"8.5 ס\"מ", h:"8 ס\"מ",
-  colors:[["לבן","#F2F2F0"],["שמנת","#EFE4C8"],["כחול","#2B4C8C"],["ירוק בהיר","#3BC7A0"],["ירוק כהה מנוקד","#1F6B45"],["כתום","#E8620F"],["שחור","#242424"],["סגול","#C9A6DE"],["ורוד","#E9B6D2"],["תכלת","#4FB3E8"],["טורקיז מנוקד","#1C4E60"],["אדום ארגמן","#8E1B22"],["אפור כהה עם פנים כתום","#3E4246"],["חרדל","#E3A21A"],["כחול טורקיז","#1F6FA3"],["כחול כהה","#1B2F8F"]],
+  colors:[["לבן","#F2F2F0"],["שמנת","#EFE4C8"],["כחול","#2B4C8C"],["ירוק בהיר","#3BC7A0"],["ירוק כהה מנוקד","#1F6B45"],["כתום","#E8620F"],["שחור עם פנים כתום","#242424"],["סגול","#C9A6DE"],["ורוד","#E9B6D2"],["תכלת","#4FB3E8"],["טורקיז מנוקד","#1C4E60"],["אדום ארגמן","#8E1B22"],["אפור כהה עם פנים כתום","#3E4246"],["חרדל","#E3A21A"],["כחול טורקיז","#1F6FA3"],["כחול כהה","#1B2F8F"]],
   desc:"ספל אמייל קלאסי בשפע גוונים. לקפה, לתה ולשוקו — אפשר לבחור צבע לכל אחד בבית.",
   use:cookware,
-  img:"img/PS-25-white-2.jpg", colorImgs:{"לבן":"img/PS-25-white-2.jpg","שמנת":"img/PS-25-cream-2.jpg","כחול":"img/PS-25-blue-3.jpg","ירוק בהיר":"img/PS-25-mint-3.jpg","ירוק כהה מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange-2.jpg","שחור":"img/PS-25-black.jpg","סגול":"img/PS-25-purple-2.jpg","ורוד":"img/PS-25-pink-2.jpg","תכלת":"img/PS-25-lightblue-3.jpg","טורקיז מנוקד":"img/PS-25-teal-speckled.jpg","אדום ארגמן":"img/PS-25-crimson.jpg","אפור כהה עם פנים כתום":"img/PS-25-grey-orange.jpg","חרדל":"img/PS-25-mustard.jpg","כחול טורקיז":"img/PS-25-turquoise.jpg","כחול כהה":"img/PS-25-navy.jpg"},
-  skus:{"לבן":"PS-25-01","שמנת":"PS-25-02","כחול":"PS-25-03","ירוק בהיר":"PS-25-04","ירוק כהה מנוקד":"PS-25-05","כתום":"PS-25-06","שחור":"PS-25-07","סגול":"PS-25-08","ורוד":"PS-25-09","תכלת":"PS-25-10","טורקיז מנוקד":"PS-25-11","אדום ארגמן":"PS-25-12","אפור כהה עם פנים כתום":"PS-25-13","חרדל":"PS-25-14","כחול טורקיז":"PS-25-15","כחול כהה":"PS-25-16"}},
+  img:"img/PS-25-white-2.jpg", colorImgs:{"לבן":"img/PS-25-white-2.jpg","שמנת":"img/PS-25-cream-2.jpg","כחול":"img/PS-25-blue-3.jpg","ירוק בהיר":"img/PS-25-mint-3.jpg","ירוק כהה מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange-2.jpg","שחור עם פנים כתום":"img/PS-25-black.jpg","סגול":"img/PS-25-purple-2.jpg","ורוד":"img/PS-25-pink-2.jpg","תכלת":"img/PS-25-lightblue-3.jpg","טורקיז מנוקד":"img/PS-25-teal-speckled.jpg","אדום ארגמן":"img/PS-25-crimson.jpg","אפור כהה עם פנים כתום":"img/PS-25-grey-orange.jpg","חרדל":"img/PS-25-mustard.jpg","כחול טורקיז":"img/PS-25-turquoise.jpg","כחול כהה":"img/PS-25-navy.jpg"},
+  skus:{"לבן":"PS-25-01","שמנת":"PS-25-02","כחול":"PS-25-03","ירוק בהיר":"PS-25-04","ירוק כהה מנוקד":"PS-25-05","כתום":"PS-25-06","שחור עם פנים כתום":"PS-25-07","סגול":"PS-25-08","ורוד":"PS-25-09","תכלת":"PS-25-10","טורקיז מנוקד":"PS-25-11","אדום ארגמן":"PS-25-12","אפור כהה עם פנים כתום":"PS-25-13","חרדל":"PS-25-14","כחול טורקיז":"PS-25-15","כחול כהה":"PS-25-16"}},
 {sku:"PS-26", name:"כוסות אספרסו עבות", cat:"ספלים וכוסות", price:15, colors:[["לבן",C.white]], use:cookware,
   desc:"כוס אספרסו לבנה עם דופן עבה ששומרת על הקפה חם. קלאסית, נקייה ומתאימה לכל שולחן.",
   img:"img/PS-26-white.jpg", colorImgs:{"לבן":"img/PS-26-white.jpg"}, dia:"7 ס\"מ", h:"6 ס\"מ",
@@ -1105,7 +1125,7 @@ const PRODUCTS = [
   colors:[["צהוב",C.yellow],["פיסטוק",C.pist]],
   desc:"כוס אספרסו קלה באמייל דק. לאספרסו, לקפה שחור או לכוסית מים.",
   use:cookware,
-  img:"img/PS-27-yellow.jpg", colorImgs:{"צהוב":"img/PS-27-yellow.jpg","פיסטוק":"img/PS-27-pistachio.jpg"}, dia:"6.5 ס\"מ", h:"6 ס\"מ",
+  img:"img/PS-27-yellow-s.jpg", colorImgs:{"צהוב":"img/PS-27-yellow-s.jpg","פיסטוק":"img/PS-27-pistachio.jpg"}, dia:"6.5 ס\"מ", h:"6 ס\"מ",
   skus:{"צהוב":"PS-27-01","פיסטוק":"PS-27-02"}},
 {sku:"PS-28", name:"ספל כולל צלחת", cat:"ספלים וכוסות", price:25,
   colors:[["לבן עם פס כחול",C.white],["צהוב עם פס ירוק כהה",C.yellow]],
@@ -1766,7 +1786,7 @@ function buildPages(){
       (isFinite(SHOP.freeShipping) ? ', וחינם בהזמנה מעל '+SHOP.freeShipping+' '+SHOP.currency : '')+'.</b></p>'+
 
     '<h4>תשלום</h4>'+
-    '<p>במשלוח — ביט. באיסוף עצמי — ביט או מזומן.</p>'+
+    '<p>ביט, פייבוקס או העברה בנקאית (את פרטי החשבון נשלח בשיחה). באיסוף עצמי — גם מזומן.</p>'+
 
     '<h4>ביטול והחזרה</h4>'+
     '<p>אפשר לבטל תוך 14 יום מהקבלה, בדמי ביטול של 5% או 100 ₪ (הנמוך מביניהם), ומשלוח ההחזרה על הלקוח. '+
@@ -1825,13 +1845,15 @@ function buildPages(){
       '<p class="ln1">'+SHOP.place+'</p>'+
       '<p><a href="https://wa.me/'+SHOP.whatsapp+'" target="_blank" rel="noopener">שליחת הודעה בוואטסאפ</a></p>'+
       (SHOP.facebook ? '<p><a href="'+SHOP.facebook+'" target="_blank" rel="noopener">הודעה בפייסבוק</a></p>' : '')+
+      (SHOP.email ? '<p><a href="mailto:'+SHOP.email+'">'+SHOP.email+'</a></p>' : '')+
       '<p><a class="iglink" href="'+SHOP.instagram+'" target="_blank" rel="noopener">'+IG_ICON+'@pastel_enamelhouse</a></p>'+
       '<p><a class="iglink" href="'+SHOP.maps+'" target="_blank" rel="noopener">'+NAV_ICON+'ניווט בוויז</a></p>'+
       '<p style="margin-top:12px;font-size:13.5px">בשבת אנחנו לא זמינים · נחזור אליכם במוצאי שבת</p>'+
       (SHOP.group ? '<p style="margin-top:14px"><a class="btn primary" style="display:inline-flex;padding:11px 20px" href="'+SHOP.group+'" target="_blank" rel="noopener">הצטרפות לקבוצת העדכונים</a></p>' : '')+
       (SHOP.waitlist ? '<p style="margin-top:10px"><button class="btn ghost" id="newsBtn" style="display:inline-flex;padding:10px 18px">הצטרפו לרשימת הדיוור</button></p>' : '')+
       '<p style="margin-top:10px"><button class="btn ghost" id="shareCat" style="display:inline-flex;padding:10px 18px">'+WA_ICON+'שליחת הקטלוג לחבר</button></p>'+
-      '<p style="margin-top:18px"><button class="tab" id="printPrices">הדפסת מחירון ללא תמונות</button></p>'+
+      '<p style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap"><button class="tab" id="printPrices">הדפסת מחירון</button>'+
+        '<button class="tab" id="pdfPrices">הורדת המחירון כקובץ PDF</button></p>'+
     '</div>'});
 }
 
@@ -1922,7 +1944,7 @@ function homeHTML(){
   '</div>'+
   '<div class="trust"><span>משלוח לכל הארץ '+SHOP.shipCost+' '+SHOP.currency+'</span>'+
     (isFinite(SHOP.freeShipping) ? '<span>משלוח חינם מעל '+SHOP.freeShipping+' '+SHOP.currency+'</span>' : '')+
-    '<span>איסוף עצמי מ'+esc(SHOP.place)+' ללא תשלום נוסף</span><span>הזמנה בוואטסאפ · תשלום בביט (מזומן באיסוף עצמי)</span></div>'+
+    '<span>איסוף עצמי מ'+esc(SHOP.place)+' ללא תשלום נוסף</span><span>הזמנה בוואטסאפ · ביט · פייבוקס · העברה בנקאית · מזומן באיסוף</span></div>'+
   (colls.length ?
     '<div class="hsec"><h2>מארזים</h2><span class="ln"></span><button class="more" data-go="colls">לכל המארזים</button></div>'+
     '<div class="colls hcolls">'+colls.map(({c,i})=>{ const b = BUNDLES[i];
@@ -2468,7 +2490,8 @@ function openFromHash(){
   if(id==="verify" || id==="בדיקה"){ verifyOverlay.classList.add("open"); return; }
   /* קישור שנשלח לפני הפיצול מצביע על המק"ט הבסיסי (#PS-25). הוא עדיין
      צריך לעבוד, ולכן נופלים לגוון הראשון של אותו פריט. */
-  const p = PRODUCTS.find(x=>x.id===id) || PRODUCTS.find(x=>x.base===id);
+  const aid = SKU_ALIAS[id] || id;
+  const p = PRODUCTS.find(x=>x.id===aid) || PRODUCTS.find(x=>x.base===aid);
   if(!p) return;
   /* עמוד הקטגוריה של המוצר, ולא עמוד הבית שגם בו הוא עשוי להופיע */
   let pageIdx = pages.findIndex((pg,i) => i>0 && pg.html.indexOf('data-id="'+p.id+'"')>-1);
@@ -2885,6 +2908,14 @@ const favs = loadStore("favs");       /* { מזהה מוצר: true } */
 
 const cartOverlay = document.getElementById("cartOverlay");
 const byId = id => PRODUCTS.find(p=>p.id===id) || BUNDLES.find(b=>b.id===id);
+/* מק"ט שעבר לכלי אחר. קישור ישן, עגלה או מועדפים שנשמרו לפני השינוי
+   מופנים למק"ט החדש; פריט שכבר לא קיים יורד מהעגלה בשקט במקום לשבור אותה. */
+const SKU_ALIAS = {"PS-03-01":"PS-100"};
+[cart, favs, chosen].forEach(store=>Object.keys(store).forEach(id=>{
+  const to = SKU_ALIAS[id];
+  if(to){ store[to] = store === cart ? (store[to]||0) + store[id] : store[id]; delete store[id]; }
+  else if(store !== chosen && !byId(id)) delete store[id];
+}));
 
 function cartCount(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
 function favCount(){ return Object.values(favs).filter(Boolean).length; }
@@ -2975,10 +3006,10 @@ function coSave(){
 function coSyncWay(){
   const pickup = coWay()==="pickup";
   coEl("coShipFields").hidden = pickup;
-  /* מזומן אפשר רק כשנפגשים — באיסוף עצמי. במשלוח: ביט בלבד */
+  /* מזומן אפשר רק כשנפגשים — באיסוף עצמי. במשלוח: ביט או פייבוקס */
   coEl("coCashOpt").hidden = !pickup;
-  if(!pickup) document.querySelector('input[name="coPay"][value="ביט"]').checked = true;
-  coEl("coPayNote").textContent = pickup ? "באיסוף עצמי אפשר לשלם בביט או במזומן." : "במשלוח התשלום בביט. מזומן — רק באיסוף עצמי.";
+  if(!pickup && coPay()==="מזומן") document.querySelector('input[name="coPay"][value="ביט"]').checked = true;
+  coEl("coPayNote").textContent = (coPay()==="העברה בנקאית" ? "את פרטי החשבון נשלח לכם בשיחה. " : "") + (pickup ? "באיסוף עצמי אפשר לשלם גם במזומן." : "מזומן — רק באיסוף עצמי.");
   coEl("coWayNote").innerHTML = pickup
     ? "איסוף עצמי מ"+esc(SHOP.place)+" — בתיאום מראש, ללא תשלום נוסף."
     : "משלוח לכל הארץ — "+SHOP.shipCost+" "+SHOP.currency+
@@ -3043,6 +3074,9 @@ function logOrder(oid){
     leave: "",
     items:r.list, sum:String(r.sum), ship:String(ship), total:String(r.sum+ship),
     special:String(r.special), pay:coPay(), when:"",
+    lines: JSON.stringify(orderLines().map(l=>({ sku:l.p.sku, name:l.p.name, color:l.p.colorName||"",
+      qty:l.q, price:l.p.price||"", bundle:l.tag||"",
+      img: l.p.img ? new URL(l.p.img, location.href).href : "" }))).slice(0, 20000),
     note:[coVal("coNote"), delivery && coVal("coCourier") ? "לשליח: "+coVal("coCourier") : ""].filter(Boolean).join(" · "),
     src:src
   }).toString();
@@ -3075,14 +3109,16 @@ function orderMessage(oid){
 
   const out = ["היי, אשמח להזמין:", lines.join("\n"), ""];
   if(oid) out.push("מספר הזמנה: "+oid);
-  out.push(special ? "סה\"כ משוער (ללא הפריטים בתמחור מיוחד): "+sum+" "+SHOP.currency
-                   : "סה\"כ: "+sum+" "+SHOP.currency);
-
+  /* שלוש שורות: מוצרים, משלוח, ואז הסכום המלא — כדי שלא יהיה ספק כמה משלמים */
   const delivery = coWay()==="delivery";
+  const ship = delivery && sum>0 && sum < SHOP.freeShipping ? SHOP.shipCost : 0;
+  const C = " "+SHOP.currency, est = special ? " (משוער, בלי הפריטים בתמחור מיוחד)" : "";
   if(delivery && sum>0){
-    out.push(sum >= SHOP.freeShipping
-      ? "משלוח: עליכם (ההזמנה עברה "+SHOP.freeShipping+" "+SHOP.currency+")"
-      : "משלוח: "+SHOP.shipCost+" "+SHOP.currency);
+    out.push("סה\"כ מוצרים: "+sum+C);
+    out.push(ship ? "משלוח: "+ship+C : "משלוח: עלינו");
+    out.push("סה\"כ לתשלום כולל משלוח: "+(sum+ship)+C+est);
+  } else {
+    out.push("סה\"כ לתשלום: "+sum+C+est+(delivery ? "" : " (איסוף עצמי, בלי משלוח)"));
   }
 
   out.push("", "הפרטים שלי:");
@@ -3133,8 +3169,14 @@ function verifyOrder(text){
   }).join("");
 
   /* הסכום שכתוב בהודעה — נלקח מהמופע האחרון, אחרי שורות הפריטים */
+  /* סכום המוצרים: השורה "סה"כ מוצרים" (או "סה"כ לתשלום" באיסוף). בהודעות
+     ישנות — השורה האחרונה שמתחילה ב"סה"כ". */
+  const num = m => m ? parseInt(m[1].replace(/,/g,""),10) : null;
   const totals = [...text.matchAll(/סה[\"״']כ[^\d\n]*(\d[\d,]*)/g)];
-  const stated = totals.length ? parseInt(totals[totals.length-1][1].replace(/,/g,""),10) : null;
+  const grand = num(text.match(/כולל משלוח[^\d\n]*(\d[\d,]*)/));
+  const stated = num(text.match(/סה[\"״']כ מוצרים[^\d\n]*(\d[\d,]*)/)) ??
+                 num(text.match(/סה[\"״']כ לתשלום:[^\d\n]*(\d[\d,]*)/)) ??
+                 (totals.length ? num(totals[totals.length-1]) : null);
 
   const shipM = text.match(/משלוח:\s*(\d+)/);
   const statedShip = shipM ? parseInt(shipM[1],10) : 0;
@@ -3156,6 +3198,11 @@ function verifyOrder(text){
            ', לפי הכללים '+expectShip+' '+SHOP.currency+'</b></div>';
   } else {
     out += '<div class="vsum"><span>משלוח</span><b class="vok">'+expectShip+' '+SHOP.currency+' · תואם</b></div>';
+  }
+  if(grand!==null){
+    const exp = real + expectShip;
+    out += '<div class="vsum"><span>סה"כ כולל משלוח</span><b class="'+(grand===exp?'vok':'vbad')+'">'+grand+' '+SHOP.currency+
+           (grand===exp ? ' · תואם' : ' · צריך להיות '+exp+' '+SHOP.currency)+'</b></div>';
   }
   if(special) out += '<p class="vnote">'+special+' פריטים בתמחור מיוחד לא נכללו בחישוב.</p>';
   if(unknown) out += '<p class="vnote">שימו לב: יש מק"ט שאינו קיים בקטלוג.</p>';
@@ -3195,7 +3242,7 @@ function openCheckout(){
 coEl("checkoutClose").onclick = ()=>checkoutOverlay.classList.remove("open");
 checkoutOverlay.onclick = e=>{ if(e.target===checkoutOverlay) checkoutOverlay.classList.remove("open"); };
 checkoutOverlay.addEventListener("change", e=>{
-  if(e.target.name==="coWay") coSyncWay();
+  if(e.target.name==="coWay" || e.target.name==="coPay") coSyncWay();
   if(e.target.id==="coNews") coEl("coMailField").hidden = !coEl("coNews").checked;
 });
 
@@ -3269,9 +3316,9 @@ async function orderCollage(oid, items){
 async function showCollageStep(oid){
   const box = coEl("coAfter"); if(!box) return;
   box.hidden = false;
-  box.innerHTML = '<p class="label" style="margin:0 0 8px">ההודעה נפתחה בוואטסאפ ✓<br>רוצים לצרף גם תמונה אחת עם כל הפריטים? כך נראה בדיוק למה התכוונתם.</p>'+
+  box.innerHTML = '<p class="label" style="margin:0 0 8px">ההודעה נפתחה בוואטסאפ ✓ אחרי שתשלחו אותה, נחזור אליכם בהקדם (בשבת — במוצאי שבת).<br>רוצים לצרף גם תמונה אחת עם כל הפריטים? כך נראה בדיוק למה התכוונתם.</p>'+
     '<button class="btn ghost" id="coPic" disabled>מכין את התמונה…</button>'+
-    '<p class="label" style="margin:8px 0 0">סגרתם את החלון? התמונה מחכה בחלון ההזמנה (העגלה) עוד יומיים.</p>';
+    '<p class="label" style="margin:8px 0 0">סגרתם את החלון? ההזמנה והתמונה מחכות בחלון ההזמנה (העגלה) עוד שבוע.</p>';
   const ok = await armPicButton(coEl("coPic"), oid);
   if(!ok) box.hidden = true;
 }
@@ -3296,13 +3343,14 @@ async function armPicButton(b, oid, items){
    זה קורה בשיחה בוואטסאפ. רשימת "ההזמנות שלי" הציגה כל הודעה שנשלחה כאילו
    היא הזמנה פעילה, וזה הטעה. לכן נשמרת רק ההודעה האחרונה, ליומיים, ורק
    כדי שאפשר יהיה לשלוח שוב את התמונה או את ההודעה אחרי שסגרו את החלון. */
-const LAST_TTL = 48*3600*1000;
+const LAST_TTL = 7*24*3600*1000;
 function loadLast(){
   try{ const o = JSON.parse(localStorage.getItem("pastel_last_order"));
        return o && Date.now()-o.at < LAST_TTL ? o : null; }catch(e){ return null; }
 }
 function saveOrder(oid, msg){
   try{
+    localStorage.removeItem("pastel_last_fold");
     localStorage.setItem("pastel_last_order", JSON.stringify({ id:oid, at:Date.now(), items:Object.assign({}, cart), msg:msg }));
     localStorage.removeItem("pastel_orders");
   }catch(e){}
@@ -3312,12 +3360,23 @@ function lastOrderHTML(){
   const d = new Date(o.at);
   const when = d.toLocaleDateString("he-IL",{day:"numeric",month:"numeric"})+" בשעה "+
                d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
+  let folded = false; try{ folded = localStorage.getItem("pastel_last_fold")===o.id; }catch(e){}
+  /* מקופל: שורה אחת שאפשר לפתוח שוב. "הסתרה" קודם מחקה את ההזמנה לגמרי */
+  if(folded) return '<button class="lastfold" data-lastopen>ההזמנה ששלחתם ב-'+
+    d.toLocaleDateString("he-IL",{day:"numeric",month:"numeric"})+' · מספר '+esc(o.id)+' — הצגה</button>';
+  const ids = Object.keys(o.items||{}).filter(id=>byId(SKU_ALIAS[id]||id));
+  const lines = ids.map(id=>{ const p = byId(SKU_ALIAS[id]||id);
+    return '<div class="cartrow" data-id="'+(SKU_ALIAS[id]||id)+'">'+thumbOf(p)+
+      '<div class="nm">'+esc(p.name)+'<small>'+(p.isBundle?'מארז':esc(lineColor(p,id)||''))+
+      ' · ×'+o.items[id]+' · '+esc(priceOf(p))+'</small></div></div>'; }).join("");
   return '<div class="ordcard lastord">'+
     '<div class="ordhead"><b>שלחתם הודעת הזמנה בוואטסאפ</b><span>'+when+' · מספר '+esc(o.id)+'</span></div>'+
     '<p class="label" style="margin:0 0 4px">האישור, התשלום והמשלוח נסגרים בשיחה. אם צריך, אפשר לשלוח שוב:</p>'+
     '<div class="btnrow"><button class="btn ghost" data-lastpic disabled>מכין את התמונה…</button>'+
       '<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/'+SHOP.whatsapp+'?text='+encodeURIComponent(o.msg||"")+'">'+WA_ICON+'את ההודעה</a></div>'+
-    '<button class="linkbtn" data-lasthide style="margin-top:8px;font-size:13px">הסתרה</button></div>';
+    '<details class="lastdet"><summary>הצגת ההזמנה והפרטים</summary>'+lines+
+      '<pre class="lastmsg">'+esc(o.msg||"")+'</pre></details>'+
+    '<button class="linkbtn" data-lastfold style="margin-top:8px;font-size:13px">קיפול</button></div>';
 }
 function armLast(root){
   const btn = root.querySelector("[data-lastpic]"); if(!btn) return;
@@ -3380,7 +3439,9 @@ document.getElementById("cartBtn").onclick = ()=>{ renderCart(); cartOverlay.cla
 document.getElementById("cartClose").onclick = ()=>cartOverlay.classList.remove("open");
 cartOverlay.onclick = e=>{ if(e.target===cartOverlay) cartOverlay.classList.remove("open"); };
 document.getElementById("cartOverlay").addEventListener("click", e=>{
-  if(e.target.closest("[data-lasthide]")){ try{ localStorage.removeItem("pastel_last_order"); }catch(x){} renderCart(); }
+  if(e.target.closest("[data-lastfold]")){ const o = loadLast(); try{ if(o) localStorage.setItem("pastel_last_fold", o.id); }catch(x){} renderCart(); return; }
+  if(e.target.closest("[data-lastopen]")){ try{ localStorage.removeItem("pastel_last_fold"); }catch(x){} renderCart(); return; }
+  const lr = e.target.closest(".lastord .cartrow"); if(lr) openRowItem(lr.dataset.id);
 });
 document.getElementById("cartFoot").addEventListener("click", e=>{
   if(e.target.closest("#newsFromCart")){
@@ -3425,6 +3486,7 @@ document.getElementById("contactBtn").onclick = ()=>{
       WA_ICON+'כתבו לנו בוואטסאפ</a>'+
     '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.instagram+'" target="_blank" rel="noopener">'+IG_ICON+'הודעה באינסטגרם</a>'+
     (SHOP.facebook ? '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.facebook+'" target="_blank" rel="noopener">הודעה בפייסבוק</a>' : '')+
+    (SHOP.email ? '<a class="btn ghost" style="margin-bottom:9px" href="mailto:'+SHOP.email+'">מייל · '+SHOP.email+'</a>' : '')+
     (SHOP.group ? '<a class="btn ghost" style="margin-bottom:9px" href="'+SHOP.group+'" target="_blank" rel="noopener">קבוצת העדכונים</a>' : '')+
     '<a class="btn ghost" style="margin-bottom:14px" href="'+SHOP.maps+'" target="_blank" rel="noopener">'+NAV_ICON+'ניווט בוויז · '+SHOP.address+'</a>'+
     '<p class="label" style="text-align:center;margin:0">אנו עורכים ימי מכירה מרוכזים. כתבו לנו ונחזור אליכם.<br>בשבת אנחנו לא זמינים.</p>';
@@ -3716,12 +3778,27 @@ policyOverlay.addEventListener("click", e=>{ if(e.target===policyOverlay) policy
 document.addEventListener("click", e=>{ if(e.target.closest(".policyLink")){ e.preventDefault(); openPolicy(); } });
 
 /* =========================== מחירון להדפסה =========================== */
+/* שורות המחירון: לפי סדר הקטגוריות באתר, ובתוך קטגוריה לפי סוג הכלי והגוון —
+   אותו סדר כמו בעמודים. קודם הסדר היה סדר ההגדרה בקוד, וקטגוריה הופיעה פעמיים. */
+function priceRows(){
+  const tk = p => p.sortAs != null ? p.sortAs : (parseInt(String(p.base||p.sku).replace(/\D/g,""), 10) || 999);
+  const vk = p => p.vi != null ? p.vi : parseInt(String(p.sku).split("-")[2]||"0", 10);
+  const out = [];
+  catOrder().forEach(cat=>{
+    const items = PRODUCTS.filter(p=>p.cat===cat).sort((a,b)=>tk(a)-tk(b) || vk(a)-vk(b));
+    if(!items.length) return;
+    out.push({h:cat});
+    items.forEach(p=>out.push({sku:p.sku, name:p.name, sub:[p.colorName, subOf(p)].filter(Boolean).join(" · "),
+      pr:priceOf(p), out:p.stock==="out"}));
+  });
+  return out;
+}
 function buildPriceList(){
-  let rows = "", cur = "";
-  PRODUCTS.forEach(p=>{
-    if(p.cat!==cur){ cur = p.cat; rows += '<tr class="h"><td colspan="2">'+esc(cur)+'</td></tr>'; }
-    rows += '<tr><td>'+esc(p.sku)+' · '+esc(p.name)+(subOf(p)?' <span style="color:#777">('+esc(subOf(p))+')</span>':'')+
-            '</td><td>'+esc(priceOf(p))+'</td></tr>';
+  let rows = "";
+  priceRows().forEach(r=>{
+    if(r.h){ rows += '<tr class="h"><td colspan="2">'+esc(r.h)+'</td></tr>'; return; }
+    rows += '<tr><td>'+esc(r.sku)+' · '+esc(r.name)+(r.sub?' <span style="color:#777">('+esc(r.sub)+')</span>':'')+
+            (r.out?' <span style="color:#B3372F">· אזל</span>':'')+'</td><td>'+esc(r.pr)+'</td></tr>';
   });
   document.getElementById("pricelist").innerHTML =
     '<h2>Pastel &middot; מחירון כלי אמייל</h2>'+
@@ -3733,6 +3810,64 @@ document.addEventListener("click", function(e){
   buildPriceList();
   document.body.classList.add("pricelist");
   setTimeout(function(){ print(); setTimeout(function(){ document.body.classList.remove("pricelist"); },400); },60);
+});
+
+/* מחירון כקובץ PDF. כל עמוד מצויר על קנבס (כך העברית יוצאת נכונה בלי
+   לטעון גופן), נשמר כ-JPEG, והעמודים נארזים ב-PDF פשוט שנבנה כאן —
+   בלי ספרייה חיצונית. */
+function jpegsToPDF(jpgs, W, H){
+  const enc = new TextEncoder(), parts = [], offs = []; let len = 0;
+  const push = b=>{ if(typeof b==="string") b = enc.encode(b); parts.push(b); len += b.length; };
+  const obj = (id, body)=>{ offs[id] = len; push(id+" 0 obj\n"); body(); push("\nendobj\n"); };
+  const pw = 595.28, ph = 841.89, n = jpgs.length;
+  push("%PDF-1.4\n");
+  obj(1, ()=>push("<< /Type /Catalog /Pages 2 0 R >>"));
+  obj(2, ()=>push("<< /Type /Pages /Count "+n+" /Kids ["+jpgs.map((_,i)=>(3+3*i)+" 0 R").join(" ")+"] >>"));
+  jpgs.forEach((j,i)=>{ const q = 3+3*i, cs = "q "+pw+" 0 0 "+ph+" 0 0 cm /Im0 Do Q";
+    obj(q,   ()=>push("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+pw+" "+ph+"] /Resources << /XObject << /Im0 "+(q+1)+" 0 R >> >> /Contents "+(q+2)+" 0 R >>"));
+    obj(q+1, ()=>{ push("<< /Type /XObject /Subtype /Image /Width "+W+" /Height "+H+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+j.length+" >>\nstream\n"); push(j); push("\nendstream"); });
+    obj(q+2, ()=>push("<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream"));
+  });
+  const total = 3+3*n, xref = len;
+  push("xref\n0 "+total+"\n0000000000 65535 f \n"+offs.slice(1,total).map(o=>String(o).padStart(10,"0")+" 00000 n \n").join(""));
+  push("trailer\n<< /Size "+total+" /Root 1 0 R >>\nstartxref\n"+xref+"\n%%EOF");
+  return new Blob(parts, {type:"application/pdf"});
+}
+async function priceListPDF(){
+  try{ await document.fonts.ready; }catch(e){}
+  const W = 1240, H = 1754, M = 90, RH = 40;
+  const font = getComputedStyle(document.body).fontFamily;
+  const rows = priceRows().map(r=>r.h ? r : {t:r.sku+" · "+r.name+(r.sub?" ("+r.sub+")":"")+(r.out?" · אזל":""), pr:r.pr});
+  const pages = []; let x, y;
+  const page = ()=>{ const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0,0,W,H); x.direction = "rtl"; pages.push(cv); y = M; };
+  page();
+  x.fillStyle = "#3F4A35"; x.textAlign = "right"; x.font = "44px "+font; x.fillText("Pastél · מחירון כלי אמייל", W-M, y+44); y += 66;
+  x.fillStyle = "#777"; x.font = "22px "+font;
+  x.fillText(SHOP.place+" · @pastel_enamelhouse · "+new Date().toLocaleDateString("he-IL"), W-M, y+22); y += 50;
+  rows.forEach((r,i)=>{
+    /* כותרת קטגוריה לא נשארת לבד בתחתית עמוד */
+    if(y + (r.h ? RH*2+12 : RH) > H-M){ page(); }
+    if(r.h){ y += 8; x.fillStyle = "#F2ECE2"; x.fillRect(M, y, W-2*M, RH);
+      x.fillStyle = "#3F4A35"; x.textAlign = "right"; x.font = "600 25px "+font; x.fillText(r.h, W-M-12, y+28); y += RH+2; return; }
+    x.fillStyle = "#222"; x.font = "23px "+font; x.textAlign = "right"; x.fillText(r.t, W-M-12, y+28, W-2*M-230);
+    x.textAlign = "left"; x.fillText(r.pr, M+12, y+28);
+    x.strokeStyle = "#E2E2E2"; x.lineWidth = 1; x.beginPath(); x.moveTo(M, y+RH-.5); x.lineTo(W-M, y+RH-.5); x.stroke();
+    y += RH;
+  });
+  pages.forEach((cv,i)=>{ const c = cv.getContext("2d"); c.direction = "rtl"; c.fillStyle = "#999"; c.textAlign = "center";
+    c.font = "19px "+font; c.fillText("עמוד "+(i+1)+" מתוך "+pages.length, W/2, H-45); });
+  const jpgs = await Promise.all(pages.map(cv=>new Promise(res=>cv.toBlob(b=>b.arrayBuffer().then(a=>res(new Uint8Array(a))), "image/jpeg", .88))));
+  const blob = jpegsToPDF(jpgs, W, H);
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "Pastel-מחירון-"+new Date().toISOString().slice(0,10)+".pdf";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 30000);
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("#pdfPrices"); if(!b) return;
+  const t = b.textContent; b.disabled = true; b.textContent = "מכין את הקובץ…";
+  priceListPDF().catch(()=>{}).finally(()=>{ b.disabled = false; b.textContent = t; });
 });
 
 /* =========================== הפעלה =========================== */
