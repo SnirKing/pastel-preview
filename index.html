@@ -847,8 +847,6 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
           <p class="label" style="margin:5px 0 0"><a href="https://doar.israelpost.co.il/locatezip" target="_blank" rel="noopener">לא יודעים את המיקוד? איתור מיקוד באתר דואר ישראל</a></p></div>
         <div class="field"><label for="coCourier">הערות לשליח</label>
           <input id="coCourier" type="text" placeholder="קוד לבניין, איך להגיע — לא חובה"></div>
-        <div class="field"><label class="check"><input id="coLeave" type="checkbox">
-          <span>אפשר להשאיר ליד הדלת אם אני לא בבית</span></label></div>
       </div>
 
       <div class="field"><label>תשלום</label>
@@ -895,7 +893,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 const SHOP = {
   whatsapp:"972584009868", phone:"058-4009868", currency:"₪",
   instagram:"https://www.instagram.com/pastel_enamelhouse",
-  facebook:"",                   /* קישור לעמוד הפייסבוק — כשיוזן, יופיע ביצירת קשר */
+  facebook:"https://www.facebook.com/profile.php?id=61581200062740",                   /* קישור לעמוד הפייסבוק — כשיוזן, יופיע ביצירת קשר */
   place:"מושב כפר בן נון",
   /* פרטי העסק לעמוד המדיניות. שדה ריק לא מוצג. */
   owner:"ענבר ריבק",
@@ -947,7 +945,7 @@ const PRODUCTS = [
   colors:[["אדום",C.red],["אדום עם אוזניים",C.red,"אדום"],["ירוק",C.green]],
   desc:"קערה קטנה עם ידיות, בגודל של מנה אחת. עוברת מהגז ישר לשולחן — לשקשוקה, למרק או לפסטה אישית.",
   use:cookware,
-  img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles.jpg","ירוק":"img/PS-03-green.jpg"},
+  img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg","אדום עם אוזניים":"img/PS-03-red-handles-2.jpg","ירוק":"img/PS-03-green-2.jpg"},
   skus:{"אדום":"PS-03-01","אדום עם אוזניים":"PS-03-02","ירוק":"PS-03-03"}},
 {sku:"PS-04", name:"מחבת קטנה", cat:"מחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
   desc:"מחבת קטנה ושימושית לביצה של הבוקר, לחביתה או לשקשוקה אישית. יפה מספיק כדי להגיש בה ישר לשולחן.",
@@ -1006,7 +1004,7 @@ const PRODUCTS = [
   realNotes:{"אדום":"הקומקום האדום, לצד כלים אחרים","לבן עם נקודות אדומות":"הקומקום הלבן עם הנקודות האדומות, לצד כלים אחרים"}},
 {sku:"PS-12", name:"פינג'ן קטן", cat:"פינג'נים", price:85, use:stovetop, colors:[["פיסטוק",C.pist],["תכלת",C.lblue]],
   desc:"פינג'ן קטן לקפה טורקי לאחד או לשניים. הפייה הצרה מוזגת נקי, והגוון הרך נראה יפה על הכיריים.",
-  img:"img/PS-12-pistachio.jpg", colorImgs:{"פיסטוק":"img/PS-12-pistachio.jpg","תכלת":"img/PS-12-lightblue.jpg"}, dia:"8.5 ס\"מ",
+  img:"img/PS-12-pistachio-s.jpg", colorImgs:{"פיסטוק":"img/PS-12-pistachio-s.jpg","תכלת":"img/PS-12-lightblue-s.jpg"}, dia:"8.5 ס\"מ",
   skus:{"פיסטוק":"PS-12-01","תכלת":"PS-12-02"},
   real:"img/real-colanders2.jpg", realNote:"הפינג'נים לצד המסננות"},
 {sku:"PS-13", name:"פינג'ן גדול", cat:"פינג'נים", price:95, use:stovetop, colors:[["ירוק כהה",C.dgreen],["תכלת",C.lblue],["פיסטוק",C.pist]],
@@ -1026,7 +1024,7 @@ const PRODUCTS = [
 {sku:"PS-99", name:"קומקום גדול", cat:"קומקומים", stock:"out", use:stovetop,
   colors:[["אדום",C.red],["חרדל",C.mustard],["כחול כהה","#1F2F6B"],["לבן",C.white],["תכלת",C.lblue]],
   desc:"קומקום גדול ועגול עם ידית נשיאה, בחמישה גוונים. לחימום מים לכל המשפחה — ונראה מהמם על הכיריים.",
-  img:"img/PS-99-red.jpg", colorImgs:{"אדום":"img/PS-99-red.jpg","חרדל":"img/PS-99-mustard.jpg","כחול כהה":"img/PS-99-navy.jpg","לבן":"img/PS-99-white.jpg","תכלת":"img/PS-99-lightblue.jpg"},
+  img:"img/PS-99-red-2.jpg", colorImgs:{"אדום":"img/PS-99-red-2.jpg","חרדל":"img/PS-99-mustard.jpg","כחול כהה":"img/PS-99-navy.jpg","לבן":"img/PS-99-white.jpg","תכלת":"img/PS-99-lightblue.jpg"},
   skus:{"אדום":"PS-99-01","חרדל":"PS-99-02","כחול כהה":"PS-99-03","לבן":"PS-99-04","תכלת":"PS-99-05"},
   isNew:true, sortAs:17.5},
 {sku:"PS-98", name:"קומקום COFFEE", cat:"קומקומים", stock:"out",
@@ -1082,7 +1080,8 @@ const PRODUCTS = [
   skus:{"לבן":"PS-23-01","תכלת":"PS-23-02"},
   colorStock:{"תכלת":"out"},
   handle:"ידית עץ — לא להכניס לתנור",
-  noUse:["oven"]},
+  noUse:["oven"],
+  vol:"3 ליטר"},
 {sku:"PS-24", name:"כד", cat:"כדים", price:90,
   colors:[["פיסטוק פרחוני",C.pist],["כחול",C.blue]],
   desc:"כד מהמם עם שפה מעוגלת וידית רחבה, לפרחים, למים או ללימונדה. נמכר במחיר מופחת בגלל פגמי זיגוג קלים, שנותנים לו אופי.",
@@ -1096,7 +1095,7 @@ const PRODUCTS = [
   colors:[["לבן","#F2F2F0"],["שמנת","#EFE4C8"],["כחול","#2B4C8C"],["ירוק בהיר","#3BC7A0"],["ירוק כהה מנוקד","#1F6B45"],["כתום","#E8620F"],["שחור","#242424"],["סגול","#C9A6DE"],["ורוד","#E9B6D2"],["תכלת","#4FB3E8"],["טורקיז מנוקד","#1C4E60"],["אדום ארגמן","#8E1B22"],["אפור כהה עם פנים כתום","#3E4246"],["חרדל","#E3A21A"],["כחול טורקיז","#1F6FA3"],["כחול כהה","#1B2F8F"]],
   desc:"ספל אמייל קלאסי בשפע גוונים. לקפה, לתה ולשוקו — אפשר לבחור צבע לכל אחד בבית.",
   use:cookware,
-  img:"img/PS-25-white-2.jpg", colorImgs:{"לבן":"img/PS-25-white-2.jpg","שמנת":"img/PS-25-cream-2.jpg","כחול":"img/PS-25-blue-2.jpg","ירוק בהיר":"img/PS-25-mint-2.jpg","ירוק כהה מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange-2.jpg","שחור":"img/PS-25-black.jpg","סגול":"img/PS-25-purple-2.jpg","ורוד":"img/PS-25-pink-2.jpg","תכלת":"img/PS-25-lightblue-2.jpg","טורקיז מנוקד":"img/PS-25-teal-speckled.jpg","אדום ארגמן":"img/PS-25-crimson.jpg","אפור כהה עם פנים כתום":"img/PS-25-grey-orange.jpg","חרדל":"img/PS-25-mustard.jpg","כחול טורקיז":"img/PS-25-turquoise.jpg","כחול כהה":"img/PS-25-navy.jpg"},
+  img:"img/PS-25-white-2.jpg", colorImgs:{"לבן":"img/PS-25-white-2.jpg","שמנת":"img/PS-25-cream-2.jpg","כחול":"img/PS-25-blue-3.jpg","ירוק בהיר":"img/PS-25-mint-3.jpg","ירוק כהה מנוקד":"img/PS-25-green-speckled.jpg","כתום":"img/PS-25-orange-2.jpg","שחור":"img/PS-25-black.jpg","סגול":"img/PS-25-purple-2.jpg","ורוד":"img/PS-25-pink-2.jpg","תכלת":"img/PS-25-lightblue-3.jpg","טורקיז מנוקד":"img/PS-25-teal-speckled.jpg","אדום ארגמן":"img/PS-25-crimson.jpg","אפור כהה עם פנים כתום":"img/PS-25-grey-orange.jpg","חרדל":"img/PS-25-mustard.jpg","כחול טורקיז":"img/PS-25-turquoise.jpg","כחול כהה":"img/PS-25-navy.jpg"},
   skus:{"לבן":"PS-25-01","שמנת":"PS-25-02","כחול":"PS-25-03","ירוק בהיר":"PS-25-04","ירוק כהה מנוקד":"PS-25-05","כתום":"PS-25-06","שחור":"PS-25-07","סגול":"PS-25-08","ורוד":"PS-25-09","תכלת":"PS-25-10","טורקיז מנוקד":"PS-25-11","אדום ארגמן":"PS-25-12","אפור כהה עם פנים כתום":"PS-25-13","חרדל":"PS-25-14","כחול טורקיז":"PS-25-15","כחול כהה":"PS-25-16"}},
 {sku:"PS-26", name:"כוסות אספרסו עבות", cat:"ספלים וכוסות", price:15, colors:[["לבן",C.white]], use:cookware,
   desc:"כוס אספרסו לבנה עם דופן עבה ששומרת על הקפה חם. קלאסית, נקייה ומתאימה לכל שולחן.",
@@ -1250,8 +1249,8 @@ const PRODUCTS = [
   skus:{"אדום":"PS-96-01","כחול כהה":"PS-96-02","שחור":"PS-96-03"},
   desc:"תבנית עגולה בגוונים עזים: אדום, כחול כהה ושחור. לעוגות, לפשטידות ולקישים.",
   sortAs:47.5,
-  img:"img/PS-96-red.png",
-  colorImgs:{"אדום":"img/PS-96-red.png","כחול כהה":"img/PS-96-navy.png","שחור":"img/PS-96-black.png"},
+  img:"img/PS-96-red-2.jpg",
+  colorImgs:{"אדום":"img/PS-96-red-2.jpg","כחול כהה":"img/PS-96-navy-2.jpg","שחור":"img/PS-96-black-2.jpg"},
   real:"img/real-tins2.jpg",
   realNote:"התבניות זו על זו, בכמה גוונים וגדלים"},,
 {sku:"PS-95", name:"תבנית עגולה", cat:"תבניות אפייה", price:110, use:bakeware,
@@ -1371,21 +1370,22 @@ const PRODUCTS = [
   promo:"1 ב-60 ₪ · 2 ב-100 ₪"},
 {sku:"PS-62", name:"מתקן לשמן זית כולל מברשת", cat:"כלי מטבח והגשה", price:70, vol:"500 מ״ל",
   stock:"out", colors:[["מגוון",C.cream]],
-  desc:"בקבוק לשמן זית עם מברשת מובנית. למריחת שמן על תבנית, על בצק או על ירקות לפני הצלייה.",
+  desc:"מתקן נירוסטה לשמן זית, עם מברשת סיליקון למריחה. לשמן על תבנית, על בצק או על ירקות לפני הצלייה.",
   img:"img/PS-62-main.jpg",
-  colorImgs:{"מגוון":"img/PS-62-main.jpg"}},
+  colorImgs:{"מגוון":"img/PS-62-main.jpg"},
+  noUses:true},
 {sku:"PS-63", name:"סט פיקניק", cat:"כלי מטבח והגשה", price:180, colors:[["מגוון",C.cream]],
   desc:"סט כלים לפיקניק ולטיולים, קל לארוז ועמיד. מתאים לדשא, לחוף ולקמפינג.",
   img:"img/PS-63-picnic-2.jpg",
   colorImgs:{"מגוון":"img/PS-63-picnic-2.jpg"}},
 
 /* --- אחסון --- */
-{sku:"PS-64", name:"ארגז לחם וינטג'", cat:"אחסון", price:300, stock:"low", colors:[["מגוון",C.cream]],
+{sku:"PS-64", name:"ארגז לחם וינטג'", cat:"אחסון", price:300, stock:"low", colors:[["לבן",C.white]],
   desc:"ארגז לחם וינטג' מקורי — פריט נדיר ומהמם. שומר על הלחם והמאפים, ונראה מושלם על השיש.",
   real:"img/real-kettles-wall.jpg",
   realNote:"ארגז הלחם, עם קומקומים עליו",
   img:"img/PS-64-main.jpg",
-  colorImgs:{"מגוון":"img/PS-64-main.jpg"}},
+  colorImgs:{"לבן":"img/PS-64-main.jpg"}},
 {sku:"PS-65", name:"סט קופסאות אחסון, 5 יחידות", cat:"אחסון", price:150, note:"כולל מכסה", colors:[["אדום מנוקד",C.red]],
   desc:"חמש קופסאות אחסון באדום עם נקודות לבנות, בגדלים עולים וכולן עם מכסה. לאורז, לקטניות, לקמח ולסוכר — ומראה מקסים על השיש.",
   img:"img/PS-65-red-dots.jpg", colorImgs:{"אדום מנוקד":"img/PS-65-red-dots.jpg"},
@@ -2319,7 +2319,7 @@ function openSheet(p){
           '<span>'+(favs[p.id]?'נשמר':'שמירה')+'</span></button>'+
       '</div>'+
     '</div>'+
-    (p.cat!=="כלי עץ" && !p.isBundle
+    (p.cat!=="כלי עץ" && !p.isBundle && !p.noUses
       ? '<p class="label">'+L.uses+'</p><div class="uses">'+
           ["gas","induction","oven","dishwasher","outdoor"].map(k=>{
             const off = p.noUse && p.noUse.indexOf(k)>-1;
@@ -2966,10 +2966,9 @@ function coLoad(){
   if(w) w.checked = true;
   const y = document.querySelector('input[name="coPay"][value="'+(d.pay||"ביט")+'"]');
   if(y) y.checked = true;
-  coEl("coLeave").checked = !!d.leave;
 }
 function coSave(){
-  const d = { way:coWay(), pay:coPay(), leave:coEl("coLeave").checked };
+  const d = { way:coWay(), pay:coPay() };
   CO_TEXT.forEach(k=>d[k] = coVal(k));
   try{ localStorage.setItem("pastel_details", JSON.stringify(d)); }catch(e){}
 }
@@ -3041,7 +3040,7 @@ function logOrder(oid){
     name:coVal("coName"), phone:coVal("coPhone").replace(/\D/g,""),
     way: delivery ? "משלוח" : "איסוף עצמי",
     address: delivery ? [coVal("coStreet"), coVal("coCity"), coVal("coApt"), coVal("coZip")].filter(Boolean).join(", ") : "",
-    leave: delivery && coEl("coLeave").checked ? "כן" : "",
+    leave: "",
     items:r.list, sum:String(r.sum), ship:String(ship), total:String(r.sum+ship),
     special:String(r.special), pay:coPay(), when:"",
     note:[coVal("coNote"), delivery && coVal("coCourier") ? "לשליח: "+coVal("coCourier") : ""].filter(Boolean).join(" · "),
@@ -3093,7 +3092,6 @@ function orderMessage(oid){
     out.push("משלוח אל: "+[coVal("coStreet"), coVal("coCity")].filter(Boolean).join(", "));
     if(coVal("coApt")) out.push("כניסה/קומה/דירה: "+coVal("coApt"));
     out.push("מיקוד: "+coVal("coZip").replace(/\D/g,""));
-    if(coEl("coLeave").checked) out.push("אפשר להשאיר ליד הדלת");
     if(coVal("coCourier")) out.push("הערות לשליח: "+coVal("coCourier"));
   } else {
     out.push("איסוף עצמי מ"+SHOP.place);
