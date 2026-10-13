@@ -953,9 +953,14 @@ const PRODUCTS = [
   colors:[["חום",C.brown]], use:cookware,
   desc:"סיר ענק לבישולים של כל המשפחה. מושלם לחמין של שבת, למרק לכולם ולבישולי חג.",
   img:"img/PS-01-brown.jpg", colorImgs:{"חום":"img/PS-01-brown.jpg"},
-  real:"img/real-storage2.jpg", realNote:"הסיר הגדול, לצד קופסאות האחסון"},
-{sku:"PS-02", name:"סירים", cat:"סירים", priceText:"50–100 ₪", note:"במגוון גדלים וצבעים", use:cookware, colors:[["מגוון",C.red]],
-  desc:"סירים במגוון גדלים וגוונים, לפי המלאי הקיים. כתבו לנו מה אתם מחפשים ונשלח תמונות."},
+  real:"img/real-storage2.jpg", realNote:"הסיר הגדול, לצד קופסאות האחסון",
+  stock:"low"},
+{sku:"PS-102", name:"סיר קטן עם מכסה", cat:"סירים", vol:"1 ליטר", use:cookware,
+  colors:[["כחול",C.blue]],
+  desc:"סיר קטן בכחול עמוק עם שפה לבנה ומכסה תואם. מושלם לרוטב, לדייסה, לאורז לשניים או לחימום מרק — ויפה מספיק להגיש בו ישר לשולחן.",
+  img:"img/PS-102-blue.jpg", colorImgs:{"כחול":"img/PS-102-blue.jpg"},
+  isNew:true, sortAs:2.5,
+  price:70},
 {sku:"PS-03", name:"קערה אישית", cat:"קערות אישיות", price:30,
   colors:[["אדום עם אוזניים",C.red,"אדום"],["ירוק",C.green]],
   desc:"קערה קטנה עם ידיות, בגודל של מנה אחת. עוברת מהגז ישר לשולחן — לשקשוקה, למרק או לפסטה אישית.",
@@ -981,14 +986,17 @@ const PRODUCTS = [
   colors:[["שמנת עם ציור ירקות",C.cream]],
   desc:"סיר מהמם עם ציור ירקות על רקע שמנת ופנים חום. מושלם למרק, לתבשיל או לרוטב — ונראה נהדר גם כשהוא סתם עומד על הכיריים.",
   img:"img/PS-90-cream.jpg", colorImgs:{"שמנת עם ציור ירקות":"img/PS-90-cream.jpg"},
-  colorAlts:{"שמנת עם ציור ירקות":"img/PS-90-cream-alt.jpg"}},
+  colorAlts:{"שמנת עם ציור ירקות":"img/PS-90-cream-alt.jpg"},
+  stock:"out"},
 {sku:"PS-91", name:"סיר פרחוני עם מכסה", cat:"סירים", price:80, use:cookware,
   dia:"18 ס\"מ", h:"9 ס\"מ",
   colors:[["שמנת פרחוני",C.cream]],
   desc:"סיר פרחוני מקסים עם מכסה תואם, שעושה חשק לבשל. מושלם לתבשיל קטן, לאורז או להגשה ישר לשולחן; ידית המכסה מפלסטיק, ולכן המכסה אינו מיועד לתנור.",
   img:"img/PS-91-cream-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-91-cream-floral.jpg"},
   noUse:["oven"],
-  handle:"ידית המכסה מפלסטיק — המכסה אינו מיועד לתנור"},
+  handle:"ידית המכסה מפלסטיק — המכסה אינו מיועד לתנור",
+  isNew:true,
+  tag:"מהדורה מוגבלת"},
 
 /* --- קומקומים ופינג'נים --- */
 {sku:"PS-06", name:"קומקום בסגנון הודי", cat:"קומקומים", price:120, vol:"1.1 ליטר", use:stovetop,
@@ -1040,13 +1048,16 @@ const PRODUCTS = [
   tag:"נמכר כסט בלבד"},
 {sku:"PS-74", name:"קומקום תה אנגלי", cat:"קומקומים", price:120, colors:[["לבן",C.white]],
   desc:"קומקום מעוצב בלבן עם מכסה שחור, ידית פליז וכיתוב TEA. פריט מהמם לשולחן התה ולמדף — מתנה שלא שוכחים.",
-  img:"img/PS-74-white-2.jpg", colorImgs:{"לבן":"img/PS-74-white-2.jpg"}},
+  img:"img/PS-74-white-2.jpg", colorImgs:{"לבן":"img/PS-74-white-2.jpg"},
+  vol:"1.5 ליטר"},
 {sku:"PS-99", name:"קומקום גדול", cat:"קומקומים", stock:"out", use:stovetop,
   colors:[["אדום",C.red],["חרדל",C.mustard],["כחול כהה","#1F2F6B"],["לבן",C.white],["תכלת",C.lblue]],
   desc:"קומקום גדול ועגול עם ידית נשיאה, בחמישה גוונים. לחימום מים לכל המשפחה — ונראה מהמם על הכיריים.",
   img:"img/PS-99-red-2.jpg", colorImgs:{"אדום":"img/PS-99-red-2.jpg","חרדל":"img/PS-99-mustard.jpg","כחול כהה":"img/PS-99-navy.jpg","לבן":"img/PS-99-white.jpg","תכלת":"img/PS-99-lightblue.jpg"},
   skus:{"אדום":"PS-99-01","חרדל":"PS-99-02","כחול כהה":"PS-99-03","לבן":"PS-99-04","תכלת":"PS-99-05"},
-  isNew:true, sortAs:17.5},
+  isNew:true, sortAs:17.5,
+  price:140,
+  vol:"2.5 ליטר"},
 {sku:"PS-98", name:"קומקום COFFEE", cat:"קומקומים", stock:"out",
   colors:[["לבן",C.white]],
   desc:"קומקום לבן עם הכיתוב COFFEE באותיות שחורות, בן זוג מושלם לקומקום ה-TEA. לקפה, להגשה ולתצוגה במטבח.",
@@ -1061,7 +1072,7 @@ const PRODUCTS = [
   tag:"כולל מסננת"},
 
 /* --- קנקנים וכדים --- */
-{sku:"PS-16", name:"קומקום", cat:"קומקומים", price:140, vol:"1.5 ליטר", colors:[["ירוק",C.dgreen],["טורקיז","#1C7FBF"],["שמנת",C.cream],["בורדו","#8E1F2D"],["ירוק בהיר","#B9D9B2"]],
+{sku:"PS-16", name:"קומקום", cat:"קומקומים", price:99, vol:"1 ליטר", colors:[["ירוק",C.dgreen],["טורקיז","#1C7FBF"],["שמנת",C.cream],["בורדו","#8E1F2D"],["ירוק בהיר","#B9D9B2"]],
   desc:"קומקום תה בגודל שמתאים לשולחן של כמה אנשים. לתה, לחליטת צמחים ולהגשה.",
   img:"img/PS-16-green.jpg", colorImgs:{"ירוק":"img/PS-16-green.jpg","טורקיז":"img/PS-16-lightblue.jpg","שמנת":"img/PS-16-cream.jpg","בורדו":"img/PS-16-bordeaux.jpg","ירוק בהיר":"img/PS-16-lightgreen.jpg"},
   skus:{"ירוק":"PS-16-01","טורקיז":"PS-16-02","שמנת":"PS-16-03","בורדו":"PS-16-04","ירוק בהיר":"PS-16-05"},
@@ -1084,7 +1095,7 @@ const PRODUCTS = [
   noUse:["oven"],
   handle:"ידית עץ — לא להכניס לתנור"},
 {sku:"PS-21", name:"קומקומים — סט 3 יחידות", cat:"קומקומים", price:99, colors:[["מגוון",C.red]],
-  desc:"סט של שלושה קומקומים בגדלים עולים ובגוונים שונים. מתנה מקסימה, ופינה צבעונית ומהממת על המדף.",
+  desc:"סט של שלושה קומקומים באותו גודל, כל אחד בגוון אחר. מתנה מקסימה, ופינה צבעונית ומהממת על המדף.",
   img:"img/PS-21-mixed.jpg", colorImgs:{"מגוון":"img/PS-21-mixed.jpg"},
   real:"img/real-PS-21-c.jpg",
   realNote:"הקומקומים של הסט, אצלנו בחצר"},
@@ -1150,7 +1161,7 @@ const PRODUCTS = [
 
 /* --- קערות --- */
 {sku:"PS-29", name:"קערה לבצק", cat:"קערות", price:150, dia:"40 ס\"מ", colors:[["צהוב בננה",C.yellow],["לבן תכלת",C.lblue]],
-  desc:"קערה גדולה ורחבה במיוחד. מושלמת ללישה ולהתפחה של בצק, לסלט גדול לאירוח או להשריית ירקות.",
+  desc:"קערה גדולה ורחבה במיוחד. מושלמת ללישה ולהתפחה של בצק, להכנת קוסקוס, לסלט גדול לאירוח או להשריית ירקות.",
   img:"img/PS-29-yellow.jpg", colorImgs:{"צהוב בננה":"img/PS-29-yellow.jpg","לבן תכלת":"img/PS-29-lightblue.jpg"},
   skus:{"צהוב בננה":"PS-29-01","לבן תכלת":"PS-29-02"},
   stock:"low",
@@ -1332,7 +1343,8 @@ const PRODUCTS = [
   img:"img/PS-55-white.jpg", colorImgs:{"לבן":"img/PS-55-white.jpg","תכלת":"img/PS-55-lightblue.png","שמנת":"img/PS-55-cream.png","פיסטוק":"img/PS-55-pistachio.jpg"},
   skus:{"לבן":"PS-55-01","תכלת":"PS-55-02","שמנת":"PS-55-03","פיסטוק":"PS-55-04"},
   real:"img/real-colanders2.jpg",
-  realNote:"המסננות לצד הפינג'נים"},
+  realNote:"המסננות לצד הפינג'נים",
+  colorStock:{"פיסטוק":"out"}},
 {sku:"PS-56", name:"מסננת עם ידית", cat:"מסננות", price:70, colors:[["לבן",C.white]],
   img:"img/PS-56-white.jpg", colorImgs:{"לבן":"img/PS-56-white.jpg"},
   desc:"מסננת עם ידית להחזקה מעל הסיר. לסינון כמויות קטנות, לשטיפת פירות ולאורז.",
@@ -2617,7 +2629,8 @@ function seasonOpen(s){
   }
   return false;
 }
-const activeCollections = () => COLLECTIONS.map((c,i)=>({c:c,i:i})).filter(x=>seasonOpen(x.c.season));
+/* מארז שאחד הפריטים בו אזל לא מוצג — "מארז שאזל" הוא מבוי סתום. כשהפריט חוזר, המארז חוזר לבד */
+const activeCollections = () => COLLECTIONS.map((c,i)=>({c:c,i:i})).filter(x=>seasonOpen(x.c.season) && BUNDLES[x.i].stock!=="out");
 
 /* שם התצוגה של הגוון — נכנס לכרטיס, לעגלה ולהודעת ההזמנה. */
 const colorOf = p => p.colorName || null;
