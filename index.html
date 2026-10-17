@@ -378,6 +378,7 @@ body.filtered .stage{height:calc(100dvh - var(--bar) - var(--nav) - var(--fbar))
 .badge.low{background:var(--clay);color:#fff}
 .badge.out{background:rgba(46,51,39,.82);color:#fff}
 .badge.tag{background:var(--olive-deep);color:#F4F1EA}
+.badge.limited{background:#8C4A5C;color:#FBF2E7}
 .badge.promo{background:#E7A3BC;color:#4A2230}
 .card.sold .frame img,.card.sold .frame svg{opacity:.45}
 .sheet .badges{position:static;flex-direction:row;margin-bottom:10px}
@@ -955,23 +956,29 @@ const PRODUCTS = [
   img:"img/PS-01-brown.jpg", colorImgs:{"חום":"img/PS-01-brown.jpg"},
   real:"img/real-storage2.jpg", realNote:"הסיר הגדול, לצד קופסאות האחסון",
   stock:"low"},
-{sku:"PS-102", name:"סיר קטן עם מכסה", cat:"סירים", vol:"1 ליטר", use:cookware,
+{sku:"PS-102", name:"סיר קטן עם מכסה", cat:"סירים", vol:"1.5 ליטר", use:cookware,
   colors:[["כחול",C.blue]],
   desc:"סיר קטן בכחול עמוק עם שפה לבנה ומכסה תואם. מושלם לרוטב, לדייסה, לאורז לשניים או לחימום מרק — ויפה מספיק להגיש בו ישר לשולחן.",
   img:"img/PS-102-blue.jpg", colorImgs:{"כחול":"img/PS-102-blue.jpg"},
   isNew:true, sortAs:2.5,
-  price:70},
+  price:70,
+  dia:"20 ס\"מ",
+  h:"7 ס\"מ"},
 {sku:"PS-03", name:"קערה אישית", cat:"קערות אישיות", price:30,
   colors:[["אדום עם אוזניים",C.red,"אדום"],["ירוק",C.green]],
   desc:"קערה קטנה עם ידיות, בגודל של מנה אחת. עוברת מהגז ישר לשולחן — לשקשוקה, למרק או לפסטה אישית.",
   use:cookware,
   img:"img/PS-03-red-handles-2.jpg", colorImgs:{"אדום עם אוזניים":"img/PS-03-red-handles-2.jpg","ירוק":"img/PS-03-green-2.jpg"},
-  skus:{"אדום עם אוזניים":"PS-03-02","ירוק":"PS-03-03"}},
+  skus:{"אדום עם אוזניים":"PS-03-02","ירוק":"PS-03-03"},
+  dia:"13 ס\"מ",
+  h:"6 ס\"מ"},
 {sku:"PS-100", name:"קערה אישית מעוגלת", cat:"קערות אישיות", price:30, colors:[["אדום",C.red]],
   desc:"קערה אישית מעוגלת עם ידיות ופס שחור על השפה. בגודל של מנה אחת — לשקשוקה, למרק או לפסטה אישית, ישר מהגז לשולחן.",
   use:cookware,
   img:"img/PS-03-red.jpg", colorImgs:{"אדום":"img/PS-03-red.jpg"},
-  sortAs:3.5},
+  sortAs:3.5,
+  dia:"15 ס\"מ",
+  h:"6 ס\"מ"},
 {sku:"PS-04", name:"מחבת קטנה", cat:"מחבתות", price:50, colors:[["שחור",C.black]], use:cookware,
   desc:"מחבת קטנה ושימושית לביצה של הבוקר, לחביתה או לשקשוקה אישית. יפה מספיק כדי להגיש בה ישר לשולחן.",
   img:"img/PS-04-main.jpg", colorImgs:{"שחור":"img/PS-04-main.jpg"}, dia:"16.5 ס\"מ", h:"4 ס\"מ"},
@@ -996,7 +1003,7 @@ const PRODUCTS = [
   noUse:["oven"],
   handle:"ידית המכסה מפלסטיק — המכסה אינו מיועד לתנור",
   isNew:true,
-  tag:"מהדורה מוגבלת"},
+  limited:true},
 
 /* --- קומקומים ופינג'נים --- */
 {sku:"PS-06", name:"קומקום בסגנון הודי", cat:"קומקומים", price:120, vol:"1.1 ליטר", use:stovetop,
@@ -1032,20 +1039,25 @@ const PRODUCTS = [
   realNotes:{"אדום":"הקומקום האדום, לצד כלים אחרים","לבן עם נקודות אדומות":"הקומקום הלבן עם הנקודות האדומות, לצד כלים אחרים","תכלת":"קומקומים מהסדרה, לצד כלים אחרים אצלנו","ירוק כהה":"קומקומים מהסדרה, לצד כלים אחרים אצלנו"}},
 {sku:"PS-12", name:"פינג'ן קטן", cat:"פינג'נים", price:85, use:stovetop, colors:[["פיסטוק",C.pist],["תכלת",C.lblue]],
   desc:"פינג'ן קטן לקפה טורקי לאחד או לשניים. הפייה הצרה מוזגת נקי, והגוון הרך נראה יפה על הכיריים.",
-  img:"img/PS-12-pistachio-s.jpg", colorImgs:{"פיסטוק":"img/PS-12-pistachio-s.jpg","תכלת":"img/PS-12-lightblue-s.jpg"}, dia:"8.5 ס\"מ",
+  img:"img/PS-12-pistachio-s.jpg", colorImgs:{"פיסטוק":"img/PS-12-pistachio-s.jpg","תכלת":"img/PS-12-lightblue-s.jpg"}, dia:"9 ס\"מ",
   skus:{"פיסטוק":"PS-12-01","תכלת":"PS-12-02"},
-  real:"img/real-colanders2.jpg", realNote:"הפינג'נים לצד המסננות"},
+  real:"img/real-colanders2.jpg", realNote:"הפינג'נים לצד המסננות",
+  h:"11 ס\"מ"},
 {sku:"PS-13", name:"פינג'ן גדול", cat:"פינג'נים", price:95, use:stovetop, colors:[["ירוק כהה",C.dgreen],["תכלת",C.lblue],["פיסטוק",C.pist]],
   desc:"פינג'ן גדול לקפה טורקי לכמה אנשים בבת אחת. מושלם לאירוח ולקפה של אחר הצהריים.",
   img:"img/PS-13-darkgreen.jpg", colorImgs:{"ירוק כהה":"img/PS-13-darkgreen.jpg","תכלת":"img/PS-13-lightblue.jpg","פיסטוק":"img/PS-13-pistachio.jpg"},
   skus:{"ירוק כהה":"PS-13-01","תכלת":"PS-13-02","פיסטוק":"PS-13-03"},
   real:"img/real-colanders2.jpg",
-  realNote:"הפינג'נים לצד המסננות"},
+  realNote:"הפינג'נים לצד המסננות",
+  dia:"10 ס\"מ",
+  h:"12 ס\"מ"},
 {sku:"PS-14", name:"פינג'ן — סט 3 יחידות", cat:"פינג'נים", price:99, colors:[["אדום בשילוב נקודות לבנות",C.red],["לבן בשילוב נקודות שחורות",C.white]], use:stovetop,
   desc:"סט מקסים של שלושה פינג'נים בגדלים עולים: קטן לאחד, בינוני לשניים וגדול לאורחים. מתנה מושלמת, שנראית נהדר גם תלויה במטבח; נמכרים כסט בלבד.",
   img:"img/PS-14-red-dots.jpg", colorImgs:{"אדום בשילוב נקודות לבנות":"img/PS-14-red-dots.jpg","לבן בשילוב נקודות שחורות":"img/PS-14-white-dots.jpg"},
   skus:{"אדום בשילוב נקודות לבנות":"PS-14-01","לבן בשילוב נקודות שחורות":"PS-14-02"},
-  tag:"נמכר כסט בלבד"},
+  tag:"נמכר כסט בלבד",
+  size:"קוטר 7 · 8 · 9 ס\"מ",
+  h:"8 · 10 · 12 ס\"מ"},
 {sku:"PS-74", name:"קומקום תה אנגלי", cat:"קומקומים", price:120, colors:[["לבן",C.white]],
   desc:"קומקום מעוצב בלבן עם מכסה שחור, ידית פליז וכיתוב TEA. פריט מהמם לשולחן התה ולמדף — מתנה שלא שוכחים.",
   img:"img/PS-74-white-2.jpg", colorImgs:{"לבן":"img/PS-74-white-2.jpg"},
@@ -1069,7 +1081,8 @@ const PRODUCTS = [
   img:"img/PS-89-cream-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-89-cream-floral.jpg"},
   colorAlts:{"שמנת פרחוני":["img/PS-89-cream-floral-alt.jpg","img/PS-89-strainer.jpg"]},
   sortAs:18.5,
-  tag:"כולל מסננת"},
+  tag:"כולל מסננת",
+  limited:true},
 
 /* --- קנקנים וכדים --- */
 {sku:"PS-16", name:"קומקום", cat:"קומקומים", price:99, vol:"1 ליטר", colors:[["ירוק",C.dgreen],["טורקיז","#1C7FBF"],["שמנת",C.cream],["בורדו","#8E1F2D"],["ירוק בהיר","#B9D9B2"]],
@@ -1174,7 +1187,8 @@ const PRODUCTS = [
 {sku:"PS-92", name:"קערה פרחונית", cat:"קערות", price:120, dia:"30 ס\"מ", h:"10 ס\"מ",
   colors:[["שמנת פרחוני עם שפה ירוקה",C.cream]],
   desc:"קערה מהממת עם הדפס פרחים עשיר ופס ירוק על השפה. מושלמת לסלט בשולחן שבת, לפירות על השיש או כקערת הגשה שכולם שואלים עליה.",
-  img:"img/PS-92-cream-floral.jpg", colorImgs:{"שמנת פרחוני עם שפה ירוקה":"img/PS-92-cream-floral.jpg"}},
+  img:"img/PS-92-cream-floral.jpg", colorImgs:{"שמנת פרחוני עם שפה ירוקה":"img/PS-92-cream-floral.jpg"},
+  limited:true},
 {sku:"PS-94", name:"קערת לימונים", cat:"קערות אישיות", price:50, dia:"16 ס\"מ", vol:"0.6 ליטר",
   colors:[["שמנת עם ציור לימונים",C.cream]],
   desc:"קערה אישית מקסימה עם ענף לימונים מצויר על הדופן. מושלמת לדגני בוקר, ליוגורט או למנה אישית — ומכניסה קיץ לשולחן.",
@@ -1186,13 +1200,15 @@ const PRODUCTS = [
   desc:"שלוש קערות בשלושה גדלים שנכנסות זו בזו — ורודה, תכלת וצהובה, עם פנים שמנת. סט צבעוני ומהמם לסלט, לפירות ולבצק; נמכרות כסט בלבד.",
   img:"img/PS-93-mixed.jpg", colorImgs:{"ורוד · תכלת · צהוב":"img/PS-93-mixed.jpg"},
   real:"img/real-PS-93.jpg", realNote:"שלוש הקערות ביד, מהקטנה לגדולה",
-  realNoCap:true},
+  realNoCap:true,
+  limited:true},
 {sku:"PS-31", name:"סט 3 קערות פרחוני", cat:"קערות", price:319, note:"מחיר לסט · פנים שמנת",
   size:"קוטר 24 · 28 · 32 ס\"מ",
   colors:[["שמנת פרחוני",C.cream]],
   desc:"שלוש קערות פרחוניות בשלושה גדלים שנכנסות זו בזו, עם שפה בתכלת. סט מהמם לסלט, לפירות ולהגשה, ומתנה מושלמת; נמכרות כסט בלבד.",
   img:"img/PS-31-floral.jpg", colorImgs:{"שמנת פרחוני":"img/PS-31-floral.jpg"},
-  sortAs:93.5},
+  sortAs:93.5,
+  limited:true},
 {sku:"PS-32", name:"קערה עבה", cat:"קערות", price:95, dia:"28 ס\"מ", note:"אחרונה במלאי", colors:[["כחול",C.blue]],
   desc:"קערה עבה וחזקה בכחול. לסלט, לפירות או להגשה על השולחן.",
   img:"img/PS-33-blue.jpg",
@@ -1236,7 +1252,15 @@ const PRODUCTS = [
   group:"thin16"},
 {sku:"PS-42", name:"קערה אישית עבה", cat:"קערות אישיות", price:24, colors:[["לבן",C.white]],
   desc:"קערה אישית לבנה עם דופן עבה. למרק, לדגני בוקר, לסלט אישי או להגשת מטבלים.",
-  img:"img/PS-42-white.jpg", colorImgs:{"לבן":"img/PS-42-white.jpg"}},
+  img:"img/PS-42-white.jpg", colorImgs:{"לבן":"img/PS-42-white.jpg"},
+  dia:"11.5 ס\"מ",
+  h:"5.5 ס\"מ"},
+
+{sku:"PS-103", name:"קערה אישית עם שוליים", cat:"קערות אישיות", colors:[["ירוק",C.dgreen]],
+  desc:"קערה אישית בירוק עמוק עם פנים לבן ושוליים רחבים. לסלט, למרק, לפסטה או לפירות — והשוליים נוחים לאחיזה.",
+  img:"img/PS-103-green.jpg", colorImgs:{"ירוק":"img/PS-103-green.jpg"},
+  dia:"18 ס\"מ", h:"8 ס\"מ", isNew:true,
+  price:30},
 
 /* --- צלחות --- */
 {sku:"PS-43", name:"צלחת הגשה גדולה", cat:"צלחות הגשה", price:140, dia:"35 ס\"מ",
@@ -1370,9 +1394,12 @@ const PRODUCTS = [
   desc:"תרווד עם שלושה חריצים, להפיכה ולניקוז באותה תנועה: לדגים, לחביתות ולירקות מטוגנים.",
   img:"img/PS-85-wood.jpg", colorImgs:{"עץ":"img/PS-85-wood.jpg"},
   colorAlts:{"עץ":"img/PS-85-wood-alt.jpg"}},
+{sku:"PS-104", name:"מרית ארוכה מחוררת", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
+  desc:"מרית ארוכה עם קצה ישר ושלושה חריצים: להפיכה, לגירוד מהתחתית ולניקוז שמן או מים באותה תנועה.",
+  img:"img/PS-104-wood.jpg", colorImgs:{"עץ":"img/PS-104-wood.jpg"}, isNew:true},
 {sku:"PS-82", name:"מרית ישרה", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
   desc:"מרית ארוכה עם קצה ישר, לבחישה ולגירוד מהדפנות ומהתחתית.",
-  img:"img/PS-82-wood.jpg", colorImgs:{"עץ":"img/PS-82-wood.jpg"},
+  img:"img/PS-82-wood-2.jpg", colorImgs:{"עץ":"img/PS-82-wood-2.jpg"},
   colorAlts:{"עץ":"img/PS-82-wood-alt.jpg"}},
 {sku:"PS-83", name:"כף עץ", cat:"כלי עץ", price:15, colors:[["עץ",C.brown]],
   desc:"כף עץ קלאסית לבחישה ולטעימה מהסיר.",
@@ -1448,13 +1475,19 @@ const PRODUCTS = [
   desc:"דלי אמייל לבן גדול עם מכסה. לאחסון, לכביסה או כעציץ גדול במרפסת.", use:{outdoor:true},
   img:"img/PS-67-white.jpg", colorImgs:{"לבן":"img/PS-67-white.jpg"},
   real:"img/real-bucket-jug.jpg",
-  realNote:"הדלי הלבן לצד כד החלב"},
+  realNote:"הדלי הלבן לצד כד החלב",
+  dia:"27 ס\"מ",
+  h:"28 ס\"מ"},
 {sku:"PS-68", name:"דלי גדול עם תלייה", cat:"לבית ולחצר", price:90, colors:[["שחור בשילוב נקודות לבנות קטנות",C.black]],
   desc:"דלי גדול עם ידית לתלייה, בשחור עם נקודות לבנות קטנות. לבית ולחצר: לאחסון, להשקיה או כאדנית.", use:{outdoor:true},
-  img:"img/PS-68-black.jpg", colorImgs:{"שחור בשילוב נקודות לבנות קטנות":"img/PS-68-black.jpg"}},
+  img:"img/PS-68-black.jpg", colorImgs:{"שחור בשילוב נקודות לבנות קטנות":"img/PS-68-black.jpg"},
+  dia:"26 ס\"מ",
+  h:"14 ס\"מ"},
 {sku:"PS-69", name:"דלי קטן עם תלייה", cat:"לבית ולחצר", price:30, colors:[["אדום",C.red]],
   desc:"דלי קטן באדום עם ידית לתלייה. כעציץ קטן, לכלי מטבח או לממתקים — ומתנה קטנה ומקסימה.", use:{outdoor:true},
-  img:"img/PS-69-red.jpg", colorImgs:{"אדום":"img/PS-69-red.jpg"}},
+  img:"img/PS-69-red.jpg", colorImgs:{"אדום":"img/PS-69-red.jpg"},
+  dia:"16 ס\"מ",
+  h:"8 ס\"מ"},
 {sku:"PS-70", name:"סבונייה", cat:"לבית ולחצר", price:60,
   colors:[["לבן",C.white],["שמנת",C.cream]],
   desc:"סבונייה מקסימה עם מגש מחורר שמנקז את המים, בלבן ובשמנת. פרט קטן ומושלם שמשדרג את הכיור ואת חדר הרחצה.",
@@ -1463,7 +1496,8 @@ const PRODUCTS = [
   colorAlts:{"לבן":"img/PS-70-white-alt.jpg","שמנת":"img/PS-70-cream-alt2.jpg"},
   real:"img/real-kettles-wall.jpg",
   realNote:"הסבוניות בחזית, לצד קומקומים",
-  isNew:true},
+  isNew:true,
+  size:"15 × 10 ס\"מ"},
 {sku:"PS-71", name:"סיר לילה", cat:"לבית ולחצר", price:85, colors:[["מגוון",C.white]],
   desc:"סיר לילה מאמייל, כמו שהיה בבית של סבתא. היום משמש כעציץ, כאדנית או כפריט נוסטלגיה על המדף.", use:{outdoor:true},
   img:"img/PS-71-main.jpg",
@@ -1657,6 +1691,7 @@ function passesFilter(p){
   if(!catFilter) return true;
   if(catFilter.cat && catFilter.cat.indexOf(p.cat) < 0) return false;
   if(catFilter.flag === "new"  && !p.isNew)    return false;
+  if(catFilter.flag === "limited" && !p.limited) return false;
   if(catFilter.flag === "sale" && !p.priceOld) return false;
   if(catFilter.flag === "best" && !p.isBest)   return false;
   if(catFilter.text && !skuMatch(p, catFilter.text) &&
@@ -1681,6 +1716,7 @@ function filterSummary(){
   if(catFilter.cat)   parts.push(catFilter.cat.join(" + "));
   if(catFilter.band && catFilter.band !== "*") parts.push(catFilter.band);
   if(catFilter.flag === "new")  parts.push("רק חדשים");
+  if(catFilter.flag === "limited") parts.push("מהדורה מוגבלת");
   if(catFilter.flag === "sale") parts.push("מבצע");
   if(catFilter.flag === "best") parts.push("הכי נמכרים");
   if(catFilter.text) parts.push("״"+catFilter.text+"״");
@@ -1994,6 +2030,7 @@ function badgeHTML(p){
   if(p.isBest)   b.push('<span class="badge best">הכי נמכר</span>');
   if(p.promo && p.stock!=="out") b.push('<span class="badge promo">'+esc(p.promo)+'</span>');
   /* מידע שחשוב לראות עוד לפני שנכנסים: "כולל מסננת", "נמכר כסט בלבד" */
+  if(p.limited && p.stock!=="out") b.push('<span class="badge limited">מהדורה מוגבלת</span>');
   if(p.tag) b.push('<span class="badge tag">'+esc(p.tag)+'</span>');
   if(p.stock==="out")      b.push('<span class="badge out">אזל מהמלאי</span>');
   else if(p.stock==="low") b.push('<span class="badge low">אחרון במלאי</span>');
@@ -2649,8 +2686,30 @@ const lineColor = (p, id) => p.colorName || (chosen[id] && p.colors.length>1 ? c
    חלון הזקיפה: SRC_DAYS ימים מהכניסה האחרונה שהייתה בה כתובת עם מקור. */
 /* Google Analytics נטען רק אם הוגדר מזהה. טעינה מותנית ולא קבועה: בלי מזהה
    אין טעם למשוך 90KB של סקריפט חיצוני ולהאט את הטעינה של הקטלוג. */
+/* מכשיר צוות: פותחים פעם אחת את האתר עם ‎?staff=1‎ בכל דפדפן של העסק
+   (טלפון, מחשב). הדפדפן זוכר, ומאז הכניסות ממנו לא נספרות — לא ב-Google
+   Analytics ולא בלשונית הסטטיסטיקה — והזמנות ניסיון מסומנות "staff".
+   ‎?staff=0‎ מבטל. זה לפי דפדפן ולא לפי אדם: דפדפן אחר באותו מכשיר
+   צריך הפעלה משלו. */
+const STAFF = (function(){
+  let v = null;
+  try{
+    const q = new URLSearchParams(location.search).get("staff");
+    if(q==="1") localStorage.setItem("pastel_staff","1");
+    if(q==="0") localStorage.removeItem("pastel_staff");
+    v = localStorage.getItem("pastel_staff")==="1";
+  }catch(e){}
+  return !!v;
+})();
+if(STAFF) addEventListener("DOMContentLoaded", ()=>{
+  const b = document.createElement("div");
+  b.textContent = "מצב צוות · הכניסות מהדפדפן הזה לא נספרות";
+  b.style.cssText = "position:fixed;bottom:6px;left:6px;z-index:9999;font-size:11px;padding:3px 8px;border-radius:10px;background:rgba(46,51,39,.75);color:#F4F1EA;pointer-events:none";
+  document.body.appendChild(b);
+});
+
 (function loadGA(){
-  if(!SHOP.ga4) return;
+  if(!SHOP.ga4 || STAFF) return;
   const t = document.createElement("script");
   t.async = true;
   t.src = "https://www.googletagmanager.com/gtag/js?id=" + SHOP.ga4;
@@ -2708,7 +2767,7 @@ function statsSend(){
   if(STATS.done || !SHOP.waitlist) return;
   const acted = Object.keys(STATS.opens).length || Object.keys(STATS.searches).length ||
                 Object.keys(STATS.cart).length  || STATS.page > 1;
-  if(!acted) return;               /* ביקור ריק לא שווה שורה */
+  if(!acted || STAFF) return;      /* ביקור ריק — או של הצוות — לא שווה שורה */
   STATS.done = true;
 
   let src = "direct";
@@ -2744,7 +2803,7 @@ function srcTag(){
   let s = null;
   try{ s = JSON.parse(localStorage.getItem("pastel_src")); }catch(e){}
   const fresh = s && s.tag && (Date.now()-s.ts) < SRC_DAYS*864e5;
-  return "\n\u200f#" + (fresh ? s.tag : "direct");
+  return "\n\u200f#" + (STAFF ? "staff" : fresh ? s.tag : "direct");
 }
 
 /* =========================== חיפוש =========================== */
@@ -2803,10 +2862,11 @@ function renderChips(){
     '<span class="csep"></span>'+
     [["*","לפי קטגוריות"],["asc","מהזול ליקר"],["desc","מהיקר לזול"]].map(([v,l])=>
       '<button class="chip" data-sort="'+v+'" aria-pressed="'+(qSort===v)+'">'+l+'</button>').join("")+
-    (PRODUCTS.some(p=>p.isNew||p.priceOld||p.isBest) ?
+    (PRODUCTS.some(p=>p.isNew||p.priceOld||p.isBest||p.limited) ?
       '<span class="csep"></span>'+
       (PRODUCTS.some(p=>p.isBest)?'<button class="chip" data-flag="best" aria-pressed="'+(qFlag==="best")+'">הכי נמכרים</button>':'')+
       (PRODUCTS.some(p=>p.isNew)?'<button class="chip" data-flag="new" aria-pressed="'+(qFlag==="new")+'">רק חדשים</button>':'')+
+      (PRODUCTS.some(p=>p.limited)?'<button class="chip" data-flag="limited" aria-pressed="'+(qFlag==="limited")+'">מהדורה מוגבלת</button>':'')+
       (PRODUCTS.some(p=>p.priceOld)?'<button class="chip" data-flag="sale" aria-pressed="'+(qFlag==="sale")+'">רק מבצעים</button>':'')
       : '');
 }
@@ -2817,6 +2877,7 @@ function runSearch(){
     if(qIds && qIds.indexOf(p.id)<0) return false;
     if(qCats.length && !qCats.includes(p.cat)) return false;
     if(qFlag==="new"  && !p.isNew)    return false;
+    if(qFlag==="limited" && !p.limited) return false;
     if(qFlag==="sale" && !p.priceOld) return false;
     if(qFlag==="best" && !p.isBest)   return false;
     if(qColor!=="*" && !matchesColor(p, qColor)) return false;
@@ -3099,6 +3160,7 @@ function logOrder(oid){
   const ship = delivery && r.sum>0 && r.sum < SHOP.freeShipping ? SHOP.shipCost : 0;
   let src = "direct";
   try{ const o = JSON.parse(localStorage.getItem("pastel_src")); if(o && o.tag) src = o.tag; }catch(e){}
+  if(STAFF) src = "staff";
 
   const body = new URLSearchParams({
     kind:"order", id:oid,
